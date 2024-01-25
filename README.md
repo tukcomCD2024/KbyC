@@ -1,4 +1,4 @@
-# KbyC
+﻿# KbyC
 
 # Trenddit
 웹 크롤링 기반 실시간 트렌드 제공 서비스, Trenddit(트렌딧) 입니다.
@@ -11,3 +11,6 @@
 | 최준혁 | 김상우 | 배성민 | 용지민 |
 | -- | -- | - | -- |
 | [@groom2hub](https://github.com/groom2hub) | [@swnow](https://github.com/swnow) | [@bsmArchive](https://github.com/bsmArchive) | [@blu2ming](https://github.com/blu2ming) |
+
+# Jira
+<a href=https://trenddit.atlassian.net/jira/software/projects/TRENDDIT/boards/1>Jira</a>
