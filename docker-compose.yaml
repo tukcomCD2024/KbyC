@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+
+  frontend:
+    build:
+      context: frontend/.
+      dockerfile: Dockerfile
+    container_name: my-web-frontend
+    ports:
+      - 3000:3000
+    volumes:
+      - ./frontend:/workspace
+    command: npm start
+
