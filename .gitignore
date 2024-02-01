@@ -27,3 +27,8 @@
 ./frontendnpm-debug.log*
 ./frontendyarn-debug.log*
 ./frontendyarn-error.log*
+
+# backend
+
+./backend/__pycache__/
+*.py[cod]

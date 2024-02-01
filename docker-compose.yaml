@@ -13,3 +13,13 @@ services:
       - ./frontend:/workspace
     command: npm start
 
+  backend:
+      build:
+        context: backend/.
+        dockerfile: Dockerfile
+      container_name: my-web-backend
+      ports:
+        - 8000:8000
+      volumes:
+        - ./backend:/workspace
+      command: uvicorn main:app --host 0.0.0.0 --reload
