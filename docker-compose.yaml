@@ -17,9 +17,27 @@ services:
       build:
         context: server/.
         dockerfile: Dockerfile
-      container_name: my-web-backend
+      container_name: my-web-server
       ports:
         - 8000:8000
       volumes:
         - ./server:/workspace
       command: uvicorn main:app --host 0.0.0.0 --reload
+
+
+  database:
+    build:
+      context: database/.
+      dockerfile: Dockerfile
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ALLOW_EMPTY_PASSWORD=${MYSQL_ALLOW_EMPTY_PASSWORD}
+      - MYSQL_RANDOM_ROOT_PASSWORD=${MYSQL_RANDOM_ROOT_PASSWORD}
+    container_name: my-web-database-mysql
+    ports:
+      - 3306:3306
+    volumes:
+        - ./database:/workspace
