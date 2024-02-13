@@ -30,5 +30,8 @@
 
 # backend
 
-./backend/__pycache__/
+./server/__pycache__/
 *.py[cod]
+
+# database
+.env
