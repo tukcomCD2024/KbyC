@@ -49,4 +49,6 @@ services:
     container_name: my-web-naver-keyword
     volumes:
       - ./crawl:/workspace
-    command: python3 naverKeyword.py
+    command: >
+      bash -c "python3 naverKeyword.py
+      && python3 naverDictionary.py"
