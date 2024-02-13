@@ -41,3 +41,12 @@ services:
       - 3306:3306
     volumes:
         - ./database:/workspace
+
+  naverkeyword:
+    build:
+      context: crawl/.
+      dockerfile: Dockerfile
+    container_name: my-web-naver-keyword
+    volumes:
+      - ./crawl:/workspace
+    command: python3 naverKeyword.py

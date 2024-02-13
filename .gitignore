@@ -35,3 +35,6 @@
 
 # database
 .env
+
+# crawl
+./crawl/outputs
