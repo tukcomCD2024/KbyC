@@ -39,3 +39,11 @@ class Community(Base):
     content = Column(Text, nullable=False)
     write_date = Column(DateTime, nullable=False)
     report_sum = Column(Integer, nullable=False)
+
+class Trend(Base):
+    __tablename__ = 'trend'
+
+    trend_id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
+    keyword_id = Column(Integer, nullable=False)
+    ranking = Column(Integer, nullable=False)
+    trend_date = Column(DateTime, nullable=False)
