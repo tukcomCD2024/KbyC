@@ -3,9 +3,6 @@
 
 
 # frontend
-
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
 # dependencies
 ./frontend/node_modules
 ./frontend/.pnp
@@ -29,7 +26,6 @@
 ./frontendyarn-error.log*
 
 # backend
-
 ./server/__pycache__/
 *.py[cod]
 
@@ -37,4 +33,7 @@
 .env
 
 # crawl
-./crawl/outputs
+/crawl/outputs
+
+# API Keys
+/secret.json
