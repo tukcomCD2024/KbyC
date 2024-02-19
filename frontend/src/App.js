@@ -1,28 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import './App.css';
-
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import LoginPage from './pages/LoginPage';
+import Home from './pages/Home'
 function App() {
-  const [data, setData] = useState(null);
-  const [data1, setData1] = useState(null);
-
-  useEffect(() => {
-    fetch('http://localhost:8000')  // FastAPI 서버 주소
-      .then(response => response.json())
-      .then(data => setData(data));
-  }, []);
-
-  useEffect(() => {
-    fetch('http://localhost:8000/hi')
-      .then(response => response.json())
-      .then(data1 => setData1(data1));
-  }, []);
-
   return (
-    <div>
-      <h1>FastAPI and React.js</h1>
-      {data && <p>{data.Hello}</p>}
-      {data1 && <p>{data1.Hi}</p>}
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />}></Route>
+        <Route path="/login" element={<LoginPage />}></Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 

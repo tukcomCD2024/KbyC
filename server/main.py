@@ -7,6 +7,7 @@ app = FastAPI()
 origins = [
     "http://localhost",
     "http://localhost:3000",  # React 앱이 실행 중인 포트
+    "http://127.0.0.1:3000"
 ]
 
 app.add_middleware(
