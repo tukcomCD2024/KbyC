@@ -8,9 +8,9 @@ class User(Base):
     user_name = Column(String(50), nullable=False)
     user_password = Column(String(100), nullable=False)
     user_email = Column(String(50), unique=True, nullable=False)
-    user_status = Column(String(50), nullable=False)
+    user_status = Column(String(50))
     created_at = Column(DateTime, nullable=False)
-    last_connected_at = Column(DateTime, nullable=False)
+    last_connected_at = Column(DateTime)
 
 class SearchHistory(Base):
     __tablename__ = 'searchHistory'

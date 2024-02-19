@@ -31,12 +31,10 @@ import models
 from database import engine
 models.Base.metadata.create_all(bind=engine)
 
-# 테이블 데이터 추가
-from models import User
-from datetime import datetime
-new_user = User(user_name="test", user_password="1234", user_email="test@naver.com", user_status="회원", created_at=datetime.now(), last_connected_at=datetime.now())
-from database import SessionLocal
-db = SessionLocal()
-db.add(new_user)
-db.commit()
-db.close()
+from user import user_router
+
+app.include_router(user_router.router, tags=["user"])
+
+if __name__ == "__main__":
+	import uvicorn
+	uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
