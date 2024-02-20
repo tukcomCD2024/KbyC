@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function Home() {
   const [data, setData] = useState(null);
@@ -17,6 +17,13 @@ function Home() {
       .then(data1 => setData1(data1));
   }, []);
 
+  const navigate = useNavigate();
+
+  const logout = () => {
+    localStorage.clear();
+    window.location.reload();
+  }
+
   return (
     <>
       <div>
@@ -24,9 +31,17 @@ function Home() {
         {data && <p>{data.Hello}</p>}
         {data1 && <p>{data1.Hi}</p>}
       </div>
-      <nav>
-        <Link to='/login'>로그인</Link>
-      </nav>
+      {localStorage.getItem('access_token') ?
+
+      <div>
+        <button onClick={logout}>로그아웃</button><br />
+        {localStorage.username} 접속 중
+      </div> :
+
+      <div>
+        <button onClick={() => navigate('/login')}>로그인</button><br />
+        <button onClick={() => navigate('/signup')}>회원가입</button>
+      </div>}
     </>
   );
 }

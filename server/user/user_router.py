@@ -47,4 +47,4 @@ def login(login_form: OAuth2PasswordRequestForm = Depends(), db: Session = Depen
     data = {"sub": user.user_email, "exp": datetime.datetime.utcnow() + access_token_expires}
     access_token = jwt.encode(data, SECRET_KEY, algorithm=ALGORITHM)
 
-    return user_schema.Token(access_token=access_token, token_type="bearer", username=user.user_email)
+    return user_schema.Token(access_token=access_token, token_type="bearer", username=user.user_name)

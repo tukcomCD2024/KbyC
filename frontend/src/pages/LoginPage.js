@@ -1,54 +1,60 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom'
+
+axios.defaults.baseURL = 'http://127.0.0.1:8000';
 
 const LoginPage = () => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = async () => {
-    try {
-      const response = await fetch('http://127.0.0.1:8000/user/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: new URLSearchParams({
-          username: username,
-          password: password,
-        }).toString(),
-      });
+  const navigate = useNavigate();
 
-      const data = await response.json();
+  const handleLogin = () => {
+    axios.post('/user/login', {
+      username: email,
+      password: password
+    }, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    })
+    .then(response => {
+      const data = response.data;
       console.log(data);
-
-    } catch (error) {
-      console.error('Error during login:', error);
-    }
+      localStorage.setItem('access_token', data.access_token);
+      localStorage.setItem('username', data.username);
+      alert('로그인 되었습니다.');
+      navigate('/');
+    })
+    .catch(error => {
+      console.error('에러 발생', error);
+      alert('로그인에 실패했습니다.');
+    });
   };
 
   return (
     <div>
-      <h2>Login</h2>
       <form>
-        <label>
-          Username:
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        </label>
+        <h1>로그인</h1>
+        <label>Email</label>
         <br />
-        <label>
-          Password:
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </label>
+        <input
+          type="text"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <br />
+        <label>Password</label>
+        <br />
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
         <br />
         <button type="button" onClick={handleLogin}>
-          Login
+          로그인
         </button>
       </form>
     </div>
