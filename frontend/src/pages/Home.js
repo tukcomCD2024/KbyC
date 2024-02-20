@@ -20,6 +20,7 @@ function Home() {
   const navigate = useNavigate();
 
   const logout = () => {
+    alert('로그아웃 되었습니다.');
     localStorage.clear();
     window.location.reload();
   }
