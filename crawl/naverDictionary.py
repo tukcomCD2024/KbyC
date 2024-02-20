@@ -6,6 +6,8 @@ import json
 from bs4 import BeautifulSoup as bs
 from urllib.request import urlopen
 import re
+import pandas as pd
+import datetime
 
 # secret.json에서 api key 가져오기
 with open('./secret.json', 'r', encoding='utf8') as f:
@@ -31,4 +33,8 @@ for item in soup.find_all('item') :
         response_list.append({
                  "요약": description_text,
                  'Link':item.find("link").text})
-print(response_list)
+
+response_df = pd.DataFrame(response_list)
+now = datetime.datetime.now() 
+file_name = f"{input_text}_{now.strftime('%Y%m%d_%H%M%S')}.csv"
+response_df.to_csv(f'./outputs/dic/{file_name}', encoding='utf-8-sig', index=False)
