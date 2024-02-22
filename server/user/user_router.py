@@ -20,7 +20,7 @@ router = APIRouter(
 
 @router.post("/signup")
 def signup(new_user: user_schema.NewUser, db: Session = Depends(get_db)):
-    user = user_crud.get_user(db, new_user.email)
+    user = user_crud.get_user_by_email(db, new_user.email)
 
     if user:
         raise HTTPException(status_code=409, detail="이미 존재하는 사용자입니다.")
@@ -31,7 +31,7 @@ def signup(new_user: user_schema.NewUser, db: Session = Depends(get_db)):
 
 @router.post("/login")
 def login(login_form: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
-    user = user_crud.get_user(db, login_form.username)
+    user = user_crud.get_user_by_email(db, login_form.username)
 
     if not user:
         raise HTTPException(status_code=400, detail="ID 혹은 비밀번호를 확인해 주세요.")

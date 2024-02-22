@@ -12,7 +12,7 @@ def create_user(db: Session, user: NewUser):
     db.add(new_user)
     db.commit()
 
-def get_user(db: Session, email: str):
+def get_user_by_email(db: Session, email: str):
     return db.query(User).filter(User.user_email == email).first()
 
 def verify_password(plain_password, hashed_password):

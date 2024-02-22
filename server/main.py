@@ -33,8 +33,10 @@ from database import engine
 models.Base.metadata.create_all(bind=engine)
 
 from user import user_router
+from post import post_router
 
 app.include_router(user_router.router, tags=["user"])
+app.include_router(post_router.router, tags=["post"])
 
 if __name__ == "__main__":
 	import uvicorn
