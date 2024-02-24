@@ -7,13 +7,6 @@ from fastapi import Depends
 from fastapi import HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
 
-from jose import jwt
-import datetime
-
-SECRET_KEY = "98981470cdba60c60e6faf523bd67e7b9d33884fa7dbf1325daa381d892bf704"
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 60
-
 router = APIRouter(
     prefix="/user"
 )
@@ -43,8 +36,10 @@ def login(login_form: OAuth2PasswordRequestForm = Depends(), db: Session = Depen
     
     user_crud.update_time(db, user)
     
-    access_token_expires = datetime.timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    data = {"sub": user.user_email, "exp": datetime.datetime.utcnow() + access_token_expires}
-    access_token = jwt.encode(data, SECRET_KEY, algorithm=ALGORITHM)
+    access_token = user_crud.create_access_token(user.user_email)
 
     return user_schema.Token(access_token=access_token, token_type="bearer", username=user.user_name)
+
+@router.post("/me")
+def read_me(current_user: str = Depends(user_crud.get_current_user)):
+    return {"email": current_user}
