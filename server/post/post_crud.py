@@ -7,12 +7,13 @@ import datetime
 
 from fastapi import HTTPException
 
-def create_post(db: Session, post: PostCreate):
-    new_post = Post(title=post.title, content=post.content, post_date=datetime.datetime.now(), writer_email=post.writer_email, writer_name=post.writer)
+def create_post(db: Session, post: PostCreate, email: str):
 
-    writer = db.query(User).filter(User.user_email == post.writer_email).first()
+    writer = db.query(User).filter(User.user_email == email).first()
     if not writer:
         raise HTTPException(status_code=404, detail="Writer Not Found")
+    
+    new_post = Post(title=post.title, content=post.content, post_date=datetime.datetime.now(), writer_email = writer.user_email, writer_name=writer.user_name)
     
     db.add(new_post)
     db.commit()
@@ -58,11 +59,14 @@ def get_posts(db: Session):
     
     return post_list
 
-def update_post(db: Session, id: int, post: PostUpdate):
+def update_post(db: Session, id: int, post: PostUpdate, email: str):
     update = db.query(Post).filter(Post.post_id == id).first()
 
     if not update:
         raise HTTPException(status_code=404, detail="Post Not Found")
+    
+    if update.writer_email != email:
+        raise HTTPException(status_code=403, detail="Permission Denied")
     
     update.title = post.title
     update.content = post.content
@@ -78,11 +82,14 @@ def update_post(db: Session, id: int, post: PostUpdate):
         "writer_name": update.writer_name
     }
 
-def delete_post(db: Session, id: int):
+def delete_post(db: Session, id: int, email: str):
     post = db.query(Post).filter(Post.post_id == id).first()
 
     if not post:
         raise HTTPException(status_code=404, detail="Post Not Found")
+    
+    if post.writer_email != email:
+        raise HTTPException(status_code=403, detail="Permission Denied")
         
     db.delete(post)
     db.commit()

@@ -14,6 +14,7 @@ class User(Base):
     last_connected_at = Column(DateTime)
 
     posts = relationship('Post', back_populates='writer')
+    comments = relationship('Comment', back_populates='writer')
 
 class Post(Base):
     __tablename__ = 'post'
@@ -26,3 +27,17 @@ class Post(Base):
     writer_name = Column(String(50), nullable=False)
 
     writer = relationship('User', back_populates='posts')
+    comments = relationship('Comment', back_populates='post')
+
+class Comment(Base):
+    __tablename__ = 'comment'
+
+    comment_id = Column(Integer, primary_key=True, index=True, autoincrement=True, nullable=False)
+    content = Column(Text, nullable=False)
+    comment_date = Column(DateTime, nullable=False)
+    writer_email = Column(String(50), ForeignKey('user.user_email'), nullable=False)
+    writer_name = Column(String(50), nullable=False)
+    post_id = Column(Integer, ForeignKey('post.post_id'), nullable=False)
+
+    writer = relationship('User', back_populates='comments')
+    post = relationship('Post', back_populates='comments')
