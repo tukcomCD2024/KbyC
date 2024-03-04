@@ -37,7 +37,7 @@ def get_post_by_id(db: Session, id: int):
         "post_id": post.post_id,
         "title": post.title,
         "content": post.content,
-        "post_date": post.post_date,
+        "post_date": post.post_date.strftime('%Y-%m-%d %H:%M:%S'),
         "writer_email": post.writer_email,
         "writer_name": post.writer_name
     }
@@ -51,7 +51,7 @@ def get_posts(db: Session):
             "post_id": post.post_id,
             "title": post.title,
             "content": post.content,
-            "post_date": post.post_date,
+            "post_date": post.post_date.strftime('%Y-%m-%d %H:%M:%S'),
             "writer_email": post.writer_email,
             "writer_name": post.writer_name
         }
