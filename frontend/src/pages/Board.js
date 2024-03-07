@@ -25,7 +25,7 @@ const Board = () => {
 
     const WritePost = () => {
         if (localStorage.getItem('access_token')) {
-            navigate('/board/write');
+            navigate('/post/write');
         }
         else {
             navigate('/login');
@@ -38,7 +38,7 @@ const Board = () => {
                 {posts.map(post => (
                     <li key={post.post_id}>
                         <Link to={`/post/${post.post_id}`}>{post.title}</Link>
-                        &nbsp;&nbsp;{post.post_date}
+                        &nbsp;&nbsp;{post.post_date.replace('T', ' ')}
                     </li>
                 ))}
             </ul>

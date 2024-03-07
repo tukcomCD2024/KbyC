@@ -23,6 +23,7 @@ const LoginPage = () => {
       const data = response.data;
       console.log(data);
       localStorage.setItem('access_token', data.access_token);
+      localStorage.setItem('email', data.email);
       localStorage.setItem('username', data.username);
       alert('로그인 되었습니다.');
       navigate('/');
@@ -56,6 +57,8 @@ const LoginPage = () => {
         <button type="button" onClick={handleLogin}>
           로그인
         </button>
+        &nbsp;
+        <button type="button" onClick={() => navigate('/signup')}>회원가입</button>
       </form>
     </div>
   );

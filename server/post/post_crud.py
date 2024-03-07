@@ -37,7 +37,7 @@ def get_post_by_id(db: Session, id: int):
         "post_id": post.post_id,
         "title": post.title,
         "content": post.content,
-        "post_date": post.post_date.strftime('%Y-%m-%d %H:%M:%S'),
+        "post_date": post.post_date,
         "writer_email": post.writer_email,
         "writer_name": post.writer_name
     }
@@ -51,13 +51,13 @@ def get_posts(db: Session):
             "post_id": post.post_id,
             "title": post.title,
             "content": post.content,
-            "post_date": post.post_date.strftime('%Y-%m-%d %H:%M:%S'),
+            "post_date": post.post_date,
             "writer_email": post.writer_email,
             "writer_name": post.writer_name
         }
         post_list.append(p)
     
-    return post_list
+    return post_list[::-1]
 
 def update_post(db: Session, id: int, post: PostUpdate, email: str):
     update = db.query(Post).filter(Post.post_id == id).first()

@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 axios.defaults.baseURL = 'http://127.0.0.1:8000';
 
-const WritePost = () => {
+const UpdatePost = () => {
+    const { id } = useParams();
+
     const navigate = useNavigate();
 
     const [post, setPost] = useState({
@@ -22,8 +24,21 @@ const WritePost = () => {
         });
     };
 
+    useEffect(() => {
+        async function getPost() {
+            try {
+                const response = await axios.get(`/post/read/${id}`);
+                setPost({title: response.data.title, content: response.data.content});
+            }
+            catch (error){
+                console.error('Error fetching post:', error);
+            }
+        }
+        getPost();
+    }, [id]);
+
     const savePost = async () => {
-        await axios.post('/post/create', post, {
+        await axios.patch(`/post/update/${id}`, post, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem('access_token')}`
@@ -31,14 +46,14 @@ const WritePost = () => {
         })
         .then(response => {
             console.log(response.data);
-            alert('게시글이 등록되었습니다.');
-            navigate('/board');
+            alert('게시글이 수정되었습니다.');
+            navigate(`/post/${id}`);
         })
         .catch(error => {
-            console.error('에러 발생', error);
-            alert('게시글이 등록되지 않았습니다.');
+            console.log('에러 발생', error);
+            alert('수정에 실패했습니다.');
         });
-    }
+    };
 
     return (
         <div>
@@ -52,9 +67,9 @@ const WritePost = () => {
             <br/>
             <button onClick={savePost}>저장</button>
             &nbsp;&nbsp;
-            <button onClick={() => navigate('/board')}>취소</button>
+            <button onClick={() => navigate(`/post/${id}`)}>취소</button>
         </div>
     )
-};
+}
 
-export default WritePost;
+export default UpdatePost;

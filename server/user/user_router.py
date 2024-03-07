@@ -38,7 +38,7 @@ def login(login_form: OAuth2PasswordRequestForm = Depends(), db: Session = Depen
     
     access_token = user_crud.create_access_token(user.user_email)
 
-    return user_schema.Token(access_token=access_token, token_type="bearer", username=user.user_name)
+    return user_schema.Token(access_token=access_token, token_type="bearer", username=user.user_name, email=user.user_email)
 
 @router.post("/me")
 def read_me(current_user: str = Depends(user_crud.get_current_user)):

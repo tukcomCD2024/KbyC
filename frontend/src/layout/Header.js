@@ -7,6 +7,8 @@ const Header = () => {
             <Link to={'/'}><button>홈</button></Link>
             &nbsp;&nbsp;
             <Link to={'/board'}><button>게시판</button></Link>
+            &nbsp;&nbsp;
+            <Link to={'/service/chatgpt'}><button>ChatGPT</button></Link>
             <hr/>
         </header>
     );
