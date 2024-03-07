@@ -9,8 +9,10 @@ function Post() {
 
     const [post, setPost] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [comments, setComments] = useState([]);
+    const [commentList, setCommentList] = useState([]);
     const [comment, setComment] = useState('');
+    const [editingCommentId, setEditingCommentId] = useState(null);
+    const [editedComment, setEditedComment] = useState('');
 
     const navigate = useNavigate();
 
@@ -28,18 +30,19 @@ function Post() {
         getPost();
     }, [id]);
 
-    useEffect(() => {
-        async function getComments() {
-            try {
-                const response = await axios.get(`/comment/read/${id}`);
-                setComments(response.data);
-            }
-            catch (error) {
-                console.error('Error fetching comments:', error);
-            }
+    async function getCommentList() {
+        try {
+            const response = await axios.get(`/comment/read/${id}`);
+            setCommentList(response.data);
         }
-        getComments();
-    }, [comments, id])
+        catch (error) {
+            console.error('Error fetching comments:', error);
+        }
+    }
+
+    useEffect(() => {
+        getCommentList();
+    }, [])
 
     const deletePost = async () => {
         if (window.confirm('게시글을 삭제하시겠습니까?')) {
@@ -74,6 +77,7 @@ function Post() {
             setComment('');
             console.log(response.data);
             alert('댓글이 등록되었습니다.');
+            getCommentList();
         })
         .catch(error => {
             console.error('에러 발생', error);
@@ -91,12 +95,45 @@ function Post() {
             .then(response => {
                 console.log(response.data);
                 alert('댓글을 삭제했습니다.');
+                getCommentList();
             })
             .catch(error => {
                 console.error('에러 발생', error);
                 alert('삭제에 실패했습니다.');
             });
         };
+    };
+
+    const updateComment = async (id) => {
+        await axios.patch(`/comment/update/${id}`, {
+            content: editedComment
+        }, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+            }
+        })
+        .then(response => {
+            console.log(response.data);
+            alert('댓글이 수정되었습니다.');
+            getCommentList();
+        })
+        .catch(error => {
+            console.error('에러 발생', error);
+            alert('수정에 실패했습니다.');
+        })
+        setEditingCommentId(null);
+        setEditedComment('');
+    }
+
+    const startEditingComment = (id, content) => {
+        setEditingCommentId(id);
+        setEditedComment(content);
+    }
+
+    const cancelEdit = () => {
+        setEditingCommentId(null);
+        setEditedComment('');
     };
 
     return (
@@ -119,18 +156,32 @@ function Post() {
                 }
                 <hr/>
                 <p>
-                    댓글 {comments.length}
+                    댓글 {commentList.length}
                 </p>
-                {comments.map(comment => (
+                {commentList.map(comment => (
                     <div key={comment.comment_id}>
                         {comment.writer_name}
+                        {editingCommentId === comment.comment_id ?
+                        <>
+                            <br/>
+                            <textarea value={editedComment} onChange={(e) => setEditedComment(e.target.value)}></textarea>
+                            &nbsp;&nbsp;
+                            <br/>
+                            <button onClick={() => updateComment(comment.comment_id)}>저장</button>&nbsp;&nbsp;
+                            <button onClick={cancelEdit}>취소</button>
+                            <br/>
+                        </> :
                         <p style={{whiteSpace: "pre-line"}}>
-                        {comment.content}
+                            {comment.content}
                         </p>
+                        }
                         {comment.comment_date.replace('T', ' ')}
                         &nbsp;&nbsp;
                         {localStorage.getItem('email') === comment.writer_email &&
-                        <><button>수정</button>&nbsp;&nbsp;<button onClick={() => deleteComment(comment.comment_id)}>삭제</button></>
+                        <>
+                            <button onClick={() => startEditingComment(comment.comment_id, comment.content)}>수정</button>&nbsp;&nbsp;
+                            <button onClick={() => deleteComment(comment.comment_id)}>삭제</button>
+                        </>
                         }
                         <hr/>
                     </div>
