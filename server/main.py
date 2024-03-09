@@ -21,6 +21,6 @@ app.add_middleware(
 def read_root():
     return {"Hello": "Hello World"}
 
-@app.get("/hi")
+@app.get("/home")
 def read_root1():
-    return {"Hi": "Hi World"}
+    return {"Home": "Welcome"}
