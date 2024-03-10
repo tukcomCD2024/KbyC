@@ -64,6 +64,11 @@ function Post() {
     };
 
     const saveComment = async () => {
+        if (!localStorage.getItem('access_token')) {
+            navigate('/login');
+            return;
+        }
+
         await axios.post('/comment/create', {
             content: comment,
             post_id: id
