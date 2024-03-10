@@ -12,7 +12,7 @@ router = APIRouter(
 )
 
 @router.post("/signup")
-def signup(new_user: user_schema.NewUser, db: Session = Depends(get_db)):
+def signup(new_user: user_schema.UserCreate, db: Session = Depends(get_db)):
     user = user_crud.get_user_by_email(db, new_user.email)
 
     if user:

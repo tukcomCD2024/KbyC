@@ -1,13 +1,13 @@
-from pydantic import BaseModel, EmailStr, validator
+from pydantic import BaseModel, EmailStr, field_validator
 
 from fastapi import HTTPException
 
-class NewUser(BaseModel):
+class UserCreate(BaseModel):
     email: EmailStr
     username: str
     password: str
 
-    @validator('email', 'username', 'password')
+    @field_validator('email', 'username', 'password')
     def check_empty(cls, v):
         if not v or v.isspace():
             raise HTTPException(status_code=422, detail="필수 항목을 입력해주세요.")

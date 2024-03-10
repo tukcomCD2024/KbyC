@@ -1,4 +1,4 @@
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, field_validator
 
 from fastapi import HTTPException
 
@@ -6,7 +6,7 @@ class CommentCreate(BaseModel):
     content: str
     post_id: int
 
-    @validator('content')
+    @field_validator('content')
     def check_empty(cls, v):
         if not v or v.isspace():
             raise HTTPException(status_code=422, detail="필수 항목을 입력해주세요.")
@@ -15,7 +15,7 @@ class CommentCreate(BaseModel):
 class CommentUpdate(BaseModel):
     content: str
 
-    @validator('content')
+    @field_validator('content')
     def check_empty(cls, v):
         if not v or v.isspace():
             raise HTTPException(status_code=422, detail="필수 항목을 입력해주세요.")

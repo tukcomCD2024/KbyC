@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 
 from models import User
-from user.user_schema import NewUser
+from user.user_schema import UserCreate
 import datetime
 from passlib.context import CryptContext
 from fastapi.security import OAuth2PasswordBearer
@@ -16,7 +16,7 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/user/login")
 
-def create_user(db: Session, user: NewUser):
+def create_user(db: Session, user: UserCreate):
     new_user = User(user_name=user.username, user_password=pwd_context.hash(user.password), user_email=user.email, created_at=datetime.datetime.now())
     db.add(new_user)
     db.commit()
