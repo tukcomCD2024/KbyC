@@ -7,23 +7,37 @@ const ChatgptService = () => {
     const [question, setQuestion] = useState('');
     const [chatList, setChatList] = useState([]);
 
+    const [history, setHistory] = useState([]);
+
+    const [loading, setLoading] = useState(false);
+
     const sendQuestion = async () => {
-        await axios.post('/service/chatgpt', {
-            content: question
-        }, {
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        })
-        .then(response => {
-            const newChatList = [...chatList, {question: question, answer: response.data}];
+        setLoading(true);
+        try {
+            const newQuestion = [...history, { role: "user", content: question }];
+            setHistory(newQuestion);
+            console.log(newQuestion);
+    
+            const response = await axios.post('/service/chatgpt', {
+                history: newQuestion
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+    
+            const newChatList = [...chatList, { question: question, answer: response.data.answer }];
             setChatList(newChatList);
             setQuestion('');
-            console.log(response.data);
-        })
-        .catch(error => {
+            
+            const newAnswer = [...newQuestion, { role: "assistant", content: response.data.answer }];
+            setHistory(newAnswer);
+            console.log(newAnswer);
+        } catch (error) {
             console.error('에러 발생', error);
-        });
+        } finally {
+            setLoading(false);
+        }
     }
 
     return (
@@ -36,10 +50,12 @@ const ChatgptService = () => {
             <hr/>
             {chatList.map((chat, index) => (
                 <div key={index}>
-                    <p>{chat.question}</p>
-                    <p>{chat.answer}</p>
+                    <p>Q:<br/>{chat.question}</p>
+                    <p>A:<br/>{chat.answer}</p>
+                    <hr/>
                 </div>
             ))}
+            {loading && <div>로딩 중...</div>}
         </div>
     );
 };

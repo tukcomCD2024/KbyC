@@ -35,12 +35,12 @@ models.Base.metadata.create_all(bind=engine)
 from user import user_router
 from post import post_router
 from comment import comment_router
-from service import chatgpt
+from service import service_router
 
 app.include_router(user_router.router, tags=["user"])
 app.include_router(post_router.router, tags=["post"])
 app.include_router(comment_router.router, tags=["comment"])
-app.include_router(chatgpt.router, tags=["chatgpt"])
+app.include_router(service_router.router, tags=["chatgpt"])
 
 if __name__ == "__main__":
 	import uvicorn
