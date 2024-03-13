@@ -9,6 +9,7 @@ import Post from './pages/Post';
 import WritePost from './pages/WritePost';
 import UpdatePost from './pages/UpdatePost';
 import ChatgptService from './pages/ChatgptService';
+import NaverNewsSearch from './pages/NaverNewsSearch';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/post/write" element={<WritePost />}></Route>
         <Route path="/post/update/:id" element={<UpdatePost />}></Route>
         <Route path="/service/chatgpt" element={<ChatgptService />}></Route>
+        <Route path="/service/navernews" element={<NaverNewsSearch />}></Route>
       </Routes>
   );
 }
