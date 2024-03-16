@@ -15,3 +15,24 @@
     flex: 6; /* 오른쪽 영역이 왼쪽 영역과 동일한 너비를 가지도록 설정 */
     background-color: #E4FAFF;
 }
+
+.login-container {
+    width: 300px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+}
+  
+.input-group {
+    margin-bottom: 20px;
+}
+  
+.input-group input {
+    width: 200px;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
