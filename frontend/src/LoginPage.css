@@ -47,3 +47,7 @@ button {
     font-size: 16px;
     cursor: pointer;
 }
+
+button:hover {
+    background-color: #b9b9b9;
+}
