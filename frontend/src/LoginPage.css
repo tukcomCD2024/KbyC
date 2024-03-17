@@ -61,3 +61,10 @@ button {
 button:hover {
     background-color: #b9b9b9;
 }
+
+.link-signup-text {
+    color: #63abdb;
+    font-style: oblique;
+    font-weight: bold;
+    text-decoration: underline;
+}
