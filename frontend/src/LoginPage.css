@@ -39,6 +39,14 @@
     transition: border-color 0.3s;
 }
 
+.input-group input:focus {
+    border-color: #000000;
+}
+
+.input-group input:out-of-focus {
+    border-color: #E4FAFF; /* 포커스를 잃으면 밑줄 색상을 파란색으로 변경합니다. */
+}
+
 button {
     background-color: #000000;
     color: white;
