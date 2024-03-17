@@ -68,3 +68,7 @@ button:hover {
     font-weight: bold;
     text-decoration: underline;
 }
+
+.link-signup-text:hover {
+    color: #4d7bf0
+}
