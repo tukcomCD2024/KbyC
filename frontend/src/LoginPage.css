@@ -1,6 +1,8 @@
 .login-page {
-    display: flex;
     background-color: #E4FAFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 100vh; /* 화면의 높이를 전체로 채우기 위해 사용 */
 }
   
