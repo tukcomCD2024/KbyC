@@ -49,4 +49,45 @@ services:
     container_name: my-web-naver-keyword
     volumes:
       - ./crawl:/workspace
-    command: python3 naverKeyword.py
+    command: >
+      bash -c "python3 naverKeyword.py
+      && python3 naverDictionary.py
+      && python3 naverArticleRank.py"
+
+# Hadoop
+  namenode:
+    image: apache/hadoop:3
+    hostname: namenode
+    command: ["hdfs", "namenode"]
+    ports:
+      - 9870:9870
+    env_file:
+      - ./hadoop/config
+    environment:
+        ENSURE_NAMENODE_DIR: "/tmp/hadoop-root/dfs/name"
+  datanode1:
+    image: apache/hadoop:3
+    command: ["hdfs", "datanode"]
+    env_file:
+      - ./hadoop/config
+  datanode2:
+    image: apache/hadoop:3
+    command: ["hdfs", "datanode"]
+    env_file:
+      - ./hadoop/config
+
+  resourcemanager:
+    image: apache/hadoop:3
+    hostname: resourcemanager
+    command: ["yarn", "resourcemanager"]
+    ports:
+        - 8088:8088
+    env_file:
+      - ./hadoop/config
+    volumes:
+      - ./test.sh:/opt/test.sh
+  nodemanager:
+    image: apache/hadoop:3
+    command: ["yarn", "nodemanager"]
+    env_file:
+      - ./hadoop/config
