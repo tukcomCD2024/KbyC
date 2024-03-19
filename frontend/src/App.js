@@ -1,28 +1,29 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import './App.css';
+import { Routes, Route } from 'react-router-dom';
+import LoginPage from './pages/LoginPage';
+import SignupPage from './pages/SignupPage';
+import Home from './pages/Home';
+import Board from './pages/Board';
+import Post from './pages/Post';
+import WritePost from './pages/WritePost';
+import UpdatePost from './pages/UpdatePost';
+import ChatgptService from './pages/ChatgptService';
+import NaverNewsSearch from './pages/NaverNewsSearch';
 
 function App() {
-  const [data, setData] = useState(null);
-  const [data1, setData1] = useState(null);
-
-  useEffect(() => {
-    fetch('http://localhost:8000')  // FastAPI 서버 주소
-      .then(response => response.json())
-      .then(data => setData(data));
-  }, []);
-
-  useEffect(() => {
-    fetch('http://localhost:8000/hi')
-      .then(response => response.json())
-      .then(data1 => setData1(data1));
-  }, []);
-
   return (
-    <div>
-      <h1>FastAPI and React.js</h1>
-      {data && <p>{data.Hello}</p>}
-      {data1 && <p>{data1.Hi}</p>}
-    </div>
+      <Routes>
+        <Route path="/" element={<Home />}></Route>
+        <Route path="/login" element={<LoginPage />}></Route>
+        <Route path="/signup" element={<SignupPage />}></Route>
+        <Route path="/board" element={<Board />}></Route>
+        <Route path="/post/:id" element={<Post />}></Route>
+        <Route path="/post/write" element={<WritePost />}></Route>
+        <Route path="/post/update/:id" element={<UpdatePost />}></Route>
+        <Route path="/service/chatgpt" element={<ChatgptService />}></Route>
+        <Route path="/service/navernews" element={<NaverNewsSearch />}></Route>
+      </Routes>
   );
 }
 
