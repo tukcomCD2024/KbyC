@@ -53,3 +53,15 @@
 .input-group input:out-of-focus {
   border-color: #eeffff;
 }
+
+.signup-button {
+  background-color: #000000;
+  color: white;
+  border: none;
+  width: 86%;
+  border-radius: 5px;
+  padding: 3%;
+  font-size: 150%;
+  cursor: pointer;
+  margin: 2%;
+}
