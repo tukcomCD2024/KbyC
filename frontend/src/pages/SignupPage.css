@@ -22,7 +22,12 @@
   width: 90%;
   height: 80%;
   padding: 3%;
-  border: 1px solid #bdcefa;
+  border: 1px solid #bbccff;
   border-radius: 5px;
   text-align: center;
+}
+
+.signup-container-text {
+  font-size: 300%;
+  font-weight: bold;
 }
