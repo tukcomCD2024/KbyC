@@ -1,5 +1,5 @@
 .login-page {
-    background-color: #E4FAFF;
+    background-color: #eeffff;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -14,7 +14,7 @@
     justify-content: center;
     align-items: center;
     background-color: #ffffff;
-    border: 1px solid #bdcefa;
+    border: 1px solid #bbccff;
     border-radius: 10px;
 }
 
@@ -22,7 +22,7 @@
     width: 90%;
     height: 80%;
     padding: 3%;
-    border: 1px solid #ccc;
+    border: 1px solid #bbccff;
     border-radius: 5px;
     text-align: center;
 }
@@ -36,7 +36,7 @@
     padding-top: 3%;
     font-size: 150%;
     border: none;
-    border-bottom: 2px solid #ccc;
+    border-bottom: 2px solid #cccccc;
     outline: none;
     transition: border-color 0.3s;
 }
@@ -46,7 +46,7 @@
 }
 
 .input-group input:out-of-focus {
-    border-color: #E4FAFF; /* 포커스를 잃으면 밑줄 색상을 파란색으로 변경합니다. */
+    border-color: #cccccc; /* 포커스를 잃으면 밑줄 색상을 파란색으로 변경합니다. */
 }
 
 button {
