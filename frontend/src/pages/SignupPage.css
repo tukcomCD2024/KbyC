@@ -85,3 +85,10 @@
 .social-signup-button:hover {
   border: 2px solid #000000;
 }
+
+.link-login-text {
+  color: #63abdb;
+  font-style: oblique;
+  font-weight: bold;
+  text-decoration: underline;
+}
