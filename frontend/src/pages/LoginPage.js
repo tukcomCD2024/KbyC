@@ -35,31 +35,34 @@ const LoginPage = () => {
   };
 
   return (
-    <div>
-      <form>
-        <h1>로그인</h1>
-        <label>Email</label>
-        <br />
-        <input
-          type="text"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <br />
-        <label>Password</label>
-        <br />
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <br />
-        <button type="button" onClick={handleLogin}>
-          로그인
-        </button>
-        &nbsp;
-        <button type="button" onClick={() => navigate('/signup')}>회원가입</button>
-      </form>
+    <div className="login-page">
+      <div className="login-page-center">
+        <div className="login-container">
+          {/* 로그인하세요 멘트 */}
+          <h2 className='login-container-text'>Login your account</h2>
+
+          {/* email 입력창 */}
+          <div className="input-group">
+            <input
+              id="email"
+              type="text"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+
+          {/* password 입력창 */}
+          <div className="input-group">
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
