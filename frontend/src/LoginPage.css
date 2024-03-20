@@ -95,6 +95,10 @@
     font-style: italic;
 }
 
+.link-findpassword-text:hover {
+    color: #4d7bf0
+}
+
 .link-signup-text {
     color: #63abdb;
     font-style: oblique;
