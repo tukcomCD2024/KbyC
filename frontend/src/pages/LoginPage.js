@@ -68,6 +68,11 @@ const LoginPage = () => {
           <button className="login-button" onClick={handleLogin}>Login</button>
           {/* 소셜 로그인 버튼(구글) */}
           <button className="social-login-button" onClick={handleLogin}>Login with Google</button>
+
+          <div>
+            <p1>Don't have any account?     </p1>
+            <p1 className="link-signup-text">Sign Up</p1>
+          </div>
         </div>
       </div>
     </div>
