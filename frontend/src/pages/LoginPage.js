@@ -63,6 +63,9 @@ const LoginPage = () => {
             {/* 비밀번호 찾기 링크 */}
             <p className='link-findpassword-text'>forgot password?</p>
           </div>
+
+          {/* 로그인 버튼 */}
+          <button className="login-button" onClick={handleLogin}>Login</button>
         </div>
       </div>
     </div>
