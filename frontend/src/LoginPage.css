@@ -27,6 +27,11 @@
     text-align: center;
 }
   
+.login-container-text {
+    font-size: 300%;
+    font-weight: bold;
+}
+
 .input-group {
     margin-bottom: 0.5%;
 }
