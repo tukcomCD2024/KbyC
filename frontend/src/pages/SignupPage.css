@@ -1,0 +1,94 @@
+.signup-page {
+  background-color: #eeffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.signup-page-center {
+  width: 80%;
+  height: 80%;
+  margin-top: 5%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff;
+  border: 1px solid #bbccff;
+  border-radius: 10px;
+}
+
+.signup-container {
+  width: 90%;
+  height: 80%;
+  padding: 3%;
+  border: 1px solid #bbccff;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.signup-container-text {
+  font-size: 300%;
+  font-weight: bold;
+}
+
+.input-group {
+  margin-bottom: 0.5%;
+}
+
+.input-group input {
+  width: 80%;
+  padding-top: 3%;
+  font-size: 150%;
+  border: none;
+  border-bottom: 2px solid #cccccc;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.input-group input:focus {
+  border-color: #000000;
+}
+
+.input-group input:out-of-focus {
+  border-color: #eeffff;
+}
+
+.signup-button {
+  background-color: #000000;
+  color: white;
+  border: none;
+  width: 86%;
+  border-radius: 5px;
+  padding: 3%;
+  font-size: 150%;
+  cursor: pointer;
+  margin: 2%;
+}
+
+.signup-button:hover {
+  background-color: #b9b9b9;
+}
+
+.social-signup-button {
+  background-color: #ffffff;
+  color: #000000;
+  border: 2px solid #b9b9b9;
+  width: 86%;
+  border-radius: 5px;
+  padding: 3%;
+  font-size: 150%;
+  cursor: pointer;
+  margin-bottom: 2%;
+}
+
+.social-signup-button:hover {
+  border: 2px solid #000000;
+}
+
+.link-login-text {
+  color: #63abdb;
+  font-style: oblique;
+  font-weight: bold;
+  text-decoration: underline;
+}
