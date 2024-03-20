@@ -19,22 +19,22 @@
 }
 
 .login-container {
-    width: 300px;
-    margin: 0 auto;
-    padding: 20px;
+    width: 90%;
+    height: 80%;
+    padding: 3%;
     border: 1px solid #ccc;
     border-radius: 5px;
     text-align: center;
 }
   
 .input-group {
-    margin-bottom: 20px;
+    margin-bottom: 0.5%;
 }
   
 .input-group input {
-    width: 200px;
-    padding: 5px;
-    font-size: 16px;
+    width: 80%;
+    padding-top: 3%;
+    font-size: 150%;
     border: none;
     border-bottom: 2px solid #ccc;
     outline: none;
@@ -53,11 +53,12 @@ button {
     background-color: #000000;
     color: white;
     border: none;
-    width: 200px;
+    width: 86%;
     border-radius: 5px;
-    padding: 10px 20px;
-    font-size: 16px;
+    padding: 3%;
+    font-size: 150%;
     cursor: pointer;
+    margin-bottom: 3%;
 }
 
 button:hover {
@@ -68,12 +69,12 @@ button:hover {
     background-color: #ffffff;
     color: #000000;
     border: 2px solid #b9b9b9;
-    width: 200px;
+    width: 86%;
     border-radius: 5px;
-    padding: 5px;
-    font-size: 16px;
+    padding: 3%;
+    font-size: 150%;
     cursor: pointer;
-    margin-bottom: 5px;
+    margin-bottom: 3%;
 }
 
 .social-login-button:hover {
