@@ -34,14 +34,26 @@ const Board = () => {
 
     return (
         <div>
-            <ul>
-                {posts.map(post => (
-                    <li key={post.post_id}>
-                        <Link to={`/post/${post.post_id}`}>{post.title}</Link>
-                        &nbsp;&nbsp;{post.post_date.replace('T', ' ')}
-                    </li>
-                ))}
-            </ul>
+            <h1>게시판</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th>제목</th>
+                        <th>작성자</th>
+                        <th>작성일</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {posts.map(post => (
+                        <tr key={post.post_id}>
+                            <td><Link to={`/post/${post.post_id}`}>{post.title}</Link></td>
+                            <td>{post.writer_name}</td>
+                            <td>{post.post_date.replace('T', ' ')}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+            <br/>
             <button onClick={WritePost}>글쓰기</button>
         </div>
     );

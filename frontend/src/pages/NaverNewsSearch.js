@@ -7,6 +7,7 @@ const NaverNewsSearch = () => {
     const [searchWord, setSearchWord] = useState('');
     const [newsList, setNewsList] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [searchResultMessage, setSearchResultMessage] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -23,6 +24,7 @@ const NaverNewsSearch = () => {
             });
 
             setNewsList(response.data.news);
+            setSearchResultMessage(`'${searchWord}' 검색 결과`);
             console.log(response.data.news);
         } catch(error) {
             console.error('에러 발생', error);
@@ -33,6 +35,7 @@ const NaverNewsSearch = () => {
 
     return (
         <div>
+            <h1>네이버 뉴스 검색</h1>
             <form onSubmit={handleSubmit}>
                 <input
                     type="text"
@@ -44,6 +47,7 @@ const NaverNewsSearch = () => {
             </form>
             <hr/>
             {loading && <div>검색 중...</div>}
+            {searchResultMessage && <div>{searchResultMessage}</div>}
             <ul>
             {newsList.map((news, index) => (
                 <li key={index}>
