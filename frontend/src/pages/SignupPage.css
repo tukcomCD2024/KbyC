@@ -45,3 +45,11 @@
   outline: none;
   transition: border-color 0.3s;
 }
+
+.input-group input:focus {
+  border-color: #000000;
+}
+
+.input-group input:out-of-focus {
+  border-color: #eeffff;
+}
