@@ -60,6 +60,8 @@ const LoginPage = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
+            {/* 비밀번호 찾기 링크 */}
+            <p className='link-findpassword-text'>forgot password?</p>
           </div>
         </div>
       </div>
