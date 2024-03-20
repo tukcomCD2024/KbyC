@@ -8,6 +8,7 @@ const SignupPage = () => {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
   const navigate = useNavigate();
 
@@ -15,7 +16,8 @@ const SignupPage = () => {
     axios.post('/user/signup', {
         email: email,
         username: username,
-        password: password
+        password: password,
+        confirm_password: confirmPassword
     }, {
         headers: {
             'Content-Type': 'application/json'
@@ -48,6 +50,10 @@ const SignupPage = () => {
         <br />
         <input type='password' value={password} onChange={(e) => setPassword(e.target.value)}/>
         <br />
+        <label>Confirm Password</label>
+        <br/>
+        <input type='password' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}/>
+        <br/>
         <button type='button' onClick={handleSignup}>회원가입</button>
       </form>
     </div>
