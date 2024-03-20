@@ -65,3 +65,7 @@
   cursor: pointer;
   margin: 2%;
 }
+
+.signup-button:hover {
+  background-color: #b9b9b9;
+}
