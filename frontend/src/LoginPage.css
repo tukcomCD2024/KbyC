@@ -1,0 +1,111 @@
+.login-page {
+    background-color: #eeffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* 화면의 높이를 전체로 채우기 위해 사용 */
+}
+  
+.login-page-center {
+    width: 80%;
+    height: 80%;
+    margin-top: 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff;
+    border: 1px solid #bbccff;
+    border-radius: 10px;
+}
+
+.login-container {
+    width: 90%;
+    height: 80%;
+    padding: 3%;
+    border: 1px solid #bbccff;
+    border-radius: 5px;
+    text-align: center;
+}
+  
+.login-container-text {
+    font-size: 300%;
+    font-weight: bold;
+}
+
+.input-group {
+    margin-bottom: 0.5%;
+}
+  
+.input-group input {
+    width: 80%;
+    padding-top: 3%;
+    font-size: 150%;
+    border: none;
+    border-bottom: 2px solid #cccccc;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.input-group input:focus {
+    border-color: #000000;
+}
+
+.input-group input:out-of-focus {
+    border-color: #cccccc; /* 포커스를 잃으면 밑줄 색상을 파란색으로 변경합니다. */
+}
+
+.login-button {
+    background-color: #000000;
+    color: white;
+    border: none;
+    width: 86%;
+    border-radius: 5px;
+    padding: 3%;
+    font-size: 150%;
+    cursor: pointer;
+    margin-bottom: 3%;
+}
+
+.login-button:hover {
+    background-color: #b9b9b9;
+}
+
+.social-login-button {
+    background-color: #ffffff;
+    color: #000000;
+    border: 2px solid #b9b9b9;
+    width: 86%;
+    border-radius: 5px;
+    padding: 3%;
+    font-size: 150%;
+    cursor: pointer;
+    margin-bottom: 3%;
+}
+
+.social-login-button:hover {
+    border: 2px solid #000000;
+}
+
+.link-findpassword-text {
+    margin-right: 7.5%;
+    text-align: right;
+    font-size: 100%;
+    text-decoration: underline;
+    color: #7a7a7a;
+    font-style: italic;
+}
+
+.link-findpassword-text:hover {
+    color: #4d7bf0
+}
+
+.link-signup-text {
+    color: #63abdb;
+    font-style: oblique;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.link-signup-text:hover {
+    color: #4d7bf0
+}
