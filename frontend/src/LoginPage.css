@@ -6,16 +6,16 @@
     height: 100vh; /* 화면의 높이를 전체로 채우기 위해 사용 */
 }
   
-.login-page-left {
-    flex: 5; /* 왼쪽 영역이 오른쪽 영역보다 넓도록 설정 */
-    background-color: #FFFFFF;
-    border-top-right-radius: 5%; /* 왼쪽 위 모서리를 둥글게 만듭니다. */
-    border-bottom-right-radius: 5%; /* 왼쪽 아래 모서리를 둥글게 만듭니다. */
-}
-  
-.login-page-right {
-    flex: 6; /* 오른쪽 영역이 왼쪽 영역과 동일한 너비를 가지도록 설정 */
-    background-color: #E4FAFF;
+.login-page-center {
+    width: 80%;
+    height: 80%;
+    margin-top: 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff;
+    border: 1px solid #bdcefa;
+    border-radius: 10px;
 }
 
 .login-container {
