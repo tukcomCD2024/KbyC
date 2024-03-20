@@ -31,3 +31,17 @@
   font-size: 300%;
   font-weight: bold;
 }
+
+.input-group {
+  margin-bottom: 0.5%;
+}
+
+.input-group input {
+  width: 80%;
+  padding-top: 3%;
+  font-size: 150%;
+  border: none;
+  border-bottom: 2px solid #cccccc;
+  outline: none;
+  transition: border-color 0.3s;
+}
