@@ -81,3 +81,7 @@
   cursor: pointer;
   margin-bottom: 2%;
 }
+
+.social-signup-button:hover {
+  border: 2px solid #000000;
+}
