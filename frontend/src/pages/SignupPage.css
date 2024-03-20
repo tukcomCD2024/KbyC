@@ -69,3 +69,15 @@
 .signup-button:hover {
   background-color: #b9b9b9;
 }
+
+.social-signup-button {
+  background-color: #ffffff;
+  color: #000000;
+  border: 2px solid #b9b9b9;
+  width: 86%;
+  border-radius: 5px;
+  padding: 3%;
+  font-size: 150%;
+  cursor: pointer;
+  margin-bottom: 2%;
+}
