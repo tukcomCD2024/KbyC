@@ -16,6 +16,18 @@
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
 }
+
+.login-page-navibar-menu-container { 
+    width: 60%;
+    display: flex;
+    align-items: center;
+}
+
+.login-page-navibar-menu {
+    margin-left: 10%;
+    font-size: 150%;
+    font-weight: bold;
+}
   
 .login-page-center {
     width: 80%;
