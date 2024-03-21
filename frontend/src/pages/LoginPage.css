@@ -1,9 +1,9 @@
 .login-page {
     background-color: #eeffff;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    height: 100vh; /* 화면의 높이를 전체로 채우기 위해 사용 */
+    height: 100vh;
 }
 
 .login-page-navibar {
