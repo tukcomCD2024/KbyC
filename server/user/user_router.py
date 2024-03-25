@@ -47,9 +47,9 @@ def read_me(db: Session = Depends(get_db), email: str = Depends(user_crud.get_cu
     
     return user_crud.read_my_info(db, email)
 
-@router.patch("/update")
-def update(user: user_schema.UserUpdate, db: Session = Depends(get_db), email: str = Depends(user_crud.get_current_user)):
+@router.patch("/update/username")
+def update_username(user: user_schema.UsernameUpdate, db: Session = Depends(get_db), email: str = Depends(user_crud.get_current_user)):
     if not email:
         raise HTTPException(status_code=401, detail="Not Authorized")
     
-    return user_crud.update_user(db, user, email)
+    return user_crud.update_username(db, user, email)

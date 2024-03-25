@@ -35,6 +35,7 @@ function Home() {
       {localStorage.getItem('access_token') ?
 
       <div>
+        <button onClick={() => navigate('/userinfo')}>회원 정보</button><br/>
         <button onClick={logout}>로그아웃</button><br />
         {localStorage.username} 접속 중
       </div> :

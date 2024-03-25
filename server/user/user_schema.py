@@ -31,6 +31,14 @@ class UserUpdate(BaseModel):
             raise HTTPException(status_code=422, detail="필수 항목을 입력해주세요.")
         return v
 
+class UsernameUpdate(BaseModel):
+    username: str
+
+class PasswordUpdate(BaseModel):
+    current_password: str
+    new_password: str
+    confirm_new_password: str
+
 class Token(BaseModel):
     access_token: str
     token_type: str

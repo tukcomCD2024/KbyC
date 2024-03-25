@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 
 from models import User
-from user.user_schema import UserCreate, UserUpdate
+from user.user_schema import UserCreate, UserUpdate, UsernameUpdate, PasswordUpdate
 import datetime
 from passlib.context import CryptContext
 from fastapi.security import OAuth2PasswordBearer
@@ -66,6 +66,23 @@ def update_user(db: Session, user: UserUpdate, email: str):
     update.user_name = user.username
     update.user_password = pwd_context.hash(user.password)
 
+    db.commit()
+
+    return user
+
+def update_username(db: Session, user: UsernameUpdate, email: str):
+    update = db.query(User).filter(User.user_email == email).first()
+
+    if not update:
+        raise HTTPException(status_code=404, detail="User Not Found")
+    
+    existing_user = db.query(User).filter(User.user_name == user.username).first()
+
+    if existing_user:
+        raise HTTPException(status_code=409, detail="Username Already Exists")
+    
+    update.user_name = user.username
+    
     db.commit()
 
     return user
