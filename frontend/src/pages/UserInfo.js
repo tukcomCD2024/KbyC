@@ -8,6 +8,9 @@ const UserInfo = () => {
     const [loading, setLoading] = useState(true);
     const [editingUsername, setEditingUsername] = useState(false);
     const [newUsername, setNewUsername] = useState('');
+    const [currentPassword, setCurrentPassword] = useState('');
+    const [newPassword, setNewPassword] = useState('');
+    const [confirmNewPassword, setConfirmNewPawssword] = useState('');
 
     const inputRef = useRef(null);
     
@@ -15,7 +18,7 @@ const UserInfo = () => {
         try {
             const response = await axios.get('/user/me', {
                 headers: {
-                    'Authorization' : `Bearer ${localStorage.getItem('access_token')}`
+                    'Authorization': `Bearer ${localStorage.getItem('access_token')}`
                 }
             });
             setUser(response.data);
@@ -47,7 +50,7 @@ const UserInfo = () => {
                 username: newUsername
             }, {
                 headers: {
-                    'Authorization' : `Bearer ${localStorage.getItem('access_token')}`
+                    'Authorization': `Bearer ${localStorage.getItem('access_token')}`
                 }
             });
             await getUser();
@@ -55,9 +58,28 @@ const UserInfo = () => {
             localStorage.setItem('username', newUsername);
             console.log(response.data);
             alert('Username이 변경되었습니다.');
-        } catch(error) {
+        } catch (error) {
             console.error('에러 발생', error);
             alert('Username 변경에 실패했습니다.');
+        }
+    }
+
+    const handleEditPassword = async () => {
+        try {
+            const response = await axios.patch('/user/update/password', {
+                current_password: currentPassword,
+                new_password: newPassword,
+                confirm_new_password: confirmNewPassword
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+                }
+            });
+            console.log(response.data);
+            alert('비밀번호가 변경되었습니다.');
+        } catch (error) {
+            console.error('에러 발생', error);
+            alert('비밀번호 변경에 실패했습니다.');
         }
     }
 
@@ -88,17 +110,17 @@ const UserInfo = () => {
                 <p>
                 Current Password
                 <br/>
-                <input/>
+                <input type='password' value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)}/>
                 <br/>
                 New password
                 <br/>
-                <input/>
+                <input type='password' value={newPassword} onChange={(e) => setNewPassword(e.target.value)}/>
                 <br/>
                 Confirm New Password
                 <br/>
-                <input/>
+                <input type='password' value={confirmNewPassword} onChange={(e) => setConfirmNewPawssword(e.target.value)}/>
                 </p>
-                <button>저장</button>
+                <button onClick={handleEditPassword}>저장</button>
             </div>
             }
         </div>

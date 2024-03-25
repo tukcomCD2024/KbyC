@@ -86,3 +86,21 @@ def update_username(db: Session, user: UsernameUpdate, email: str):
     db.commit()
 
     return user
+
+def update_password(db: Session, user: PasswordUpdate, email: str):
+    update = db.query(User).filter(User.user_email == email).first()
+
+    if not update:
+        raise HTTPException(status_code=404, detail="User Not Found")
+    
+    if not verify_password(user.current_password, update.user_password):
+        raise HTTPException(status_code=401, detail="Incorrect Current Password")
+    
+    if user.new_password == user.current_password:
+        raise HTTPException(status_code=400, detail="Password Already In Use")
+    
+    update.user_password = pwd_context.hash(user.new_password)
+
+    db.commit()
+
+    return user

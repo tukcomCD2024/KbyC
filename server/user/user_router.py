@@ -53,3 +53,10 @@ def update_username(user: user_schema.UsernameUpdate, db: Session = Depends(get_
         raise HTTPException(status_code=401, detail="Not Authorized")
     
     return user_crud.update_username(db, user, email)
+
+@router.patch("/update/password")
+def update_password(user: user_schema.PasswordUpdate, db: Session = Depends(get_db), email: str = Depends(user_crud.get_current_user)):
+    if not email:
+        raise HTTPException(status_code=401, detail="Not Authorized")
+    
+    return user_crud.update_password(db, user, email)
