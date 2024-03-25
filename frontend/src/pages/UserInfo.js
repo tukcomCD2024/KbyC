@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 
 axios.defaults.baseURL = 'http://127.0.0.1:8000';
@@ -8,6 +8,8 @@ const UserInfo = () => {
     const [loading, setLoading] = useState(true);
     const [editingUsername, setEditingUsername] = useState(false);
     const [newUsername, setNewUsername] = useState('');
+
+    const inputRef = useRef(null);
     
     const getUser = async () => {
         try {
@@ -28,6 +30,12 @@ const UserInfo = () => {
     useEffect(() => {
         getUser();
     }, []);
+
+    useEffect(() => {
+        if (editingUsername) {
+            inputRef.current.focus();
+        }
+    }, [editingUsername]);
 
     const handleEditUsername = () => {
         setEditingUsername(true);
@@ -62,7 +70,7 @@ const UserInfo = () => {
                 Username
                 <br/>
                 {editingUsername ?
-                <input value={newUsername} onChange={(e) => setNewUsername(e.target.value)}></input> :
+                <input value={newUsername} onChange={(e) => setNewUsername(e.target.value)} ref={inputRef}/> :
                 <input value={user.user_name} readOnly={true}/>
                 }
                 &nbsp;&nbsp;
