@@ -9,6 +9,10 @@ services:
     container_name: my-web-frontend
     ports:
       - 3000:3000
+    networks:
+      trenddit_network:
+        ipv4_address:
+          172.18.0.12
     volumes:
       - ./frontend:/workspace
     command: npm start
@@ -20,6 +24,10 @@ services:
       container_name: my-web-server
       ports:
         - 8000:8000
+      networks:
+        trenddit_network:
+          ipv4_address:
+            172.18.0.2
       volumes:
         - ./server:/workspace
       command: uvicorn main:app --host 0.0.0.0 --reload
@@ -39,6 +47,10 @@ services:
     container_name: my-web-database-mysql
     ports:
       - 3306:3306
+    networks:
+      trenddit_network:
+        ipv4_address:
+          172.18.0.3
     volumes:
         - ./database:/workspace
 
@@ -91,3 +103,8 @@ services:
     command: ["yarn", "nodemanager"]
     env_file:
       - ./hadoop/config
+
+########################################
+networks:
+  trenddit_network:
+    external: true
