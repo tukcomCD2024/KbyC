@@ -10,7 +10,7 @@ const Header = () => {
     return (
         <header className='App-header'>
             <button className='App-header-link-logo' onClick={() => handleNavigation('/')}>
-                <img src={logo} alt='home'className='App-header-link-logo-image' />
+                <img src={logo} alt='home' className='App-header-link-logo-image' />
             </button>
             <button className='App-header-link' onClick={() => handleNavigation('/board')}>게시판</button>
             <button className='App-header-link' onClick={() => handleNavigation('/service/chatgpt')}>ChatGPT</button>
