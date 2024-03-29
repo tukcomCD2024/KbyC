@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'
+import './SignupPage.css';
 
 axios.defaults.baseURL = 'http://127.0.0.1:8000';
 
@@ -35,27 +36,26 @@ const SignupPage = () => {
   }
 
   return (
-    <div>
-      <h1>회원가입</h1>
-      <form>
-        <label>Email</label>
-        <br />
-        <input type='text' value={email} onChange={(e) => setEmail(e.target.value)}/>
-        <br />
-        <label>Username</label>
-        <br />
-        <input type='text' value={username} onChange={(e) => setUsername(e.target.value)}/>
-        <br />
-        <label>Password</label>
-        <br />
-        <input type='password' value={password} onChange={(e) => setPassword(e.target.value)}/>
-        <br />
-        <label>Confirm Password</label>
-        <br/>
-        <input type='password' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}/>
-        <br/>
-        <button type='button' onClick={handleSignup}>회원가입</button>
-      </form>
+    <div className="signup-page">
+      <div className="signup-page-center">
+        <div className="signup-container">
+          <h2 className='signup-container-text'>Sign Up your account</h2>
+
+          <div className="input-group">
+            <input type='text' placeholder="Name" value={username} onChange={(e) => setUsername(e.target.value)}/>
+          </div>
+
+          <div className="input-group">
+            <input type='text' placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)}/>
+          </div>
+
+          <div className="input-group">
+            <input type='password' placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)}/>
+          </div>
+
+          <button className="signup-button" onClick={handleSignup}>Login</button>
+        </div>
+      </div>
     </div>
   );
 };
