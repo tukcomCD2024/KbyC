@@ -60,3 +60,15 @@
     border-radius: 10px;
     border: 1px solid #bbccff;
 }
+
+.trendinfo-content-title {
+    margin-top: 4%;
+    margin-left: 5%;
+    font-weight: bold;
+    font-size: 200%
+}
+
+.trendinfo-content-list {
+    margin-left: 8%;
+    font-size: 100%
+}
