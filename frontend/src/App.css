@@ -44,6 +44,18 @@
   font-weight: bold;
 }
 
+.App-header-link-logo {
+  background-color: #eeffff;
+  width: 10vh;
+  height: 7vh;
+  border: none;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10vh;
+}
+
 .App-link {
   color: #61dafb;
 }
