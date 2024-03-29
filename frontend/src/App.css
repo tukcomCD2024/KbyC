@@ -56,6 +56,10 @@
   margin-right: 10vh;
 }
 
+.App-header-link-logo-image {
+  max-height: 20vh;
+}
+
 .App-header-link-logo:hover {
   border-bottom: 1px solid #000000;
 }
