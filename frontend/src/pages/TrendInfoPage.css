@@ -28,3 +28,16 @@
     border-radius: 10px;
     border: 1px solid #bbccff;
 }
+
+.trendinfo-sidebar-title {
+    margin: 5%;
+    margin-top: 15%;
+    font-weight: bold;
+    font-size: 300%
+}
+
+.trendinfo-sidebar-list {
+    margin: 5%;
+    margin-left: 10%;
+    font-size: 100%
+}
