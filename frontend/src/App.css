@@ -25,6 +25,18 @@
   padding-left: 2vh;
 }
 
+.App-header-link {
+  background-color: #eeffff;
+  height: 7vh;
+  border: none;
+  outline: none;
+  display: flex;
+  align-items: center;
+  margin-right: 5vh;
+  font-size: 20px;
+  font-weight: bold;
+}
+
 .App-link {
   color: #61dafb;
 }
