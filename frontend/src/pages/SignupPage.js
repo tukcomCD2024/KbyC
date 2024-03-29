@@ -54,6 +54,9 @@ const SignupPage = () => {
           </div>
 
           <button className="signup-button" onClick={handleSignup}>Login</button>
+
+          <button className="social-signup-button" onClick={handleSignup}>Login with Google</button>
+
         </div>
       </div>
     </div>
