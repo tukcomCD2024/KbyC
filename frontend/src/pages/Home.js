@@ -12,7 +12,7 @@ function Home() {
   }, []);
 
   useEffect(() => {
-    fetch('http://localhost:8000/hi')
+    fetch('http://localhost:8000/home')
       .then(response => response.json())
       .then(data1 => setData1(data1));
   }, []);
@@ -30,11 +30,12 @@ function Home() {
       <div>
         <h1>FastAPI and React.js</h1>
         {data && <p>{data.Hello}</p>}
-        {data1 && <p>{data1.Hi}</p>}
+        {data1 && <p>{data1.Home}</p>}
       </div>
       {localStorage.getItem('access_token') ?
 
       <div>
+        <button onClick={() => navigate('/userinfo')}>회원 정보</button><br/>
         <button onClick={logout}>로그아웃</button><br />
         {localStorage.username} 접속 중
       </div> :

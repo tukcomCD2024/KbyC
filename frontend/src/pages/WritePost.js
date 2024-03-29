@@ -42,6 +42,7 @@ const WritePost = () => {
 
     return (
         <div>
+            <h1>게시글 작성</h1>
             제목
             <br/>
             <input type='text' name='title' value={title} onChange={onChange} />

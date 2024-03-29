@@ -40,6 +40,23 @@ def login(login_form: OAuth2PasswordRequestForm = Depends(), db: Session = Depen
 
     return user_schema.Token(access_token=access_token, token_type="bearer", username=user.user_name, email=user.user_email)
 
-@router.post("/me")
-def read_me(current_user: str = Depends(user_crud.get_current_user)):
-    return {"email": current_user}
+@router.get("/me")
+def read_me(db: Session = Depends(get_db), email: str = Depends(user_crud.get_current_user)):
+    if not email:
+        raise HTTPException(status_code=401, detail="Not Authorized")
+    
+    return user_crud.read_my_info(db, email)
+
+@router.patch("/update/username")
+def update_username(user: user_schema.UsernameUpdate, db: Session = Depends(get_db), email: str = Depends(user_crud.get_current_user)):
+    if not email:
+        raise HTTPException(status_code=401, detail="Not Authorized")
+    
+    return user_crud.update_username(db, user, email)
+
+@router.patch("/update/password")
+def update_password(user: user_schema.PasswordUpdate, db: Session = Depends(get_db), email: str = Depends(user_crud.get_current_user)):
+    if not email:
+        raise HTTPException(status_code=401, detail="Not Authorized")
+    
+    return user_crud.update_password(db, user, email)

@@ -42,6 +42,7 @@ const ChatgptService = () => {
 
     return (
         <div>
+            <h1>ChatGPT</h1>
             질문
             <br/>
             <textarea value={question} onChange={(e) => setQuestion(e.target.value)} />
@@ -51,7 +52,7 @@ const ChatgptService = () => {
             {chatList.map((chat, index) => (
                 <div key={index}>
                     <p>Q:<br/>{chat.question}</p>
-                    <p>A:<br/>{chat.answer}</p>
+                    <p style={{whiteSpace: "pre-line"}}>A:<br/>{chat.answer}</p>
                     <hr/>
                 </div>
             ))}

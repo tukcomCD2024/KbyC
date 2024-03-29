@@ -191,7 +191,7 @@ function Post() {
                         <hr/>
                     </div>
                 ))}
-                <textarea value={comment} onChange={(e) => setComment(e.target.value)}></textarea>
+                <textarea value={comment} placeholder='댓글 작성' onChange={(e) => setComment(e.target.value)}></textarea>
                 <br/>
                 <button onClick={saveComment}>등록</button>
             </div>
