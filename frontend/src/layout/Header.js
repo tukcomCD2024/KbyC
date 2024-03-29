@@ -1,17 +1,17 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import '../App.css'
 
 const Header = () => {
+    const handleNavigation = (path) => {
+        window.location.href = path;
+    };
+
     return (
-        <header>
-            <Link to={'/'}><button className='App-header-link'>홈</button></Link>
-            &nbsp;&nbsp;
-            <Link to={'/board'}><button className='App-header-link'>게시판</button></Link>
-            &nbsp;&nbsp;
-            <Link to={'/service/chatgpt'}><button className='App-header-link'>ChatGPT</button></Link>
-            &nbsp;&nbsp;
-            <Link to={'/service/navernews'}><button className='App-header-link'>네이버 뉴스</button></Link>
+        <header className='App-header'>
+            <button className='App-header-link-logo' onClick={() => handleNavigation('/')}>홈</button>
+            <button className='App-header-link' onClick={() => handleNavigation('/board')}>게시판</button>
+            <button className='App-header-link' onClick={() => handleNavigation('/service/chatgpt')}>ChatGPT</button>
+            <button className='App-header-link' onClick={() => handleNavigation('/service/navernews')}>네이버 뉴스</button>
             <hr/>
         </header>
     );
