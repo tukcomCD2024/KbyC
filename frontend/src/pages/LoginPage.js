@@ -35,6 +35,10 @@ const LoginPage = () => {
     });
   };
 
+  const handleNavigation = (path) => {
+    window.location.href = path;
+  };
+
   return (
     <div className="login-page">
       <div className="login-page-center">
@@ -72,7 +76,7 @@ const LoginPage = () => {
 
           <div>
             <p1>Don't have any account?     </p1>
-            <p1 className="link-signup-text">Sign Up</p1>
+            <p1 onClick={() => handleNavigation('/signup')} className="link-signup-text" >Sign Up</p1>
           </div>
         </div>
       </div>
