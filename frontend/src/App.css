@@ -37,6 +37,13 @@
   font-weight: bold;
 }
 
+.App-header-link:hover {
+  border: none;
+  outline: none;
+  border-bottom: 1px solid #000000;
+  font-weight: bold;
+}
+
 .App-link {
   color: #61dafb;
 }
