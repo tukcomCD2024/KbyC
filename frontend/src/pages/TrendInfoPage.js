@@ -26,6 +26,8 @@ const TrendInfoPage = () => {
             <p className='trendinfo-content-list'>반응1</p>
           </div>
         </div>
+
+        <div className='trendinfo-bottom-wrapper'/>
     </div>
   );
 }
