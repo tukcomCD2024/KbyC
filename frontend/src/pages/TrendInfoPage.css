@@ -72,3 +72,12 @@
     margin-left: 8%;
     font-size: 100%
 }
+
+.trendinfo-bottom-wrapper {
+    background: linear-gradient(to bottom, #eeffff, #bbccff);
+    width: 100%;
+    height: 2%;
+    display: flex;
+    position: fixed;
+    bottom: 0;
+}
