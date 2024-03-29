@@ -20,16 +20,6 @@ class UserCreate(BaseModel):
         if 'password' in values.data and v != values.data['password']:
             raise HTTPException(status_code=422, detail="비밀번호가 일치하지 않습니다.")
         return v
-    
-class UserUpdate(BaseModel):
-    username: str
-    password: str
-
-    @field_validator('username', 'password')
-    def check_empty(cls, v):
-        if not v or v.isspace():
-            raise HTTPException(status_code=422, detail="필수 항목을 입력해주세요.")
-        return v
 
 class UsernameUpdate(BaseModel):
     username: str
