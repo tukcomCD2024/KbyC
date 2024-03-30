@@ -14,6 +14,19 @@ import UserInfo from './pages/UserInfo';
 import TrendInfoPage from './pages/TrendInfoPage' 
 
 function App() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [showButton, setShowButton] = useState(true);
+
+  const openPopup = () => {
+    setIsOpen(true);
+    setShowButton(false);
+  };
+
+  const closePopup = () => {
+    setIsOpen(false);
+    setShowButton(true);
+  };
+  
   return (
     <div>
       <Routes>
