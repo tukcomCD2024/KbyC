@@ -15,6 +15,7 @@ import TrendInfoPage from './pages/TrendInfoPage'
 
 function App() {
   return (
+    <div>
       <Routes>
         <Route path="/" element={<Home />}></Route>
         <Route path="/login" element={<LoginPage />}></Route>
@@ -28,6 +29,19 @@ function App() {
         <Route path="/userinfo" element={<UserInfo />}></Route>
         <Route path="/trendinfo" element={<TrendInfoPage />}></Route>
       </Routes>
+      {showButton && (
+        <div className='popup-button' onClick={openPopup}> ? </div>
+      )}
+      {isOpen && (
+        <div className="popup">
+          <div className='popup-title-container'>
+            <h2> 무엇이든 물어보세요 </h2>
+            <span className="close" onClick={closePopup}>&times;</span>
+          </div>
+          <ChatgptService/>
+        </div>
+      )}
+    </div>
   );
 }
 
