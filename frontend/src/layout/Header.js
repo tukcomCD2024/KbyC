@@ -13,7 +13,6 @@ const Header = () => {
                 <img src={logo} alt='home' className='App-header-link-logo-image' />
             </button>
             <button className='App-header-link' onClick={() => handleNavigation('/board')}>게시판</button>
-            <button className='App-header-link' onClick={() => handleNavigation('/service/chatgpt')}>ChatGPT</button>
             <button className='App-header-link' onClick={() => handleNavigation('/service/navernews')}>네이버 뉴스</button>
             <hr/>
         </header>
