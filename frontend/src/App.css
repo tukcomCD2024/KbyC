@@ -127,3 +127,22 @@
   font-size: 200%;
   color: #888;
 }
+
+.popup-content {
+  background-color: #eeffff;
+  box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
+  width: 94%;
+  height: 90%;
+  margin-left: 2%;
+  padding: 2%;
+  border-radius: 10px;
+}
+
+.popup-content textarea {
+  width: 100%;
+  padding: 1%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  resize: none;
+}
