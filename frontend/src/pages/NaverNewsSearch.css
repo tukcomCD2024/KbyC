@@ -60,3 +60,12 @@
     font-weight: bold;
     cursor: pointer;
 }
+
+.result-box {
+    background-color: #eeffff;
+    border: 2px solid #bbccff;
+    border-radius: 10px;
+    width: 80%;
+    height: 70vh;
+    padding: 2%;
+}
