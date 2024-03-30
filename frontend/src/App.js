@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import { Routes, Route } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
@@ -14,7 +14,21 @@ import UserInfo from './pages/UserInfo';
 import TrendInfoPage from './pages/TrendInfoPage' 
 
 function App() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [showButton, setShowButton] = useState(true);
+
+  const openPopup = () => {
+    setIsOpen(true);
+    setShowButton(false);
+  };
+
+  const closePopup = () => {
+    setIsOpen(false);
+    setShowButton(true);
+  };
+
   return (
+    <div>
       <Routes>
         <Route path="/" element={<Home />}></Route>
         <Route path="/login" element={<LoginPage />}></Route>
@@ -28,6 +42,19 @@ function App() {
         <Route path="/userinfo" element={<UserInfo />}></Route>
         <Route path="/trendinfo" element={<TrendInfoPage />}></Route>
       </Routes>
+      {showButton && (
+        <div className='popup-button' onClick={openPopup}> ? </div>
+      )}
+      {isOpen && (
+        <div className="popup">
+          <div className='popup-title-container'>
+            <h2> 무엇이든 물어보세요 </h2>
+            <span className="close" onClick={closePopup}>&times;</span>
+          </div>
+          <ChatgptService/>
+        </div>
+      )}
+    </div>
   );
 }
 

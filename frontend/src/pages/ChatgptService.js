@@ -41,12 +41,8 @@ const ChatgptService = () => {
     }
 
     return (
-        <div>
-            <h1>ChatGPT</h1>
-            질문
-            <br/>
-            <textarea value={question} onChange={(e) => setQuestion(e.target.value)} />
-            <br/>
+        <div className='popup-content'>
+            <textarea value={question} onChange={(e) => setQuestion(e.target.value)} placeholder='질문을 입력하세요.' />
             <button onClick={sendQuestion}>제출</button>
             <hr/>
             {chatList.map((chat, index) => (
