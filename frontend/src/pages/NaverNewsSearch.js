@@ -14,6 +14,7 @@ const NaverNewsSearch = () => {
         e.preventDefault();
         setNewsList([]);
         setLoading(true);
+        setSearchResultMessage('');
 
         try {
             const response = await axios.post('/service/navernews', {
