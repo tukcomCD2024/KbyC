@@ -13,11 +13,17 @@ def fetch_xml(country_code):
 def trends_retriever(country_code):
     xml_document = fetch_xml(country_code)
     soup = BeautifulSoup(xml_document, "lxml")
-    titles = soup.find_all("title")[1:]
-    approximate_traffic = soup.find_all("ht:approx_traffic")
-    return {title.text: traffic.text
-            for title, traffic in zip(titles, approximate_traffic)}
+    trends = []
+    for item in soup.find_all("item"):
+        title = item.find("title")
+        traffic = item.find("ht:approx_traffic")
+        news_urls = item.find_all("ht:news_item_url")
+        news_urls_text = [url.text for url in news_urls]
+        trend = {"title": title.text, "traffic": traffic.text, "news_urls": news_urls_text}
+        trends.append(trend)
+    return trends
 
-
-trends = trends_retriever("KR")
-print(trends)
+def get_trends():
+    trends = trends_retriever("KR")
+    print(trends)
+    return {"google_trends": trends}
