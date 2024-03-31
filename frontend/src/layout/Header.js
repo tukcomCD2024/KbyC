@@ -14,6 +14,7 @@ const Header = () => {
             </button>
             <button className='App-header-link' onClick={() => handleNavigation('/board')}>게시판</button>
             <button className='App-header-link' onClick={() => handleNavigation('/service/navernews')}>네이버 뉴스</button>
+            <button className='App-header-link' onClick={() => handleNavigation('/service/googletrends')}>구글 트렌드</button>
             <hr/>
         </header>
     );
