@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'
+import './LoginPage.css';
 
 axios.defaults.baseURL = 'http://127.0.0.1:8000';
 
@@ -32,6 +33,10 @@ const LoginPage = () => {
       console.error('에러 발생', error);
       alert('로그인에 실패했습니다.');
     });
+  };
+
+  const handleNavigation = (path) => {
+    window.location.href = path;
   };
 
   return (
@@ -71,7 +76,7 @@ const LoginPage = () => {
 
           <div>
             <p1>Don't have any account?     </p1>
-            <p1 className="link-signup-text">Sign Up</p1>
+            <p1 onClick={() => handleNavigation('/signup')} className="link-signup-text" >Sign Up</p1>
           </div>
         </div>
       </div>

@@ -92,3 +92,7 @@
   font-weight: bold;
   text-decoration: underline;
 }
+
+.link-login-text:hover {
+  color: #4d7bf0
+}

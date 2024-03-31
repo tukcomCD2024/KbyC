@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import './NaverNewsSearch.css'
 
 axios.defaults.baseURL = 'http://127.0.0.1:8000';
 
@@ -34,27 +35,29 @@ const NaverNewsSearch = () => {
     };
 
     return (
-        <div>
-            <h1>네이버 뉴스 검색</h1>
-            <form onSubmit={handleSubmit}>
+        <div className='naver-news-search-page'>
+            <form onSubmit={handleSubmit} className='search-box'>
+                <p>네이버 기사 검색</p>
                 <input
                     type="text"
                     value={searchWord}
-                    onChange={(e) => setSearchWord(e.target.value)}>
-                </input>
-                <br/>
-                <button type="submit">검색</button>
+                    onChange={(e) => setSearchWord(e.target.value)}/>
+                <button className='search-button' type="submit">search</button>
             </form>
-            <hr/>
-            {loading && <div>검색 중...</div>}
-            {searchResultMessage && <div>{searchResultMessage}</div>}
-            <ul>
-            {newsList.map((news, index) => (
-                <li key={index}>
-                    <a href={news.link} target="_blank" rel="noopener noreferrer">{news.title}</a>
-                </li>
-            ))}
-            </ul>
+            
+            <div className='result-box'>
+                <h1>ds</h1>
+                {loading && <div>검색 중...</div>}
+                {searchResultMessage && <div>{searchResultMessage}</div>}
+                
+                <ul>
+                {newsList.map((news, index) => (
+                    <li key={index}>
+                        <a href={news.link} target="_blank" rel="noopener noreferrer">{news.title}</a>
+                    </li>
+                ))}
+                </ul>
+            </div>
         </div>
     );
 };

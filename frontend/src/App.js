@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import { Routes, Route } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
@@ -15,7 +15,21 @@ import TrendInfoPage from './pages/TrendInfoPage';
 import GoogleTrends from './pages/GoogleTrends';
 
 function App() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [showButton, setShowButton] = useState(true);
+
+  const openPopup = () => {
+    setIsOpen(true);
+    setShowButton(false);
+  };
+
+  const closePopup = () => {
+    setIsOpen(false);
+    setShowButton(true);
+  };
+
   return (
+    <div>
       <Routes>
         <Route path="/" element={<Home />}></Route>
         <Route path="/login" element={<LoginPage />}></Route>
@@ -24,12 +38,24 @@ function App() {
         <Route path="/post/:id" element={<Post />}></Route>
         <Route path="/post/write" element={<WritePost />}></Route>
         <Route path="/post/update/:id" element={<UpdatePost />}></Route>
-        <Route path="/service/chatgpt" element={<ChatgptService />}></Route>
         <Route path="/service/navernews" element={<NaverNewsSearch />}></Route>
         <Route path="/userinfo" element={<UserInfo />}></Route>
         <Route path="/trendinfo" element={<TrendInfoPage />}></Route>
         <Route path="/service/googletrends" element={<GoogleTrends />}></Route>
       </Routes>
+      {showButton && (
+        <div className='popup-button' onClick={openPopup}> ? </div>
+      )}
+      {isOpen && (
+        <div className="popup">
+          <div className='popup-title-container'>
+            <h2> 무엇이든 물어보세요 </h2>
+            <span className="close" onClick={closePopup}>&times;</span>
+          </div>
+          <ChatgptService/>
+        </div>
+      )}
+    </div>
   );
 }
 
