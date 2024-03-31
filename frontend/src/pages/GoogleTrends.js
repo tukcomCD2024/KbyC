@@ -33,9 +33,9 @@ const GoogleTrends = () => {
                     검색 횟수 {trend.traffic}<br/>
                     관련 뉴스<br/>
                     <ul>
-                        {trend.news_urls.map((url, index) => (
+                        {trend.news_list.map((news, index) => (
                             <li key={index}>
-                                <a href={url} target="_blank" rel="noopener noreferrer">{url}</a>
+                                <a href={news.news_url} target="_blank" rel="noopener noreferrer">{news.news_title}</a>
                             </li>
                         ))}
                     </ul>
