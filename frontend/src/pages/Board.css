@@ -1,0 +1,7 @@
+.board-page {
+    background-color: #eeffff;
+    width: 100vw;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+  }
