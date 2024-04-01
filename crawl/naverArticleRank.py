@@ -2,6 +2,14 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 import datetime
+import os
+
+# 저장할 디렉토리 경로
+output_dir = './outputs/naver_article_rank'
+
+#디렉토리가 없는 경우 생성
+if not os.path.exists(output_dir):
+    os.makedirs(output_dir)
 
 url = "https://news.naver.com/main/ranking/popularMemo.naver"
 headers = {"User-Agent": "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36"}
@@ -47,3 +55,4 @@ print("===============asd==============1")
 news_df = pd.DataFrame(newsData)
 now = datetime.datetime.now() 
 news_df.to_csv('./outputs/naver_article_rank/naver_article_ranking_{}.csv'.format(now.strftime('%Y%m%d_%H시%M분%S초')),encoding='utf-8-sig',index=False)
+os.system("/bin/python3 ./outputs/naver_article_rank/naver_article_ranking.py {}".format(now.strftime('%Y%m%d_%H시%M분%S초')))
