@@ -36,3 +36,14 @@
     font-size: 100%;
     float: right;
 }
+
+/* Button */
+.finish-button-container {
+    width: 70vw;
+    z-index: -12;
+    float: right;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-top: 2%;
+}
