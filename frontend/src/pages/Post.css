@@ -31,3 +31,8 @@
     border-top: 1px solid #cccccc;
     padding: 2%;
 }
+
+.post-writer-info {
+    font-size: 100%;
+    float: right;
+}
