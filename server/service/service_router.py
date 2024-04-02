@@ -14,7 +14,7 @@ def ask_question(data: chatgpt.Conversation):
 
 @router.post("/navernews")
 def search(searchWord: naver_news_search.SearchWord):
-    return naver_news_search.search_news(searchWord.content, 1, 5)
+    return naver_news_search.search_news(searchWord.content, searchWord.page, searchWord.page2)
 
 @router.get("/googletrends")
 def read_google_trends():

@@ -8,6 +8,8 @@ from pydantic import BaseModel
 
 class SearchWord(BaseModel):
     content: str
+    page: int
+    page2: int
 
 # 페이지 url 형식에 맞게 바꾸어 주는 함수 만들기
   #입력된 수를 1, 11, 21, 31 ...만들어 주는 함수
