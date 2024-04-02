@@ -61,3 +61,14 @@
     font-weight: bold;
     cursor: pointer;
 }
+
+.comment-container {
+    background-color: #ffffff;
+    border: 2px solid #bbccff;
+    display: flex;
+    flex-direction: row;
+    width: 80%;
+    height: 5%;
+    margin-top: 2%;
+    padding:1%;
+}
