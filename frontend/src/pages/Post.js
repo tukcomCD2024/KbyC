@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import "./Post.css";
 
 axios.defaults.baseURL = 'http://127.0.0.1:8000';
 
@@ -142,30 +143,27 @@ function Post() {
     };
 
     return (
-        <div>
+        <div className='post-page'>
             {loading ?
 
             <h2>Loading...</h2> :
 
-            <div>
-                <h2>{post.title}</h2>
-                <p>{post.writer_name}&nbsp;&nbsp;{post.post_date.replace('T', ' ')}</p>
-                <hr/>
-                <p style={{whiteSpace: "pre-line"}}>{post.content}</p>
+            <div className='post-container'>
+                <div className='post-title'>{post.title}</div>
+                <p className='post-writer-info'>{post.writer_name}&nbsp;&nbsp;{post.post_date.replace('T', ' ')}</p>
+                <p className='post-content' style={{whiteSpace: "pre-line"}}>{post.content}</p>
                 {localStorage.getItem('email') === post.writer_email &&
-                <div>
-                    <hr/>
-                    <button onClick={() => navigate(`/post/update/${id}`)}>수정</button>&nbsp;&nbsp;
-                    <button onClick={deletePost}>삭제</button>
-                </div>
+                    <div class="finish-button-container1">
+                        <button className='finish-button' onClick={() => navigate(`/post/update/${id}`)}>수정</button>
+                        <button className='finish-button' onClick={deletePost}>삭제</button>
+                    </div>
                 }
-
+                
                 <div className='comment-container'>
                     <textarea value={comment} placeholder='댓글 작성' onChange={(e) => setComment(e.target.value)}></textarea>
                     <br/>
                     <button onClick={saveComment}>등록</button>
                 </div>
-                <hr/>
                 <p>
                     댓글 {commentList.length}
                 </p>
