@@ -159,6 +159,12 @@ function Post() {
                     <button onClick={deletePost}>삭제</button>
                 </div>
                 }
+
+                <div className='comment-container'>
+                    <textarea value={comment} placeholder='댓글 작성' onChange={(e) => setComment(e.target.value)}></textarea>
+                    <br/>
+                    <button onClick={saveComment}>등록</button>
+                </div>
                 <hr/>
                 <p>
                     댓글 {commentList.length}
@@ -191,9 +197,6 @@ function Post() {
                         <hr/>
                     </div>
                 ))}
-                <textarea value={comment} placeholder='댓글 작성' onChange={(e) => setComment(e.target.value)}></textarea>
-                <br/>
-                <button onClick={saveComment}>등록</button>
             </div>
             }
         </div>
