@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import "./Board.css";
 
 axios.defaults.baseURL = 'http://127.0.0.1:8000';
 
@@ -13,14 +14,20 @@ const Board = () => {
     useEffect(() => {
         async function getPosts() {
             try {
-                const response = await axios.get('/post/read/all');
-                setPosts(response.data);
+              const response = await axios.get("/post/read/all");
+              const updatePosts = await Promise.all(response.data.map(async (post) => {
+                  const commentCount = await axios.get(`/comment/read/${post.post_id}`);
+                  return {
+                      ...post,
+                      commentCount: commentCount.data.length
+                  }
+              }));
+              setPosts(updatePosts);
+            } catch (error) {
+              console.error("Error fetching posts:", error);
             }
-            catch (error) {
-                console.error('Error fetching posts:', error)
-            }
-        }
-        getPosts();
+          }
+          getPosts();
     }, []);
 
     const WritePost = () => {
@@ -32,30 +39,39 @@ const Board = () => {
         }
     };
 
+    const handleNavigation = (path) => {
+        window.location.href = path;
+      };
+
     return (
-        <div>
-            <h1>게시판</h1>
-            <table>
-                <thead>
-                    <tr>
-                        <th>제목</th>
-                        <th>작성자</th>
-                        <th>작성일</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {posts.map(post => (
-                        <tr key={post.post_id}>
-                            <td><Link to={`/post/${post.post_id}`}>{post.title}</Link></td>
-                            <td>{post.writer_name}</td>
-                            <td>{post.post_date.replace('T', ' ')}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-            <br/>
-            <button onClick={WritePost}>글쓰기</button>
+        <div className="board-page">
+        {/* 글쓰기 버튼 */}
+        <div className="button-position">
+            <button onClick={WritePost} class="button button--winona button--border-thick button--round-l button--text-upper button--size-s button--text-thick" data-text="글쓰기"><span>글쓰기</span></button>
         </div>
+      <br/>
+        {/* 게시물 List */}
+        <div className="container">
+            {posts.map((post) => (
+                <div className="post-containter" key={post.post_id}>
+                    {/* 제목 (댓글수) */}
+                    <div className="post-title">
+                        <p onClick={() => handleNavigation(`/post/${post.post_id}`)} className="link-signup-text" >
+                            {post.title} [{post.commentCount}]
+                        </p>
+                    </div>
+                    {/* 글쓴이 */}
+                    <div className="post-writer">
+                        {post.writer_name} ({post.writer_email})
+                    </div>
+                    <div className="post-date">
+                        {post.post_date.replace("T", " ")}
+                    </div>
+                </div>
+            ))}
+        </div>
+      <br/>
+    </div>
     );
 };
 

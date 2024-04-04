@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './Home.css';
 
 function Home() {
   const [data, setData] = useState(null);
@@ -26,25 +27,26 @@ function Home() {
   }
 
   return (
-    <>
-      <div>
-        <h1>FastAPI and React.js</h1>
-        {data && <p>{data.Hello}</p>}
-        {data1 && <p>{data1.Home}</p>}
+      <div className='home-page'>
+        <h1>Welcome to Treddit</h1>
+        {localStorage.getItem('access_token') ?
+
+        <div>
+          <h2>{localStorage.username} 계정으로 접속 중입니다. </h2>
+          <div className='home-page-button-container'>
+            <button onClick={() => navigate('/userinfo')}>회원 정보</button><br/>
+            <button onClick={logout}>로그아웃</button>
+          </div>
+        </div> :
+
+        <div>
+          <h2>비회원으로 접속 중입니다. </h2>
+          <div className='home-page-button-container'>
+            <button onClick={() => navigate('/login')}>로그인</button><br />
+            <button onClick={() => navigate('/signup')}>회원가입</button>
+          </div>
+        </div>}
       </div>
-      {localStorage.getItem('access_token') ?
-
-      <div>
-        <button onClick={() => navigate('/userinfo')}>회원 정보</button><br/>
-        <button onClick={logout}>로그아웃</button><br />
-        {localStorage.username} 접속 중
-      </div> :
-
-      <div>
-        <button onClick={() => navigate('/login')}>로그인</button><br />
-        <button onClick={() => navigate('/signup')}>회원가입</button>
-      </div>}
-    </>
   );
 }
 

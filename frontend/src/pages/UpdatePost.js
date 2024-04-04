@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import "./UpdatePost.css";
 
 axios.defaults.baseURL = 'http://127.0.0.1:8000';
 
@@ -15,6 +16,8 @@ const UpdatePost = () => {
     });
 
     const { title, content } = post;
+
+    const textareaRef = useRef(null);
 
     const onChange = (e) => {
         const { value, name } = e.target;
@@ -56,18 +59,38 @@ const UpdatePost = () => {
     };
 
     return (
-        <div>
-            제목
-            <br/>
-            <input type='text' name='title' value={title} onChange={onChange} />
-            <br/>
-            내용
-            <br/>
-            <textarea name='content' value={content} onChange={onChange} />
-            <br/>
-            <button onClick={savePost}>저장</button>
-            &nbsp;&nbsp;
-            <button onClick={() => navigate(`/post/${id}`)}>취소</button>
+        <div className="write-post-page">
+            <div className="title-box">
+                <h1>[ 게시글 수정 ]</h1>
+                <input
+                    type="text"
+                    name="title"
+                    placeholder="제목을 입력하세요."
+                    value={title}
+                    onChange={onChange}
+                    className="search-box"
+                />
+            </div>
+            <div className="content-box">
+                <textarea
+                    ref={textareaRef}
+                    name="content"
+                    placeholder="내용을 입력하세요."
+                    value={content}
+                    onChange={onChange}
+                />
+            </div>
+
+            <div>
+                <div className="finish-button-container">
+                    <button onClick={savePost} className="finish-button">
+                        수정
+                    </button>
+                    <button onClick={() => navigate("/board")} className="finish-button">
+                        취소
+                    </button>
+                </div>
+            </div>
         </div>
     )
 }
