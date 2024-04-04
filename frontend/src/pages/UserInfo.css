@@ -59,3 +59,32 @@
     outline: none;
     border: 2px solid #000000;
 }
+
+.user-password-change-container {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    margin-left: 10%;
+}
+
+.user-password-change-input-container {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    margin-left: 2%;
+    margin-bottom: 1%;
+}
+
+.user-password-change-input-container input {
+    border: none;
+    width: 20%;
+    border: 2px solid #cccccc;
+    border-radius: 5px;
+    padding: 1%;
+    margin-bottom: 1%;
+}
+
+.user-password-change-container p {
+    font-size: 100%;
+    font-weight: bold;
+}
