@@ -70,3 +70,27 @@
 .content-box textarea:focus {
     box-shadow: 0 0 0 2px #bbccff;
 }
+
+.finish-button-container {
+    width: 70vw;
+    background-color: #eeffff;
+    float: right;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-top: 2%;
+}
+
+.finish-button {
+    background-color: #bbccff;
+    border: 1px solid #bbccff;
+    border-radius: 20px;
+    width: 100px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 2%;
+    font-weight: bold;
+    cursor: pointer;
+}
