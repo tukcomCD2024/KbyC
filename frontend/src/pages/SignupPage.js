@@ -58,7 +58,7 @@ const SignupPage = () => {
           </div>
 
           <div className="input-group">
-            <input type='password' placeholder="Confirm Password" value={password} onChange={(e) => setConfirmPassword(e.target.value)}/>
+            <input type='password' placeholder="Confirm Password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}/>
           </div>
 
           <button className="signup-button" onClick={handleSignup}>Sign up</button>
