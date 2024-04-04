@@ -88,3 +88,9 @@
     font-size: 100%;
     font-weight: bold;
 }
+
+.user-password-change-container p1 {
+    width: 30%;
+    font-size: 80%;
+    font-weight: bold;
+}
