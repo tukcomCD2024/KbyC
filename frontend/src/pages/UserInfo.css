@@ -1,0 +1,121 @@
+.user-info-page {
+    background-color: #eeffff;
+    width: 100vw;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-info-container {
+    background-color: #ffffff;
+    border: 2px solid #bbccff;
+    border-radius: 10px;
+    width: 70%;
+    padding: 2%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.user-info-container hr {
+    border: 1px solid #bbccff;
+    width: 90%;
+    margin-top: 1%;
+}
+
+.user-info-container h1 {
+    font-size: 200%;
+    margin-left: 2.5%;
+    margin-top: 2.5%;
+}
+
+.user-info-input-container {
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-left: 10%;
+}
+
+.user-info-input-container p {
+    width: 10%;
+    font-size: 100%;
+    font-weight: bold;
+}
+
+.user-info-input-container input {
+    border: none;
+    width: 20%;
+    border: 2px solid #cccccc;
+    border-radius: 5px;
+    padding: 1%;
+}
+
+.user-info-input-container input:focus {
+    outline: none;
+    border: 2px solid #000000;
+}
+
+.user-password-change-container {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    margin-left: 10%;
+}
+
+.user-password-change-input-container {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    margin-left: 2%;
+    margin-bottom: 1%;
+}
+
+.user-password-change-input-container input {
+    border: none;
+    width: 20%;
+    border: 2px solid #cccccc;
+    border-radius: 5px;
+    padding: 1%;
+    margin-bottom: 1%;
+}
+
+.user-password-change-container p {
+    font-size: 100%;
+    font-weight: bold;
+}
+
+.user-password-change-container p1 {
+    width: 30%;
+    font-size: 80%;
+    font-weight: bold;
+}
+
+.user-info-button-container {
+    width: 90%;
+    display: relative;
+    flex-direction: row;
+    align-items: center;
+    margin-left: 5%;
+}
+
+.user-info-container button {
+    background-color: #bbccff;
+    border: 1px solid #bbccff;
+    border-radius: 20px;
+    width: 100px;
+    height: 40px;
+    float: right;
+    margin-top: 0.5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    cursor: pointer;
+
+    margin-left: 10%;
+}
