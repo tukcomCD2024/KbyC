@@ -14,14 +14,20 @@ const Board = () => {
     useEffect(() => {
         async function getPosts() {
             try {
-                const response = await axios.get('/post/read/all');
-                setPosts(response.data);
+              const response = await axios.get("/post/read/all");
+              const updatePosts = await Promise.all(response.data.map(async (post) => {
+                  const commentCount = await axios.get(`/comment/read/${post.post_id}`);
+                  return {
+                      ...post,
+                      commentCount: commentCount.data.length
+                  }
+              }));
+              setPosts(updatePosts);
+            } catch (error) {
+              console.error("Error fetching posts:", error);
             }
-            catch (error) {
-                console.error('Error fetching posts:', error)
-            }
-        }
-        getPosts();
+          }
+          getPosts();
     }, []);
 
     const WritePost = () => {
