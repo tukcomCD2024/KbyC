@@ -94,3 +94,26 @@
     font-size: 80%;
     font-weight: bold;
 }
+
+.user-info-button-container {
+    width: 90%;
+    display: relative;
+    flex-direction: row;
+    align-items: center;
+    margin-left: 5%;
+}
+
+.user-info-container button {
+    background-color: #bbccff;
+    border: 1px solid #bbccff;
+    border-radius: 20px;
+    width: 100px;
+    height: 40px;
+    float: right;
+    margin-top: 0.5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    cursor: pointer;
+}
