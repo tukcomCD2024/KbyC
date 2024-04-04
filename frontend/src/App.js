@@ -40,7 +40,7 @@ function App() {
         <Route path="/post/update/:id" element={<UpdatePost />}></Route>
         <Route path="/service/navernews" element={<NaverNewsSearch />}></Route>
         <Route path="/userinfo" element={<UserInfo />}></Route>
-        <Route path="/trendinfo" element={<TrendInfoPage />}></Route>
+        <Route path="/trendinfo/:name" element={<TrendInfoPage />}></Route>
         <Route path="/service/googletrends" element={<GoogleTrends />}></Route>
       </Routes>
       {showButton && (

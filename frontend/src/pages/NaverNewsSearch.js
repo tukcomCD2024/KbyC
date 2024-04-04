@@ -14,10 +14,13 @@ const NaverNewsSearch = () => {
         e.preventDefault();
         setNewsList([]);
         setLoading(true);
+        setSearchResultMessage('');
 
         try {
             const response = await axios.post('/service/navernews', {
-                content: searchWord
+                content: searchWord,
+                page: 1,
+                page2: 3
             }, {
                 headers: {
                     'Content-type': 'application/json'
@@ -46,7 +49,7 @@ const NaverNewsSearch = () => {
             </form>
             
             <div className='result-box'>
-                <h1>ds</h1>
+                <h1>네이버 뉴스</h1>
                 {loading && <div>검색 중...</div>}
                 {searchResultMessage && <div>{searchResultMessage}</div>}
                 

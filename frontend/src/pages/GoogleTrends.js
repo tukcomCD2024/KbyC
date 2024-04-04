@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 axios.defaults.baseURL = 'http://127.0.0.1:8000';
@@ -29,13 +30,13 @@ const GoogleTrends = () => {
             {loading && <div>로딩 중...</div>}
             {trends.map((trend, index) => (
                 <div key={index}>
-                    {index + 1}. {trend.title}<br/>
+                    {index + 1}. <Link to={`/trendinfo/${trend.title}`}>{trend.title}</Link><br/>
                     검색 횟수 {trend.traffic}<br/>
                     관련 뉴스<br/>
                     <ul>
-                        {trend.news_urls.map((url, index) => (
+                        {trend.news_list.map((news, index) => (
                             <li key={index}>
-                                <a href={url} target="_blank" rel="noopener noreferrer">{url}</a>
+                                <a href={news.news_url} target="_blank" rel="noopener noreferrer">{news.news_title}</a>
                             </li>
                         ))}
                     </ul>

@@ -8,6 +8,8 @@ from pydantic import BaseModel
 
 class SearchWord(BaseModel):
     content: str
+    page: int
+    page2: int
 
 # 페이지 url 형식에 맞게 바꾸어 주는 함수 만들기
   #입력된 수를 1, 11, 21, 31 ...만들어 주는 함수
@@ -71,7 +73,7 @@ def search_news(searchWord: str, page: int, page2: int):
     for i in url:
         u = articles_crawler(i)
         news_url.append(u)
-
+    
     #제목, 링크, 내용 담을 리스트 생성
     news_url_1 = []
 
@@ -85,27 +87,36 @@ def search_news(searchWord: str, page: int, page2: int):
             final_urls.append(news_url_1[i])
         else:
             pass
-
+    
     # 뉴스 내용 크롤링
-
+    
     for i in tqdm(final_urls):
         #각 기사 html get하기
         news = requests.get(i,headers=headers)
         news_html = BeautifulSoup(news.text,"html.parser")
 
         # 뉴스 제목 가져오기
-        title = news_html.select_one("#ct > div.media_end_head.go_trans > div.media_end_head_title > h2")
-        if title == None:
-            title = news_html.select_one("#content > div.end_ct > div > h2")
+        if "sports" in i:
+            title = news_html.select_one("#content > div > div.content > div > div.news_headline > h4")
+        else:
+            title = news_html.select_one("#ct > div.media_end_head.go_trans > div.media_end_head_title > h2")
+            if title == None:
+                title = news_html.select_one("#content > div.end_ct > div > h2")
         
         # 뉴스 본문 가져오기
-        content = news_html.select("article#dic_area")
-        if content == []:
-            content = news_html.select("#articeBody")
-
+        if "sports" in i:
+            content = news_html.select("#newsEndContents")
+            exclude = news_html.select("#newsEndContents > div")
+            for element in exclude:
+                element.decompose()
+        else:
+            content = news_html.select("article#dic_area")
+            if content == []:
+                content = news_html.select("#articeBody")
+        
         # 기사 텍스트만 가져오기
         # list합치기
-        content = ''.join(str(content))
+        content = ''.join(str(content[0]))
 
         # html태그제거 및 텍스트 다듬기
         pattern1 = '<[^>]*>'
@@ -117,16 +128,20 @@ def search_news(searchWord: str, page: int, page2: int):
         news_titles.append(title)
         news_contents.append(content)
 
-        try:
-            html_date = news_html.select_one("div#ct> div.media_end_head.go_trans > div.media_end_head_info.nv_notrans > div.media_end_head_info_datestamp > div > span")
-            news_date = html_date.attrs['data-date-time']
-        except AttributeError:
-            news_date = news_html.select_one("#content > div.end_ct > div > div.article_info > span > em")
-            news_date = re.sub(pattern=pattern1,repl='',string=str(news_date))
+        if "sports" in i:
+            news_date = news_html.select_one(".info > span")
+            news_date = news_date.text[5:]
+        else:
+            try:
+                html_date = news_html.select_one("div#ct> div.media_end_head.go_trans > div.media_end_head_info.nv_notrans > div.media_end_head_info_datestamp > div > span")
+                news_date = html_date.attrs['data-date-time']
+            except AttributeError:
+                news_date = news_html.select_one("#content > div.end_ct > div > div.article_info > span > em")
+                news_date = re.sub(pattern=pattern1,repl='',string=str(news_date))
         # 날짜 가져오기
         news_dates.append(news_date)
-
-
+    
+    
     print("""
     #####################################################################################
             naverKeyword 결과값
