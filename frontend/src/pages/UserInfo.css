@@ -7,3 +7,28 @@
     align-items: center;
     justify-content: center;
 }
+
+.user-info-container {
+    background-color: #ffffff;
+    border: 2px solid #bbccff;
+    border-radius: 10px;
+    width: 70%;
+    padding: 2%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.user-info-container hr {
+    border: 1px solid #bbccff;
+    width: 90%;
+    margin-top: 1%;
+}
+
+.user-info-container h1 {
+    font-size: 200%;
+    margin-left: 2.5%;
+    margin-top: 2.5%;
+}
