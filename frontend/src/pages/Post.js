@@ -151,18 +151,17 @@ function Post() {
             <div className='post-container'>
                 <div className='post-title'>{post.title}</div>
                 <p className='post-writer-info'>{post.writer_name}&nbsp;&nbsp;{post.post_date.replace('T', ' ')}</p>
-                <p className='post-content' style={{whiteSpace: "pre-line"}}>{post.content}</p>
+                <p className='post-content'>{post.content}</p>
                 {localStorage.getItem('email') === post.writer_email &&
-                    <div class="finish-button-container1">
+                    <div class="post-finish-button-container">
                         <button className='finish-button' onClick={() => navigate(`/post/update/${id}`)}>수정</button>
                         <button className='finish-button' onClick={deletePost}>삭제</button>
                     </div>
                 }
                 
-                <div className='comment-container'>
-                    <textarea value={comment} placeholder='댓글 작성' onChange={(e) => setComment(e.target.value)}></textarea>
-                    <br/>
-                    <button onClick={saveComment}>등록</button>
+                <div className='comment-input-container'>
+                    <textarea className='comment-input' value={comment} placeholder='댓글 작성' onChange={(e) => setComment(e.target.value)}></textarea>
+                    <button className='comment-input-button' onClick={saveComment}>등록</button>
                 </div>
                 <p>
                     댓글 {commentList.length}
