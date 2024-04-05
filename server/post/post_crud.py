@@ -90,6 +90,9 @@ def delete_post(db: Session, id: int, email: str):
     
     if post.writer_email != email:
         raise HTTPException(status_code=403, detail="Permission Denied")
+    
+    for comment in post.comments:
+        db.delete(comment)
         
     db.delete(post)
     db.commit()
