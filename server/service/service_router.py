@@ -3,6 +3,7 @@ from fastapi import APIRouter
 from . import chatgpt
 from . import naver_news_search
 from . import google_trends
+from . import naver_keyword_count
 
 router = APIRouter(
      prefix='/service'
@@ -19,3 +20,7 @@ def search(searchWord: naver_news_search.SearchWord):
 @router.get("/googletrends")
 def read_google_trends():
     return google_trends.get_trends()
+
+@router.post("/keywordcount")
+def get_keyword_count(keyword: naver_keyword_count.Keyword):
+    return naver_keyword_count.getresults(keyword.content)
