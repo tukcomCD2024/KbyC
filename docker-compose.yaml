@@ -18,20 +18,22 @@ services:
     command: npm start
 
   server:
-      build:
-        context: server/.
-        dockerfile: Dockerfile
-      container_name: my-web-server
-      ports:
-        - 8000:8000
-      networks:
-        trenddit_network:
-          ipv4_address:
-            172.18.0.2
-      volumes:
-        - ./server:/workspace
-      command: uvicorn main:app --host 0.0.0.0 --reload
-
+    build:
+      context: server/.
+      dockerfile: Dockerfile
+    container_name: my-web-server
+    ports:
+      - 8000:8000
+    networks:
+      trenddit_network:
+        ipv4_address:
+          172.18.0.2
+    volumes:
+      - ./server:/workspace
+    command: uvicorn main:app --host 0.0.0.0 --reload
+    depends_on:
+      database:
+        condition: service_healthy  # 데이터베이스가 정상적으로 실행될 때까지 대기
 
   database:
     build:
@@ -53,6 +55,8 @@ services:
           172.18.0.3
     volumes:
         - ./database:/workspace
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u${MYSQL_USER} -p${MYSQL_PASSWORD}"]  # 데이터베이스 헬스체크
 
   naverkeyword:
     build:
