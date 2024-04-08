@@ -23,4 +23,4 @@ def read_google_trends():
 
 @router.post("/keywordcount")
 def get_keyword_count(keyword: naver_keyword_count.Keyword):
-    return naver_keyword_count.getresults(keyword.content)
+    return naver_keyword_count.get_results(keyword.content)

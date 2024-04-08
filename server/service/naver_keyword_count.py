@@ -28,7 +28,7 @@ def get_header(method, uri, api_key, secret_key, customer_id):
             'X-API-KEY': api_key, 'X-Customer': str(customer_id), 'X-Signature': signature}
 
 
-def getresults(hintKeywords):
+def get_results(keyword: str):
 
     BASE_URL = 'https://api.naver.com'
     API_KEY = '0100000000e1cc988e77a7aa53a44c103fe3b813a56424a3e03ed2f8447c0e294719b65985'
@@ -40,11 +40,12 @@ def getresults(hintKeywords):
 
     params={}
 
-    params['hintKeywords']=hintKeywords
+    params['hintKeywords']=keyword.replace(' ', '')
     params['showDetail']='1'
 
     r=requests.get(BASE_URL + uri, params=params, 
                  headers=get_header(method, uri, API_KEY, SECRET_KEY, CUSTOMER_ID))
 
     #return pd.DataFrame(r.json()['keywordList'])
+    print(r.json()['keywordList'][0])
     return r.json()['keywordList'][0]
