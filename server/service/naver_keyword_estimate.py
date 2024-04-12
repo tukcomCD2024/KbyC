@@ -9,7 +9,7 @@ def get_trend_data(keyword, start_date, end_date):
     client_id = "_IEANC95IKr5Xp8P61M1"
     client_secret = "5_BM2tr9k1"
     
-    time_unit='month' 
+    time_unit='date' 
     keyword_groups = [
         {'groupName':keyword, 'keywords':[keyword]}
     ]
@@ -36,21 +36,21 @@ def get_trend_data(keyword, start_date, end_date):
     if(rescode == 200):
         response_body = response.read()
         response_json = json.loads(response_body)
-        print(response_json)
     else:
         print("Error Code:" + rescode)
 
     result = response_json['results'][0]
     data = pd.DataFrame(result['data'])
 
-    data['period'] = data['period'].str[:-3]
-    data['title'] = result['title']
+    #data['period'] = data['period'].str[:-3]
+    #data['title'] = result['title']
     print(data)
 
-    plt.plot(data['period'], data['ratio'], label=result['title'])
-    plt.xticks(rotation=90)
-    plt.legend()
-    plt.show()
+    #plt.plot(data['period'], data['ratio'], label=result['title'])
+    #plt.plot(data['period'], data['ratio'])
+    #plt.xticks(rotation=90)
+    #plt.legend()
+    #plt.show()
 
     return data
 
@@ -102,10 +102,46 @@ def get_results(keyword: str):
     r=requests.get(BASE_URL + uri, params=params, 
                  headers=get_header(method, uri, API_KEY, SECRET_KEY, CUSTOMER_ID))
 
-    print(pd.DataFrame(r.json()['keywordList']))
-    return pd.DataFrame(r.json()['keywordList'])
-    #print(r.json()['keywordList'][0])
-    #return r.json()['keywordList'][0]
+    #print(pd.DataFrame(r.json()['keywordList']))
+    #return pd.DataFrame(r.json()['keywordList'])
+    print(r.json()['keywordList'][0])
+    return r.json()['keywordList'][0]
 
-trend = get_trend_data('영화', '2023-04-01', '2024-03-31')
-relkeyword = get_results('영화')
+
+import datetime
+
+def get_search_data(keyword: str):
+    today = datetime.datetime.now()
+    end_date = datetime.datetime.strftime(today - datetime.timedelta(days=1), '%Y-%m-%d')
+    start_date = datetime.datetime.strftime(today - datetime.timedelta(days=30), '%Y-%m-%d')
+
+    search_data_ratio = get_trend_data(keyword, start_date, end_date)
+    search_data_month = get_results(keyword)
+    search_count = search_data_month['monthlyPcQcCnt'] + search_data_month['monthlyMobileQcCnt']
+
+    print(len(search_data_ratio))
+
+    if len(search_data_ratio) != 30:
+        end_date = datetime.datetime.strftime(today - datetime.timedelta(days=2), '%Y-%m-%d')
+        start_date = datetime.datetime.strftime(today - datetime.timedelta(days=31), '%Y-%m-%d')
+        search_data_ratio = get_trend_data(keyword, start_date, end_date)
+
+    search_count_list = []
+
+    for i in range(len(search_data_ratio['period'])):
+        count = (search_data_ratio['ratio'][i] / sum(search_data_ratio['ratio'])) * search_count
+        search_count_list.append(round(count))
+    
+    search_data = {'keyword': keyword, 'period': search_data_ratio['period'].tolist(), 'count': search_count_list}
+
+    print('기간: {} ~ {}'.format(start_date, end_date))
+    print(search_data)
+
+    data = {'period': search_data_ratio['period'].tolist(), 'count': search_count_list}
+    df = pd.DataFrame(data)
+    print(df)
+    plt.plot(df['period'], df['count'])
+    plt.xticks(rotation=90)
+    plt.show()
+
+    return search_data
