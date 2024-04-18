@@ -3,7 +3,7 @@ import urllib.request
 import json
 import pandas as pd
 import matplotlib.pyplot as plt
-plt.rc('font', family='Malgun Gothic')
+#plt.rc('font', family='Malgun Gothic')
 
 def get_trend_data(keyword, start_date, end_date):
     client_id = "_IEANC95IKr5Xp8P61M1"
@@ -140,8 +140,13 @@ def get_search_data(keyword: str):
     data = {'period': search_data_ratio['period'].tolist(), 'count': search_count_list}
     df = pd.DataFrame(data)
     print(df)
-    plt.plot(df['period'], df['count'])
-    plt.xticks(rotation=90)
-    plt.show()
+    #plt.plot(df['period'], df['count'])
+    #plt.xticks(rotation=90)
+    #plt.show()
 
     return search_data
+
+from pydantic import BaseModel
+
+class Keyword(BaseModel):
+    content: str

@@ -2,8 +2,29 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import './TrendInfoPage.css';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import { Line } from 'react-chartjs-2';
 
 axios.defaults.baseURL = 'http://127.0.0.1:8000';
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const TrendInfoPage = () => {
   const { name } = useParams();
@@ -11,6 +32,7 @@ const TrendInfoPage = () => {
   const [searchData, setSearchData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [loading2, setLoading2] = useState(true);
+  const [data, setData] = useState(null);
 
   useEffect(() => {
     async function getTrendNews() {
@@ -37,7 +59,7 @@ const TrendInfoPage = () => {
   useEffect(() => {
     async function getSearchData() {
       try {
-        const response = await axios.post('/service/keywordcount', {
+        const response = await axios.post('/service/searchdata', {
           content: name
         }, {
           headers: {
@@ -46,14 +68,42 @@ const TrendInfoPage = () => {
         });
 
         setSearchData(response.data);
-        setLoading2(false);
         console.log(response.data);
+
+        if (response.data.period && response.data.count) {
+          setData({
+            labels: response.data.period,
+            datasets: [
+              {
+                label: '검색량',
+                data: response.data.count,
+                borderColor: "rgb(255, 99, 132)",
+                backgroundColor: "rgba(255, 99, 132, 0.5)"
+              }
+            ]
+          });
+        }
+        
+        setLoading2(false);
       } catch(error) {
         console.error('에러 발생', error);
       }
     }
     getSearchData();
   }, []);
+
+  const options = {
+    responsive: true,
+    plugins: {
+        legend: {
+            position: "top",
+        },
+        title: {
+            display: true,
+            text: "30일간 검색량",
+        },
+    },
+};
 
   return (
     <div className='trendinfo-page'>
@@ -76,8 +126,7 @@ const TrendInfoPage = () => {
             {loading2 ?
             <p className='trendinfo-content-list'>로딩 중...</p> :
             <>
-              <p className='trendinfo-content-list'>PC: {searchData.monthlyPcQcCnt}</p>
-              <p className='trendinfo-content-list'>모바일: {searchData.monthlyMobileQcCnt}</p>
+              <Line options={options} data={data}></Line>
             </>
             }
             <p className='trendinfo-content-title'>관련 기사</p>
