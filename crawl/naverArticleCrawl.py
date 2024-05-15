@@ -1,6 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
+import os
+import time
 
 # 100: 정치, 101: 경제, 102: 사회, 103: 생활/문화, 104: 세계, 105: IT/과학
 section_codes = ['100', '101', '102', '103', '104', '105']
@@ -69,8 +71,14 @@ for section_code in section_codes:
                 # 데이터 리스트에 추가
                 data.append([article_title, article_content, article_datetime_publication, article_datetime_lastupdate, article_url])
 
-                # DataFrame 생성
-                df = pd.DataFrame(data, columns=['article_title', 'article_content', 'article_datetime_publication', 'article_datetime_lastupdate', 'article_url'])
-                
-                # CSV 파일로 저장
-                df.to_csv('news_articles.csv', index=False, encoding='utf-8-sig')
+            # DataFrame 생성
+            df = pd.DataFrame(data, columns=['article_title', 'article_content', 'article_datetime_publication', 'article_datetime_lastupdate', 'article_url'])
+            
+            # CSV 파일로 저장
+            # 디렉토리가 존재하지 않으면 생성
+            if not os.path.exists(f'./crawl/outputs/naver_article/{search_date}'):
+                os.makedirs(f'./crawl/outputs/naver_article/{search_date}')
+            time.sleep(2)
+            df.to_csv(f'./crawl/outputs/naver_article/{search_date}/{section_code}_{detail_section_code}.csv', index=False, encoding='utf-8-sig')
+        else:
+            print('error')
