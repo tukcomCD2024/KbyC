@@ -31,6 +31,7 @@ for section_code in section_codes:
         # https://news.naver.com/breakingnews/section/${section}/${detail_section_code}?date=${YYYYMMDD}
         url = f"https://news.naver.com/breakingnews/section/{section_code}/{detail_section_code}?date={search_date}"
         response = requests.get(url)
+        id_index = 0
 
         if response.status_code == 200:
             html = response.text
@@ -52,6 +53,9 @@ for section_code in section_codes:
                     article_html = article_response.text
                     article_soup = BeautifulSoup(article_html, 'html.parser')
 
+                    # id
+                    id = f'{search_date}_{section_code}_{detail_section_code}_{id_index}'
+
                     # 기사 제목 추출
                     article_title_tag = article_soup.find('h2', id='title_area')
                     article_title = article_title_tag.text.strip() if article_title_tag else "제목 없음"
@@ -69,10 +73,10 @@ for section_code in section_codes:
                     article_datetime_lastupdate = article_datetime_lastupdate_tag.text.strip() if article_datetime_lastupdate_tag else "수정일 없음"
                 
                     # 데이터 리스트에 추가
-                    data.append([article_title, article_content, article_datetime_publication, article_datetime_lastupdate, article_url])
+                    data.append([id, article_title, article_content, article_datetime_publication, article_datetime_lastupdate, article_url])
 
             # DataFrame 생성
-            df = pd.DataFrame(data, columns=['article_title', 'article_content', 'article_datetime_publication', 'article_datetime_lastupdate', 'article_url'])
+            df = pd.DataFrame(data, columns=['id', 'article_title', 'article_content', 'article_datetime_publication', 'article_datetime_lastupdate', 'article_url'])
             
             # CSV 파일로 저장
             # 디렉토리가 존재하지 않으면 생성
