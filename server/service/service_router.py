@@ -29,3 +29,7 @@ def get_keyword_count(keyword: naver_keyword_count.Keyword):
 @router.post("/searchdata")
 def get_search_data(keyword: naver_keyword_estimate.Keyword):
     return naver_keyword_estimate.get_search_data(keyword.content)
+
+@router.post("/trendnews")
+def get_trend_news(searchWord: naver_news_search.SearchWord):
+    return naver_news_search.get_trend_news(searchWord.content, searchWord.page, searchWord.page2)

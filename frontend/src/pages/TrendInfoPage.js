@@ -33,14 +33,15 @@ const TrendInfoPage = () => {
   const [loading, setLoading] = useState(true);
   const [loading2, setLoading2] = useState(true);
   const [data, setData] = useState(null);
+  const [wordList, setWordList] = useState([])
 
   useEffect(() => {
     async function getTrendNews() {
       try {
-        const response = await axios.post('/service/navernews', {
+        const response = await axios.post('/service/trendnews', {
           content: name,
           page: 1,
-          page2: 1
+          page2: 5
         }, {
           headers: {
             'Content-type': 'application/json'
@@ -48,6 +49,7 @@ const TrendInfoPage = () => {
         });
 
         setNewsList(response.data.news);
+        setWordList(response.data.top_10_words);
         setLoading(false);
       } catch(error) {
         console.error('에러 발생', error);
@@ -126,9 +128,11 @@ const TrendInfoPage = () => {
             {loading2 ?
             <p className='trendinfo-content-list'>로딩 중...</p> :
             <>
-              <p>PC {searchData.pc_cnt}</p>
-              <p>모바일 {searchData.mobile_cnt}</p>
-              <p>합계 {searchData.pc_cnt + searchData.mobile_cnt}</p>
+              <p className='trendinfo-content-list'>30일간 검색량</p>
+              <p className='trendinfo-content-list'>PC: {searchData.pc_cnt}</p>
+              <p className='trendinfo-content-list'>모바일: {searchData.mobile_cnt}</p>
+              <p className='trendinfo-content-list'>합계: {searchData.pc_cnt + searchData.mobile_cnt}</p>
+              <p className='trendinfo-content-list'>7일 평균 검색량은 이전 2주 동안의 {searchData.rate}배</p>
               <Line options={options} data={data} height={400} width={1500}></Line>
             </>
             }
@@ -137,6 +141,11 @@ const TrendInfoPage = () => {
             {newsList.map((news, index) => (
               <p key={index} className='trendinfo-content-list'>
                 <a href={news.link} target="_blank" rel="noopener noreferrer">{news.title}</a>
+              </p>
+            ))}
+            {wordList.map((word, index) => (
+              <p key={index}>
+                {word}
               </p>
             ))}
             <p className='trendinfo-content-title'>반응</p>

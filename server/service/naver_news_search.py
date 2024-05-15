@@ -190,3 +190,72 @@ def search_news(searchWord: str, page: int, page2: int):
     news_dict = news_df.to_dict('records')
     
     return {"news": news_dict}
+
+def get_trend_news(searchWord: str, page: int, page2: int):
+    url = makeUrl(searchWord, page, page2)
+
+    news_list = []
+
+    for i in range(len(url)):
+        original_html = requests.get(url[i], headers=headers)
+        html = BeautifulSoup(original_html.text, "html.parser")
+        url_tag = html.select("div.group_news > ul.list_news > li div.news_area > div.news_contents > a.news_tit")
+        if url_tag == []:
+            pass
+        url_list = news_attrs_crawler(url_tag,'href')
+        title_tag = html.select("div.group_news > ul.list_news > li div.news_area > div.news_contents > a.news_tit")
+        if title_tag == []:
+            pass
+        title_list = news_attrs_crawler(title_tag, 'title')
+        print(url_list)
+        print(len(url_list))
+        print(title_list)
+        print(len(title_list))
+
+        for i in range(len(url_list)):
+            news = {'link': url_list[i], 'title': title_list[i]}
+            news_list.append(news)
+    
+    print(news_list)
+    print(len(news_list))
+
+    titles = []
+    for i in range(len(news_list)):
+        titles.append(news_list[i]['title'])
+    print(titles)
+    print(len(titles))
+    
+    from konlpy.tag import Okt
+    from collections import Counter
+    import pandas as pd
+    
+    okt = Okt()
+    counter = Counter()
+    total_count = 0
+    noun_list = list()
+    count_list = list()
+
+    for sentence in titles:
+        if not pd.isna(sentence):
+            noun = okt.nouns(sentence)
+            temp_noun = list()
+            for word in noun:
+                if len(word) > 1:
+                    temp_noun.append(word)
+            counter.update(temp_noun)
+    
+    top_noun_list = counter.most_common(50)
+    print(top_noun_list)
+
+    for noun, count in top_noun_list:
+        total_count = total_count + count
+        noun_list.append(noun)
+        count_list.append(count)
+
+    for i in range(0, len(noun_list)):
+        rate = round(count_list[i] / total_count * 100, 2)
+        print(i + 1, end='. ')
+        print(noun_list[i], end=' : ')
+        print(rate, end='%\n')
+
+    return {"news": news_list, "top_10_words": noun_list[:10]}
