@@ -13,3 +13,8 @@ for text in texts:
     morphs = komoran.nouns(text)
     morphs_sentence = ' '.join(morphs)
     morphs_list.append(morphs_sentence)
+
+from sklearn.feature_extraction.text import TfidfVectorizer
+tfidfv = TfidfVectorizer().fit(morphs_list)
+print(tfidfv.transform(morphs_list).toarray())
+print(tfidfv.vocabulary_)
