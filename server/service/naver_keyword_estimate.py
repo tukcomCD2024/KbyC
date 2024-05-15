@@ -131,9 +131,13 @@ def get_search_data(keyword: str):
     for i in range(len(search_data_ratio['period'])):
         count = (search_data_ratio['ratio'][i] / sum(search_data_ratio['ratio'])) * search_count
         search_count_list.append(round(count))
+
+    week_avg = sum(search_count_list[-7:]) / len(search_count_list[-7:])
+    two_week_avg = sum(search_count_list[:-7]) / len(search_count_list[:-7])
     
     search_data = {'keyword': keyword, 'pc_cnt': search_data_month['monthlyPcQcCnt'], 'mobile_cnt': search_data_month['monthlyMobileQcCnt'],
-                   'cnt': sum(search_count_list[-7:]) / len(search_count_list[-7:]), 'cnt2': sum(search_count_list[:-7]) / len(search_count_list[:-7]),
+                   'week_avg': week_avg, 'two_week_avg': two_week_avg,
+                   'rate': round(week_avg / two_week_avg, 2),
                    'period': search_data_ratio['period'].tolist(), 'count': search_count_list}
 
     print('기간: {} ~ {}'.format(start_date, end_date))
