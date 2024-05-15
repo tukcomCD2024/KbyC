@@ -18,3 +18,12 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 tfidfv = TfidfVectorizer().fit(morphs_list)
 print(tfidfv.transform(morphs_list).toarray())
 print(tfidfv.vocabulary_)
+
+def get_top_tfidf_words(tfidf_matrix, feature_names, top_n=10):
+    # 각 문서에서 TF-IDF 값이 높은 상위 단어를 추출하는 함수
+    top_words = []
+    for row in tfidf_matrix:
+        # TF-IDF 값이 높은 순으로 정렬하여 상위 단어를 추출
+        top_word_indices = row.argsort()[-top_n:][::-1]
+        top_words.append([feature_names[i] for i in top_word_indices])
+    return top_words
