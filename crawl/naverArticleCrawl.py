@@ -17,6 +17,9 @@ detail_section_code_104 = ['231', '232', '233', '234', '322']
 # IT/과학 > 731: 모바일, 226: 인터넷/SNS, 227: 통신/뉴미디어, 230: IT 일반, 732: 보안/해킹, 283: 컴퓨터, 229: 게임/리뷰, 228: 과학 일반
 detail_section_code_105 = ['731', '226', '227', '230', '732', '283', '229', '228']
 
+# 날짜 입력 YYYYMMDD
+search_date = input("날짜 입력(YYYYMMDD): ")
+
 for section_code in section_codes:
     # detail_section_code_101 ~ detail_section_code_105
     detail_section_code_variable_name = f"detail_section_code_{section_code}"
