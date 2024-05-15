@@ -98,6 +98,8 @@ def search_news(searchWord: str, page: int, page2: int):
         # 뉴스 제목 가져오기
         if "sports" in i:
             title = news_html.select_one("#content > div > div.content > div > div.news_headline > h4")
+            if title == None:
+                pass
         else:
             title = news_html.select_one("#ct > div.media_end_head.go_trans > div.media_end_head_title > h2")
             if title == None:
@@ -109,6 +111,8 @@ def search_news(searchWord: str, page: int, page2: int):
             exclude = news_html.select("#newsEndContents > div")
             for element in exclude:
                 element.decompose()
+            if content == []:
+                pass
         else:
             content = news_html.select("article#dic_area")
             if content == []:
@@ -116,7 +120,8 @@ def search_news(searchWord: str, page: int, page2: int):
         
         # 기사 텍스트만 가져오기
         # list합치기
-        content = ''.join(str(content[0]))
+        #content = ''.join(str(content[0]))
+        content = ''.join(str(content))
 
         # html태그제거 및 텍스트 다듬기
         pattern1 = '<[^>]*>'
@@ -130,7 +135,10 @@ def search_news(searchWord: str, page: int, page2: int):
 
         if "sports" in i:
             news_date = news_html.select_one(".info > span")
-            news_date = news_date.text[5:]
+            if news_date == None:
+                pass
+            else:
+                news_date = news_date.text[5:]
         else:
             try:
                 html_date = news_html.select_one("div#ct> div.media_end_head.go_trans > div.media_end_head_info.nv_notrans > div.media_end_head_info_datestamp > div > span")

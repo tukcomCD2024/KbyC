@@ -28,7 +28,7 @@ function Home() {
 
   return (
       <div className='home-page'>
-        <h1>Welcome to Treddit</h1>
+        <h1>Welcome to Trenddit</h1>
         {localStorage.getItem('access_token') ?
 
         <div>
