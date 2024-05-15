@@ -24,3 +24,22 @@ if response.status_code == 200:
         if article_response.status_code == 200:
             article_html = article_response.text
             article_soup = BeautifulSoup(article_html, 'html.parser')
+
+            # 기사 제목 추출
+            article_title_tag = article_soup.find('h2', id='title_area')
+            article_title = article_title_tag.text.strip() if article_title_tag else "제목 없음"
+            
+            # 기사 내용 추출
+            article_content_tag = article_soup.find('div', id='newsct_article')
+            article_content = article_content_tag.text.strip() if article_content_tag else "내용 없음"
+            
+            # 기사 발행일 추출
+            article_datetime_publication_tag = article_soup.find('span', class_='media_end_head_info_datestamp_time _ARTICLE_DATE_TIME')
+            article_datetime_publication = article_datetime_publication_tag.text.strip() if article_datetime_publication_tag else "발행일 없음"
+            
+            # 기사 수정일 추출
+            article_datetime_lastupdate_tag = article_soup.find('span', class_='media_end_head_info_datestamp_time _ARTICLE_MODIFY_DATE_TIME')
+            article_datetime_lastupdate = article_datetime_lastupdate_tag.text.strip() if article_datetime_lastupdate_tag else "수정일 없음"
+            
+            # 데이터 리스트에 추가
+            data.append([article_title, article_content, article_datetime_publication, article_datetime_lastupdate, article_url])
