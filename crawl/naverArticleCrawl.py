@@ -16,4 +16,11 @@ if response.status_code == 200:
     data = []
     
     for sa_text in sa_texts:
-        print(sa_text)
+        # 기사 URL 추출
+        article_url = sa_text.find('a')['href']
+        
+        # 기사 정보 가져오기
+        article_response = requests.get(article_url)
+        if article_response.status_code == 200:
+            article_html = article_response.text
+            article_soup = BeautifulSoup(article_html, 'html.parser')
