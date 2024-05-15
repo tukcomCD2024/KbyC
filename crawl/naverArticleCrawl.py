@@ -43,3 +43,9 @@ if response.status_code == 200:
             
             # 데이터 리스트에 추가
             data.append([article_title, article_content, article_datetime_publication, article_datetime_lastupdate, article_url])
+
+    # DataFrame 생성
+    df = pd.DataFrame(data, columns=['article_title', 'article_content', 'article_datetime_publication', 'article_datetime_lastupdate', 'article_url'])
+    
+    # CSV 파일로 저장
+    df.to_csv('news_articles.csv', index=False, encoding='utf-8-sig')
