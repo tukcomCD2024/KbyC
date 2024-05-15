@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import pandas as pd
 import os
 import time
+import re
 
 # 100: 정치, 101: 경제, 102: 사회, 103: 생활/문화, 104: 세계, 105: IT/과학
 section_codes = ['100', '101', '102', '103', '104', '105']
@@ -59,6 +60,7 @@ for section_code in section_codes:
                     # 기사 제목 추출
                     article_title_tag = article_soup.find('h2', id='title_area')
                     article_title = article_title_tag.text.strip() if article_title_tag else "제목 없음"
+                    article_title = re.sub(r'\[.*?\]|\(.*?\)', '', article_title)
                     
                     # 기사 내용 추출
                     article_content_tag = article_soup.find('div', id='newsct_article')
