@@ -38,3 +38,15 @@ for i, words in enumerate(top_words):
         top_words_list.append(word)
 
 top_words_list = list(set(top_words_list))
+
+from sklearn.feature_extraction.text import CountVectorizer
+time.sleep(5)
+cv = CountVectorizer(vocabulary=top_words_list)
+count_matrix = cv.fit_transform(morphs_list)
+
+# DataFrame으로 변환하여 단어와 빈도수 출력
+word_count_df = pd.DataFrame(count_matrix.toarray(), columns=cv.get_feature_names_out())
+word_count_df_sum = word_count_df.sum(axis=0)
+top_10_words = word_count_df_sum.sort_values(ascending=False).head(10)
+
+print(top_10_words)
