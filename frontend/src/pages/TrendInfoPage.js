@@ -126,7 +126,10 @@ const TrendInfoPage = () => {
             {loading2 ?
             <p className='trendinfo-content-list'>로딩 중...</p> :
             <>
-              <Line options={options} data={data}></Line>
+              <p>PC {searchData.pc_cnt}</p>
+              <p>모바일 {searchData.mobile_cnt}</p>
+              <p>합계 {searchData.pc_cnt + searchData.mobile_cnt}</p>
+              <Line options={options} data={data} height={400} width={1500}></Line>
             </>
             }
             <p className='trendinfo-content-title'>관련 기사</p>

@@ -132,7 +132,9 @@ def get_search_data(keyword: str):
         count = (search_data_ratio['ratio'][i] / sum(search_data_ratio['ratio'])) * search_count
         search_count_list.append(round(count))
     
-    search_data = {'keyword': keyword, 'period': search_data_ratio['period'].tolist(), 'count': search_count_list}
+    search_data = {'keyword': keyword, 'pc_cnt': search_data_month['monthlyPcQcCnt'], 'mobile_cnt': search_data_month['monthlyMobileQcCnt'],
+                   'cnt': sum(search_count_list[-7:]) / len(search_count_list[-7:]), 'cnt2': sum(search_count_list[:-7]) / len(search_count_list[:-7]),
+                   'period': search_data_ratio['period'].tolist(), 'count': search_count_list}
 
     print('기간: {} ~ {}'.format(start_date, end_date))
     print(search_data)
