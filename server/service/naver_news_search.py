@@ -224,7 +224,7 @@ def get_trend_news(searchWord: str, page: int, page2: int):
         titles.append(news_list[i]['title'])
     print(titles)
     print(len(titles))
-    
+    '''
     from konlpy.tag import Okt
     from collections import Counter
     import pandas as pd
@@ -257,5 +257,65 @@ def get_trend_news(searchWord: str, page: int, page2: int):
         print(i + 1, end='. ')
         print(noun_list[i], end=' : ')
         print(rate, end='%\n')
-
+    
     return {"news": news_list, "top_10_words": noun_list[:10]}
+    '''
+    import pandas as pd
+    from konlpy.tag import Okt
+    import time
+    import re
+
+    okt = Okt()
+    morphs_list = []
+    for text in titles:
+        if text != None:
+            try:
+                text = re.sub(r'\[.*?\]|\(.*?\)|\'|\"|\…|\,|\?|\!|\·|\‘|\’', ' ', text)
+                morphs = okt.nouns(text)
+                morphs_sentence = ' '.join(morphs)
+                morphs_list.append(morphs_sentence)
+            except:
+                pass
+    print(morphs_list)
+
+    from sklearn.feature_extraction.text import TfidfVectorizer
+    tfidfv = TfidfVectorizer().fit(morphs_list)
+    print(tfidfv.transform(morphs_list).toarray())
+    print(tfidfv.vocabulary_)
+
+    def get_top_tfidf_words(tfidf_matrix, feature_names, top_n=10):
+        # 각 문서에서 TF-IDF 값이 높은 상위 단어를 추출하는 함수
+        top_words = []
+        for row in tfidf_matrix:
+            # TF-IDF 값이 높은 순으로 정렬하여 상위 단어를 추출
+            top_word_indices = row.argsort()[-top_n:][::-1]
+            top_words.append([feature_names[i] for i in top_word_indices])
+        return top_words
+
+    top_words = get_top_tfidf_words(tfidf_matrix=tfidfv.transform(morphs_list).toarray(), feature_names=tfidfv.get_feature_names_out(), top_n=5)
+
+    top_words_list = []
+    # 결과 출력
+    for i, words in enumerate(top_words):
+        for word in words:
+            top_words_list.append(word)
+
+    top_words_list = list(set(top_words_list))
+
+    from sklearn.feature_extraction.text import CountVectorizer
+    time.sleep(5)
+    cv = CountVectorizer(vocabulary=top_words_list)
+    count_matrix = cv.fit_transform(morphs_list)
+
+    # DataFrame으로 변환하여 단어와 빈도수 출력
+    word_count_df = pd.DataFrame(count_matrix.toarray(), columns=cv.get_feature_names_out())
+    word_count_df_sum = word_count_df.sum(axis=0)
+    top_10_words = word_count_df_sum.sort_values(ascending=False).head(10)
+
+    print(top_10_words)
+    
+    word_list = top_10_words.index.tolist()
+
+    print(word_list)
+
+    return {"news": news_list, "top_10_words": word_list}
