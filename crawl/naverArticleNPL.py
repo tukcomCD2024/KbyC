@@ -1,6 +1,7 @@
 import pandas as pd
 from konlpy.tag import Okt
 import time
+import re
 
 search_dates = ['20240501', '20240502','20240503','20240504','20240505','20240506','20240507','20240508']
 # 100: 정치, 101: 경제, 102: 사회, 103: 생활/문화, 104: 세계, 105: IT/과학
@@ -38,6 +39,7 @@ for search_date in search_dates:
 
             # 문장에서 명사 추출 후 리스트에 추가
             for text in texts:
+                text = re.sub(r'\[.*?\]|\(.*?\)|\'|\"|\…|\,|\?|\!|\·|\‘|\’', ' ', text)
                 morphs = okt.nouns(text)
                 morphs_sentence = ' '.join(morphs)
                 morphs_list.append(morphs_sentence)
