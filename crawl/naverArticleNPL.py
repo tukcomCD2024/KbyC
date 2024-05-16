@@ -39,10 +39,14 @@ for search_date in search_dates:
 
             # 문장에서 명사 추출 후 리스트에 추가
             for text in texts:
-                text = re.sub(r'\[.*?\]|\(.*?\)|\'|\"|\…|\,|\?|\!|\·|\‘|\’', ' ', text)
-                morphs = okt.nouns(text)
-                morphs_sentence = ' '.join(morphs)
-                morphs_list.append(morphs_sentence)
+                if text != "제목 없음":
+                    try:
+                        text = re.sub(r'\[.*?\]|\(.*?\)|\'|\"|\…|\,|\?|\!|\·|\‘|\’', ' ', text)
+                        morphs = okt.nouns(text)
+                        morphs_sentence = ' '.join(morphs)
+                        morphs_list.append(morphs_sentence)
+                    except:
+                        pass
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 tfidfv = TfidfVectorizer().fit(morphs_list)
