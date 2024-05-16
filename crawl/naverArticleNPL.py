@@ -1,17 +1,17 @@
 import pandas as pd
-from konlpy.tag import Komoran
+from konlpy.tag import Okt
 import time
 
 csv_filename = "./100_264.csv"
 df = pd.read_csv(csv_filename)
 texts = df.loc[:, 'article_title']
 
-komoran = Komoran()
+okt = Okt()
 
 # 기사 제목에서 명사만 추출
 morphs_list = []
 for text in texts:
-    morphs = komoran.nouns(text)
+    morphs = okt.nouns(text)
     morphs_sentence = ' '.join(morphs)
     morphs_list.append(morphs_sentence)
 
