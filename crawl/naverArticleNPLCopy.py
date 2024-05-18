@@ -25,8 +25,8 @@ texts = df.loc[:, 'article_title']
 
 okt = Okt()
 
-filtered_sentences = []
-# 기사 파일 dataframe 생성
+# 기사 제목에서 명사만 추출
+morphs_list = []
 for search_date in search_dates:
     for section_code in section_codes:
         detail_section_code_variable_name = f"detail_section_code_{section_code}"
@@ -35,25 +35,22 @@ for search_date in search_dates:
         for detail_section_code in detail_section_code_list:
             csv_filename = f'./outputs/naver_article/{search_date}/{section_code}_{detail_section_code}.csv'
             df = pd.read_csv(csv_filename)
-            sentences = df.loc[:, 'article_title']
+            texts = df.loc[:, 'article_title']
 
-            # 문장에서 명사 추출      
-            for sentence in sentences:
-                filtered_words = []
-                if sentence != "제목 없음":
+            # 문장에서 명사 추출 후 리스트에 추가
+            for text in texts:
+                if text != "제목 없음":
                     try:
-                        sentence = re.sub(r'\[.*?\]|\(.*?\)|\'|\"|\…|\,|\?|\!|\·|\‘|\’', ' ', sentence)
-                        for word in sentence.split():
-                            filtered_word = ''.join(okt.nouns(word))
-                            if filtered_word:
-                                filtered_words.append(filtered_word)
-                        filtered_sentences.append(' '.join(filtered_words))
+                        text = re.sub(r'\[.*?\]|\(.*?\)|\'|\"|\…|\,|\?|\!|\·|\‘|\’', ' ', text)
+                        morphs = okt.nouns(text)
+                        morphs_sentence = ' '.join(morphs)
+                        morphs_list.append(morphs_sentence)
                     except:
                         pass
 
 from sklearn.feature_extraction.text import TfidfVectorizer
-tfidfv = TfidfVectorizer().fit(filtered_sentences)
-print(tfidfv.transform(filtered_sentences).toarray())
+tfidfv = TfidfVectorizer().fit(morphs_list)
+print(tfidfv.transform(morphs_list).toarray())
 print(tfidfv.vocabulary_)
 
 def get_top_tfidf_words(tfidf_matrix, feature_names, top_n=10):
@@ -65,7 +62,7 @@ def get_top_tfidf_words(tfidf_matrix, feature_names, top_n=10):
         top_words.append([feature_names[i] for i in top_word_indices])
     return top_words
 
-top_words = get_top_tfidf_words(tfidf_matrix=tfidfv.transform(filtered_sentences).toarray(), feature_names=tfidfv.get_feature_names_out(), top_n=5)
+top_words = get_top_tfidf_words(tfidf_matrix=tfidfv.transform(morphs_list).toarray(), feature_names=tfidfv.get_feature_names_out(), top_n=5)
 
 top_words_list = []
 # 결과 출력
@@ -78,7 +75,7 @@ top_words_list = list(set(top_words_list))
 from sklearn.feature_extraction.text import CountVectorizer
 time.sleep(5)
 cv = CountVectorizer(vocabulary=top_words_list)
-count_matrix = cv.fit_transform(top_words_list)
+count_matrix = cv.fit_transform(morphs_list)
 
 # DataFrame으로 변환하여 단어와 빈도수 출력
 word_count_df = pd.DataFrame(count_matrix.toarray(), columns=cv.get_feature_names_out())
