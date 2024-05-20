@@ -224,98 +224,85 @@ def get_trend_news(searchWord: str, page: int, page2: int):
         titles.append(news_list[i]['title'])
     print(titles)
     print(len(titles))
-    '''
-    from konlpy.tag import Okt
-    from collections import Counter
-    import pandas as pd
-    
-    okt = Okt()
-    counter = Counter()
-    total_count = 0
-    noun_list = list()
-    count_list = list()
 
-    for sentence in titles:
-        if not pd.isna(sentence):
-            noun = okt.nouns(sentence)
-            temp_noun = list()
-            for word in noun:
-                if len(word) > 1:
-                    temp_noun.append(word)
-            counter.update(temp_noun)
-    
-    top_noun_list = counter.most_common(50)
-    print(top_noun_list)
-
-    for noun, count in top_noun_list:
-        total_count = total_count + count
-        noun_list.append(noun)
-        count_list.append(count)
-
-    for i in range(0, len(noun_list)):
-        rate = round(count_list[i] / total_count * 100, 2)
-        print(i + 1, end='. ')
-        print(noun_list[i], end=' : ')
-        print(rate, end='%\n')
-    
-    return {"news": news_list, "top_10_words": noun_list[:10]}
-    '''
     import pandas as pd
     from konlpy.tag import Okt
     import time
     import re
 
     okt = Okt()
-    morphs_list = []
-    for text in titles:
-        if text != None:
+
+    filtered_sentences = []
+
+    for sentence in titles:
+        filtered_words = []
+        if sentence != None:
             try:
-                text = re.sub(r'\[.*?\]|\(.*?\)|\'|\"|\…|\,|\?|\!|\·|\‘|\’', ' ', text)
-                morphs = okt.nouns(text)
-                morphs_sentence = ' '.join(morphs)
-                morphs_list.append(morphs_sentence)
+                sentence = re.sub(r'\[.*?\]|\(.*?\)|\'|\"|\…|\,|\?|\!|\·|\‘|\’|\.|\+|\ㆍ', ' ', sentence)
+                for word in sentence.split():
+                    filtered_word = ''.join(okt.nouns(word))
+                    if filtered_word:
+                        filtered_words.append(filtered_word)
+                filtered_sentences.append(' '.join(filtered_words))
             except:
                 pass
-    print(morphs_list)
-
+    print(filtered_sentences)
+    
     from sklearn.feature_extraction.text import TfidfVectorizer
-    tfidfv = TfidfVectorizer().fit(morphs_list)
-    print(tfidfv.transform(morphs_list).toarray())
+    tfidfv = TfidfVectorizer().fit(filtered_sentences)
+    print(tfidfv.transform(filtered_sentences).toarray())
     print(tfidfv.vocabulary_)
 
-    def get_top_tfidf_words(tfidf_matrix, feature_names, top_n=10):
-        # 각 문서에서 TF-IDF 값이 높은 상위 단어를 추출하는 함수
-        top_words = []
-        for row in tfidf_matrix:
-            # TF-IDF 값이 높은 순으로 정렬하여 상위 단어를 추출
-            top_word_indices = row.argsort()[-top_n:][::-1]
-            top_words.append([feature_names[i] for i in top_word_indices])
-        return top_words
 
-    top_words = get_top_tfidf_words(tfidf_matrix=tfidfv.transform(morphs_list).toarray(), feature_names=tfidfv.get_feature_names_out(), top_n=5)
+    # def get_top_tfidf_words(tfidf_matrix, feature_names, top_n=10):
+    #     print(feature_names)
+
+    #     top_words = []
+    #     for row in tfidf_matrix:
+    #         top_words_indices = row.argsort()[-top_n:][::-1]
+    #         print(top_words_indices)
+    #         top_words.append([feature_names[i] for i in top_words_indices])
+        
+    #     return top_words
+    
+    # top_words = get_top_tfidf_words(tfidf_matrix=tfidfv.transform(filtered_sentences).toarray(), feature_names=tfidfv.get_feature_names_out(), top_n=10)
+    # print(top_words)
+ 
+
+    def get_top_tfidf_words(sentence_list, feature_names, top_n=10):
+        print(feature_names)
+
+        tfidf_matrix = tfidfv.transform(sentence_list).toarray()
+
+        top_words = []
+        
+        for i, sentence in enumerate(sentence_list):
+            top_words_indices = tfidf_matrix[i].argsort()[-len(sentence.split()):][::-1]
+            print(top_words_indices)
+            for i in top_words_indices:
+                print(feature_names[i])
+            top_words.append([feature_names[j] for j in top_words_indices])
+
+        return top_words
+    
+    top_words = get_top_tfidf_words(sentence_list=filtered_sentences, feature_names=tfidfv.get_feature_names_out(), top_n=10)
+    print(top_words)
 
     top_words_list = []
-    # 결과 출력
+
     for i, words in enumerate(top_words):
         for word in words:
             top_words_list.append(word)
-
-    top_words_list = list(set(top_words_list))
-
-    from sklearn.feature_extraction.text import CountVectorizer
-    time.sleep(5)
-    cv = CountVectorizer(vocabulary=top_words_list)
-    count_matrix = cv.fit_transform(morphs_list)
-
-    # DataFrame으로 변환하여 단어와 빈도수 출력
-    word_count_df = pd.DataFrame(count_matrix.toarray(), columns=cv.get_feature_names_out())
-    word_count_df_sum = word_count_df.sum(axis=0)
-    top_10_words = word_count_df_sum.sort_values(ascending=False).head(10)
-
-    print(top_10_words)
     
-    word_list = top_10_words.index.tolist()
+    print(top_words_list)
 
-    print(word_list)
+    from collections import Counter
 
-    return {"news": news_list, "top_10_words": word_list}
+    # 중복을 포함한 리스트에서 단어의 빈도수 계산
+    word_counts = Counter(top_words_list)
+
+    # 빈도수가 가장 높은 상위 10개 단어와 빈도수 출력
+    top_10_words = word_counts.most_common(10)
+    print(top_10_words)
+
+    return {"news": news_list, "top_10_words": [word for word, count in top_10_words]}
