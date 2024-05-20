@@ -306,5 +306,3 @@ def get_trend_news(searchWord: str, page: int, page2: int):
     print(top_10_words)
 
     return {"news": news_list, "top_10_words": top_10_words}
-
-get_trend_news('토트넘', 1, 5)
