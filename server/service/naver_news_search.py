@@ -305,4 +305,4 @@ def get_trend_news(searchWord: str, page: int, page2: int):
     top_10_words = word_counts.most_common(10)
     print(top_10_words)
 
-    return {"news": news_list, "top_10_words": top_10_words}
+    return {"news": news_list, "top_10_words": [word for word, count in top_10_words]}
