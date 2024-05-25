@@ -2,8 +2,6 @@ FROM python:3.9
 
 WORKDIR /workspace
 
-RUN pip install bs4
-RUN pip install requests
-RUN pip install tqdm
-RUN pip install pandas
-RUN pip install lxml
+# Python 라이브러리 설치
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
