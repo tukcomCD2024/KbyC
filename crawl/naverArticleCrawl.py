@@ -40,9 +40,17 @@ service = Service(ChromeDriverManager().install())
 driver = webdriver.Chrome(service=service, options=chrome_options)
 print('driver 생성')
 
-# Google 홈페이지 열기
-driver.get('https://www.google.com')
-print(driver.title)
+def fetch_initial_articles(url):
+    response = requests.get(url)
+    print("접속:", url)
+    if response.status_code == 200:
+        html = response.text
+        soup = BeautifulSoup(html, 'html.parser')
+        sa_texts = soup.find_all('div', class_='sa_text')
+        return soup, sa_texts
+    else:
+        print(f"Failed to fetch initial articles: {response.status_code}")
+        return None, []
 
 time.sleep(5)
 
