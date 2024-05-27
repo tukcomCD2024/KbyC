@@ -93,41 +93,41 @@ def extract_article_data(article_urls, search_date, section_code, detail_section
             id_index += 1
     return data
 
-# 테스트용 설정
-search_date = '20240501'
-section_code = '100'
-detail_section_code_100 = ['264', '265', '266', '267', '268', '269']
-
-for detail_section_code in detail_section_code_100:
-    url = f"https://news.naver.com/breakingnews/section/{section_code}/{detail_section_code}?date={search_date}"
-    initial_soup, initial_sa_texts = fetch_initial_articles(url)
-    
-    if initial_soup and initial_sa_texts:
-        # 초기 36개 기사 URL 수집
-        initial_article_urls = [sa_text.find('a')['href'] for sa_text in initial_sa_texts]
+for section_code in section_codes:
+    # detail_section_code_101 ~ detail_section_code_105
+    detail_section_code_variable_name = f"detail_section_code_{section_code}"
+    # detail_section_code_variable_name에 맞는 리스트 찾기
+    detail_section_code_list = globals()[detail_section_code_variable_name]
+    for detail_section_code in detail_section_code_list:
+        url = f"https://news.naver.com/breakingnews/section/{section_code}/{detail_section_code}?date={search_date}"
+        initial_soup, initial_sa_texts = fetch_initial_articles(url)
         
-        # "더보기" 버튼이 있는지 확인
-        section_more = initial_soup.find('div', class_='section_more')
-        if section_more:
-            print(f"'더보기' 버튼이 있습니다. 추가 기사 URL을 수집합니다: {url}")
-            additional_article_urls = fetch_additional_urls(driver, url)
-            article_urls = initial_article_urls + additional_article_urls
+        if initial_soup and initial_sa_texts:
+            # 초기 36개 기사 URL 수집
+            initial_article_urls = [sa_text.find('a')['href'] for sa_text in initial_sa_texts]
+            
+            # "더보기" 버튼이 있는지 확인
+            section_more = initial_soup.find('div', class_='section_more')
+            if section_more:
+                print(f"'더보기' 버튼이 있습니다. 추가 기사 URL을 수집합니다: {url}")
+                additional_article_urls = fetch_additional_urls(driver, url)
+                article_urls = initial_article_urls + additional_article_urls
+            else:
+                article_urls = initial_article_urls
+            
+            # URL을 통해 기사 내용 수집
+            data = extract_article_data(article_urls, search_date, section_code, detail_section_code)
+            
+            # DataFrame 생성
+            df = pd.DataFrame(data, columns=['id', 'article_title', 'article_content', 'article_datetime_publication', 'article_datetime_lastupdate', 'article_url'])
+            print(df)
+            # 디렉토리가 존재하지 않으면 생성
+            # output_dir = f'./crawl/outputs/test/naver_article/{search_date}'
+            # if not os.path.exists(output_dir):
+            #     os.makedirs(output_dir)
+            # df.to_csv(f'{output_dir}/{section_code}_{detail_section_code}.csv', index=False, encoding='utf-8-sig')
         else:
-            article_urls = initial_article_urls
-        
-        # URL을 통해 기사 내용 수집
-        data = extract_article_data(article_urls, search_date, section_code, detail_section_code)
-        
-        # DataFrame 생성
-        df = pd.DataFrame(data, columns=['id', 'article_title', 'article_content', 'article_datetime_publication', 'article_datetime_lastupdate', 'article_url'])
-        print(df)
-        # 디렉토리가 존재하지 않으면 생성
-        # output_dir = f'./crawl/outputs/test/naver_article/{search_date}'
-        # if not os.path.exists(output_dir):
-        #     os.makedirs(output_dir)
-        # df.to_csv(f'{output_dir}/{section_code}_{detail_section_code}.csv', index=False, encoding='utf-8-sig')
-    else:
-        print(f"Failed to fetch articles for {section_code}-{detail_section_code}")
+            print(f"Failed to fetch articles for {section_code}-{detail_section_code}")
 
 time.sleep(5)
 
