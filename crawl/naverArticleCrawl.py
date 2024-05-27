@@ -52,6 +52,23 @@ def fetch_initial_articles(url):
         print(f"Failed to fetch initial articles: {response.status_code}")
         return None, []
 
+def fetch_additional_urls(driver, url):
+    driver.get(url)
+    time.sleep(2)  # 페이지 로드 대기
+    while True:
+        try:
+            more_button = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CLASS_NAME, 'section_more_inner')))
+            more_button.click()
+            time.sleep(2)  # 추가 기사 로드 대기
+        except Exception as e:
+            print("No more '더보기' button or error occurred:", e)
+            break
+    html = driver.page_source
+    soup = BeautifulSoup(html, 'html.parser')
+    sa_texts = soup.find_all('div', class_='sa_text')
+    article_urls = [sa_text.find('a')['href'] for sa_text in sa_texts]
+    return article_urls
+    
 time.sleep(5)
 
 # 브라우저 닫기
