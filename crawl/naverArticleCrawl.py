@@ -68,7 +68,31 @@ def fetch_additional_urls(driver, url):
     sa_texts = soup.find_all('div', class_='sa_text')
     article_urls = [sa_text.find('a')['href'] for sa_text in sa_texts]
     return article_urls
-    
+
+def extract_article_data(article_urls, search_date, section_code, detail_section_code):
+    data = []
+    id_index = 0
+    for article_url in article_urls:
+        article_response = requests.get(article_url)
+        if article_response.status_code == 200:
+            article_html = article_response.text
+            article_soup = BeautifulSoup(article_html, 'html.parser')
+            
+            id = f'{search_date}_{section_code}_{detail_section_code}_{id_index}'
+            article_title_tag = article_soup.find('h2', id='title_area')
+            article_title = article_title_tag.text.strip() if article_title_tag else "제목 없음"
+            article_title = re.sub(r'\[.*?\]|\(.*?\)', '', article_title)
+            article_content_tag = article_soup.find('div', id='newsct_article')
+            article_content = article_content_tag.text.strip() if article_content_tag else "내용 없음"
+            article_datetime_publication_tag = article_soup.find('span', class_='media_end_head_info_datestamp_time _ARTICLE_DATE_TIME')
+            article_datetime_publication = article_datetime_publication_tag.text.strip() if article_datetime_publication_tag else "발행일 없음"
+            article_datetime_lastupdate_tag = article_soup.find('span', class_='media_end_head_info_datestamp_time _ARTICLE_MODIFY_DATE_TIME')
+            article_datetime_lastupdate = article_datetime_lastupdate_tag.text.strip() if article_datetime_lastupdate_tag else "수정일 없음"
+            
+            data.append([id, article_title, article_content, article_datetime_publication, article_datetime_lastupdate, article_url])
+            id_index += 1
+    return data
+
 time.sleep(5)
 
 # 브라우저 닫기
