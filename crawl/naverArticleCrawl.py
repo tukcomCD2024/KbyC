@@ -13,7 +13,7 @@ detail_section_code_100 = ['264', '265', '266', '267', '268', '269']
 detail_section_code_101 = ['259', '258', '261', '771', '260', '262', '310', '263']
 # 사회 > 249: 사건사고, 250: 교육, 251: 노동, 254: 언론, 252: 환경, 59b: 인권/복지, 255: 식품/의료, 256: 지역, 276: 인물, 257: 사회 일반
 detail_section_code_102 = ['249', '250', '251', '254', '252', '59b', '255', '256', '276', '257']
-# 생활/문화 > 241: 건강정보, 239: 자동차/시승기, 240: 도로/교통, 237: 여행/레저, 238: 음식/맛집, 376: 패션/뷰티, 242: 공연/전시, 243: 책, 244: 종교, 248: 날씨, 245: 생활문화 일반
+# 생활/문화 > 241: 건강정보, 239: 자동차/시승기, 240: 도로/교통, 237: 여행/레저, 238: 음식/맛집, 376: 패션/뷰티, 242: 공연/전시, 243: 책, 244: 종교, 248: , 245: 생활문화 일반
 detail_section_code_103 = ['241', '239', '240', '237', '238', '376', '242', '243', '244', '248', '245']
 # 세계 > 231: 아시아/호주, 232: 미국/중남미, 233: 유럽, 234: 중동/아프리카, 322: 세계 일반
 detail_section_code_104 = ['231', '232', '233', '234', '322']
@@ -41,7 +41,7 @@ driver = webdriver.Chrome(service=service, options=chrome_options)
 print('driver 생성')
 
 def fetch_initial_articles(url):
-    response = requests.get(url)
+    response = requests.get(url, encoding='utf-8')
     print("접속:", url)
     if response.status_code == 200:
         html = response.text
@@ -73,7 +73,7 @@ def extract_article_data(article_urls, search_date, section_code, detail_section
     data = []
     id_index = 0
     for article_url in article_urls:
-        article_response = requests.get(article_url)
+        article_response = requests.get(url, encoding='utf-8')
         if article_response.status_code == 200:
             article_html = article_response.text
             article_soup = BeautifulSoup(article_html, 'html.parser')

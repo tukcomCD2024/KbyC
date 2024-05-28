@@ -31,7 +31,7 @@ for section_code in section_codes:
     for detail_section_code in detail_section_code_list:
         # https://news.naver.com/breakingnews/section/${section}/${detail_section_code}?date=${YYYYMMDD}
         url = f"https://news.naver.com/breakingnews/section/{section_code}/{detail_section_code}?date={search_date}"
-        response = requests.get(url)
+        response = requests.get(url, encoding='utf-8')
         id_index = 0
 
         if response.status_code == 200:
@@ -49,7 +49,7 @@ for section_code in section_codes:
                 article_url = sa_text.find('a')['href']
                 
                 # 기사 정보 가져오기
-                article_response = requests.get(article_url)
+                article_response = requests.get(url, encoding='utf-8')
                 if article_response.status_code == 200:
                     article_html = article_response.text
                     article_soup = BeautifulSoup(article_html, 'html.parser')
