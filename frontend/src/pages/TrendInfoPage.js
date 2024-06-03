@@ -132,7 +132,6 @@ const TrendInfoPage = () => {
               <p className='trendinfo-content-list'>PC: {searchData.pc_cnt}</p>
               <p className='trendinfo-content-list'>모바일: {searchData.mobile_cnt}</p>
               <p className='trendinfo-content-list'>합계: {searchData.pc_cnt + searchData.mobile_cnt}</p>
-              <p className='trendinfo-content-list'>7일 평균 검색량은 이전 2주 동안의 {searchData.rate}배</p>
               <Line options={options} data={data} height={400} width={1500}></Line>
             </>
             }
