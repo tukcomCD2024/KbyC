@@ -119,12 +119,41 @@ def get_search_data(keyword: str):
     search_data_month = get_results(keyword)
     search_count = search_data_month['monthlyPcQcCnt'] + search_data_month['monthlyMobileQcCnt']
 
-    print(len(search_data_ratio))
+    if len(search_data_ratio) == 0:
+        search_data = {'keyword': keyword, 'pc_cnt': 0, 'mobile_cnt': 0,
+                   'sum_week': 0, 'sum_rest': 0,
+                   'period': [0] * 30, 'count': [0] * 30}
+        return search_data
 
-    if len(search_data_ratio) != 30:
+    print(len(search_data_ratio))
+    
+    print(search_data_ratio['period'])
+
+    print(search_data_ratio['period'][len(search_data_ratio['period'])-1])
+    print(datetime.datetime.strftime(today - datetime.timedelta(days=1), '%Y-%m-%d'))
+
+    #if len(search_data_ratio) != 30:
+    if search_data_ratio['period'][len(search_data_ratio['period'])-1] != datetime.datetime.strftime(today - datetime.timedelta(days=1), '%Y-%m-%d'):
         end_date = datetime.datetime.strftime(today - datetime.timedelta(days=2), '%Y-%m-%d')
         start_date = datetime.datetime.strftime(today - datetime.timedelta(days=31), '%Y-%m-%d')
         search_data_ratio = get_trend_data(keyword, start_date, end_date)
+    
+    if len(search_data_ratio) != 30:
+        previous_period = []
+        for i in range(30 - len(search_data_ratio)):
+            date = datetime.datetime.strptime(search_data_ratio['period'][0], '%Y-%m-%d') - datetime.timedelta(days=i+1)
+            previous_period.append(datetime.datetime.strftime(date, '%Y-%m-%d'))
+        previous_period = previous_period[::-1]
+        print(previous_period)
+        print(len(previous_period))
+        previous_ratio = [0] * len(previous_period)
+        print(previous_ratio)
+        print(len(previous_ratio))
+        new_df = pd.DataFrame({'period': previous_period, 'ratio': previous_ratio})
+        print(new_df)
+
+        search_data_ratio = pd.concat([new_df, search_data_ratio], ignore_index=True)
+        print(search_data_ratio)
 
     search_count_list = []
 
@@ -132,12 +161,16 @@ def get_search_data(keyword: str):
         count = (search_data_ratio['ratio'][i] / sum(search_data_ratio['ratio'])) * search_count
         search_count_list.append(round(count))
 
-    week_avg = sum(search_count_list[-7:]) / len(search_count_list[-7:])
-    two_week_avg = sum(search_count_list[:-7]) / len(search_count_list[:-7])
+    # week_avg = sum(search_count_list[-7:]) / len(search_count_list[-7:])
+    # two_week_avg = sum(search_count_list[:-7]) / len(search_count_list[:-7])
     
+    # search_data = {'keyword': keyword, 'pc_cnt': search_data_month['monthlyPcQcCnt'], 'mobile_cnt': search_data_month['monthlyMobileQcCnt'],
+    #                'week_avg': week_avg, 'two_week_avg': two_week_avg,
+    #                'rate': round(week_avg / two_week_avg, 2),
+    #                'period': search_data_ratio['period'].tolist(), 'count': search_count_list}
+
     search_data = {'keyword': keyword, 'pc_cnt': search_data_month['monthlyPcQcCnt'], 'mobile_cnt': search_data_month['monthlyMobileQcCnt'],
-                   'week_avg': week_avg, 'two_week_avg': two_week_avg,
-                   'rate': round(week_avg / two_week_avg, 2),
+                   'sum_week': sum(search_count_list[-7:]), 'sum_rest': sum(search_count_list[:-7]),
                    'period': search_data_ratio['period'].tolist(), 'count': search_count_list}
 
     print('기간: {} ~ {}'.format(start_date, end_date))
