@@ -92,6 +92,24 @@ def train_lda_model_and_save_topics(num_topics=10):
     df_topics.to_csv('./outputs/topics.csv', index=False)
     print(f"{num_topics}개의 토픽을 포함한 topics.csv 파일이 저장되었습니다.")
 
+# topics.csv 파일을 로드하여 토픽 빈도를 계산하고 순위별로 result.csv에 저장
+def calculate_topic_frequencies_and_save_result():
+    # topics.csv 파일 로드
+    df_topics = pd.read_csv('./outputs/topics.csv')
+
+    # 토픽 빈도 계산
+    topic_frequencies = {f'Topic_{topic_idx+1}': topic_count for topic_idx, topic_count in enumerate(df_topics['Topic'].value_counts())}
+
+    # 토픽 빈도를 기준으로 순위 매기기
+    sorted_topics = sorted(topic_frequencies.items(), key=lambda x: x[1], reverse=True)
+    rank = 1
+    ranked_topics = [{'Rank': rank, 'Topic': topic, 'Frequency': freq} for rank, (topic, freq) in enumerate(sorted_topics, start=1)]
+
+    # result.csv 파일로 저장
+    df_result = pd.DataFrame(ranked_topics)
+    df_result.to_csv('./outputs/result.csv', index=False)
+    print("토픽 빈도를 기준으로 순위가 매겨진 result.csv 파일이 저장되었습니다.")
+
 for search_date in search_dates:
     for section_code in section_codes:
         detail_section_code_variable_name = f"detail_section_code_{section_code}"
