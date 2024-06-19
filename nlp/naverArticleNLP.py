@@ -52,8 +52,10 @@ def preprocess_text(text):
 # 명사 추출 함수
 def extract_nouns(text):
     okt = Okt()
-    nouns = okt.nouns(text)
-    return nouns
+    tokens = okt.pos(sentence, stem=True)  # 형태소 분석 후 어간 추출
+    nouns = [token[0] for token in tokens if token[1] in ['Noun', 'Alpha']]  # 명사와 영어만 선택
+    filtered_tokens = [token for token in nouns if not any(char.isdigit() for char in token)]
+    return ' '.join(filtered_tokens)
 
 # 전처리된 텍스트 리스트
 processed_titles = [preprocess_text(title) for title in titles]
@@ -90,4 +92,3 @@ for i, title in enumerate(titles):
         similar_title_without_year = re.sub(r'\b\d{4}\b', '', titles[idx])
         print(f"    {similar_title_without_year}")
     print()
-    
