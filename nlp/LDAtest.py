@@ -42,5 +42,16 @@ for search_date in search_dates:
                     content = re.sub(r'[^\w' + special_characters + ']', ' ', content)
                     content = re.sub(r'\s+', ' ', content)
 
+                # 명사 추출
+                    sentences = []
+                    for sentence in content.split('.'):
+                        nouns = okt.nouns(sentence)
+                        nouns_list = []
+                        for noun in nouns:
+                            if len(noun) > 1:
+                                nouns_list.append(noun)
+                        if nouns_list:
+                            document.append(' '.join(nouns_list))
+                    
                 except Exception as e:
                     continue
