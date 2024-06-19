@@ -2,6 +2,10 @@ import re
 import pandas as pd
 from konlpy.tag import Okt
 from sklearn.feature_extraction.text import TfidfVectorizer
+from gensim import corpora
+from gensim.models.ldamodel import LdaModel
+from soynlp.word import WordExtractor
+from soynlp.tokenizer import LTokenizer
 
 search_dates = ['20240501', '20240502','20240503','20240504']
 
