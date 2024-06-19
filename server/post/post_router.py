@@ -26,6 +26,10 @@ def read_all(db: Session = Depends(get_db)):
 def read(post_id: int, db: Session = Depends(get_db)):
     return post_crud.get_post_by_id(db, post_id)
 
+@router.get('/read/tag/{tag}')
+def read_tag(tag: str, db: Session = Depends(get_db)):
+    return post_crud.get_posts_by_tag(db, tag)
+
 @router.patch('/update/{post_id}')
 def update(post_id: int, post: post_schema.PostUpdate, db: Session = Depends(get_db), email: str = Depends(user_crud.get_current_user)):
     if not email:

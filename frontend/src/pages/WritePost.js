@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import "./WritePost.css";
 
@@ -7,10 +7,12 @@ axios.defaults.baseURL = "http://127.0.0.1:8000";
 
 const WritePost = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [post, setPost] = useState({
     title: "",
     content: "",
+    tag: location.state ? location.state.name : "None"
   });
 
   const { title, content } = post;

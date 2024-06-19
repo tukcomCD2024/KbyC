@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import './TrendInfoPage.css';
 import {
   Chart as ChartJS,
@@ -34,6 +35,8 @@ const TrendInfoPage = () => {
   const [loading2, setLoading2] = useState(true);
   const [data, setData] = useState(null);
   const [wordList, setWordList] = useState([])
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function getTrendNews() {
@@ -105,7 +108,17 @@ const TrendInfoPage = () => {
             text: "30일간 검색량",
         },
     },
-};
+  };
+
+  const WritePost = (name) => {
+    if (localStorage.getItem('access_token')) {
+        console.log(name)
+        navigate('/post/write', {state: { name }});
+    }
+    else {
+        navigate('/login');
+    }
+  };
 
   return (
     <div className='trendinfo-page'>
@@ -117,6 +130,7 @@ const TrendInfoPage = () => {
             <p className='trendinfo-sidebar-list'>검색량</p>
             <p className='trendinfo-sidebar-list'>관련 기사</p>
             <p className='trendinfo-sidebar-list'>반응</p>
+            <button className='trendinfo-sidebar-list' onClick={() => WritePost(name)}>글쓰기</button>
           </div>
         </div>
 

@@ -117,6 +117,13 @@ def get_search_data(keyword: str):
 
     search_data_ratio = get_trend_data(keyword, start_date, end_date)
     search_data_month = get_results(keyword)
+
+    if search_data_month['monthlyPcQcCnt'] == '< 10':
+        search_data_month['monthlyPcQcCnt'] = 0
+
+    if search_data_month['monthlyMobileQcCnt'] == '< 10':
+        search_data_month['monthlyPcMobileCnt'] = 0
+
     search_count = search_data_month['monthlyPcQcCnt'] + search_data_month['monthlyMobileQcCnt']
 
     if len(search_data_ratio) == 0:

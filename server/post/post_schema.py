@@ -5,6 +5,7 @@ from fastapi import HTTPException
 class PostCreate(BaseModel):
     title: str
     content: str
+    tag: str
 
     @field_validator('title', 'content')
     def check_empty(cls, v):

@@ -25,6 +25,7 @@ class Post(Base):
     post_date = Column(DateTime, nullable=False)
     writer_email = Column(String(50), ForeignKey('user.user_email'), nullable=False)
     writer_name = Column(String(50), nullable=False)
+    tag = Column(String(50))
 
     writer = relationship('User', back_populates='posts')
     comments = relationship('Comment', back_populates='post')
