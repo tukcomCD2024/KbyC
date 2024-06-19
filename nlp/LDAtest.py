@@ -42,7 +42,7 @@ for search_date in search_dates:
                     content = re.sub(r'[^\w' + special_characters + ']', ' ', content)
                     content = re.sub(r'\s+', ' ', content)
 
-                # 명사 추출
+                    # 명사 추출
                     sentences = []
                     for sentence in content.split('.'):
                         nouns = okt.nouns(sentence)
@@ -53,5 +53,19 @@ for search_date in search_dates:
                         if nouns_list:
                             document.append(' '.join(nouns_list))
                     
+                    # 텍스트 전처리: 토큰화 및 불용어 제거 등
+                    tokenized_text = [doc.split() for doc in document]
+
+                    # Gensim을 사용하여 사전(Dictionary)과 코퍼스(Corpus) 생성
+                    dictionary = corpora.Dictionary(tokenized_text)
+                    corpus = [dictionary.doc2bow(text) for text in tokenized_text]
+
+                    # LDA 모델 학습
+                    lda_model = gensim.models.ldamodel.LdaModel(corpus=corpus,
+                                                                id2word=dictionary,
+                                                                num_topics=5,  # 추출할 토픽의 개수 설정
+                                                                passes=20,     # 학습 반복 횟수
+                                                                alpha='auto')
+
                 except Exception as e:
                     continue
