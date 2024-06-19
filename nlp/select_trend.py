@@ -2,7 +2,7 @@ import pandas as pd
 import re
 
 # 토픽 트렌드 선정 및 저장
-def calculate_topic_frequency(df_documents, df_topics):
+def calculate_topic_frequency(search_date, df_documents, df_topics):
     # 토픽 트렌드 선정 전의 각 토픽의 상세 주요 단어 리스트 저장
     df_topics_before_trend = pd.DataFrame(columns=['Topic', 'DetailedWords'])
 
@@ -29,7 +29,7 @@ def calculate_topic_frequency(df_documents, df_topics):
     df_topics_before_trend['DetailedWords'] = detailed_words
 
     # topics_before_trend_detailed.csv 파일로 저장
-    df_topics_before_trend.to_csv('./outputs/topics_before_trend_detailed.csv', encoding='utf-8-sig', index=False)
+    df_topics_before_trend.to_csv(f'./outputs/{search_date}/topics_before_trend_detailed.csv', encoding='utf-8-sig', index=False)
     print("토픽 트렌드 선정 전의 상세 주요 단어가 topics_before_trend_detailed.csv 파일로 저장되었습니다.")
 
     # 각 토픽의 빈도 계산
@@ -48,10 +48,17 @@ def calculate_topic_frequency(df_documents, df_topics):
     df_trend['Topic'] = df_trend['Topic'].map(topic_word_mapping)
 
     # topic_trends.csv 파일로 저장
-    df_trend.to_csv('./outputs/topic_trends.csv', encoding='utf-8-sig', index=False)
+    df_trend.to_csv(f'./outputs/{search_date}/topic_trends.csv', encoding='utf-8-sig', index=False)
     print("토픽 트렌드가 topic_trends.csv 파일로 저장되었습니다.")
 
 if __name__ == "__main__":
-    df_documents = pd.read_csv('./outputs/documents.csv')
-    df_topics = pd.read_csv('./outputs/topics.csv')
-    calculate_topic_frequency(df_documents, df_topics)
+    # df_documents = pd.read_csv('./outputs/documents.csv')
+    # df_topics = pd.read_csv('./outputs/topics.csv')
+    # calculate_topic_frequency(df_documents, df_topics)
+
+    search_dates = ['20240613', '20240614', '20240615', '20240616', '20240617', '20240618', '20240619']
+
+    for search_date in search_dates:
+        df_documents = pd.read_csv(f'./outputs/{search_date}/documents.csv')
+        df_topics = pd.read_csv(f'./outputs/{search_date}/topics.csv')
+        calculate_topic_frequency(search_date, df_documents, df_topics)

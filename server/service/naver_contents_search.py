@@ -148,10 +148,10 @@ def search_naver_contents(keyword):
                    )
     
     wc.generate_from_frequencies(top_words)
-    plt.figure(figsize=(8,8))
-    plt.imshow(wc)
-    plt.axis('off')
+    #plt.figure(figsize=(8,8))
+    #plt.imshow(wc)
+    #plt.axis('off')
     #plt.savefig('./frontend/public/{}_{}.png'.format(keyword, )) #그림을 저장
-    plt.show()
+    #plt.show()
 
     return {"keyword": keyword, "top_10_words": [word for word, count in top_10_words], "words_count": word_counts.most_common(10), "related_keywords": rel_list}

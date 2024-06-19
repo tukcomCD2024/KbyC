@@ -122,7 +122,7 @@ def get_search_data(keyword: str):
         search_data_month['monthlyPcQcCnt'] = 0
 
     if search_data_month['monthlyMobileQcCnt'] == '< 10':
-        search_data_month['monthlyPcMobileCnt'] = 0
+        search_data_month['monthlyMobileQcCnt'] = 0
 
     search_count = search_data_month['monthlyPcQcCnt'] + search_data_month['monthlyMobileQcCnt']
 

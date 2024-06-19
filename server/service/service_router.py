@@ -6,6 +6,8 @@ from . import google_trends
 from . import naver_keyword_count
 from . import naver_keyword_estimate
 from . import naver_contents_search
+from . import news_keywords
+from . import realtime_searchwords
 
 router = APIRouter(
      prefix='/service'
@@ -38,3 +40,11 @@ def get_trend_news(searchWord: naver_news_search.SearchWord):
 @router.post("/contents")
 def get_naver_contents(searchWord: naver_contents_search.SearchWord):
     return naver_contents_search.search_naver_contents(searchWord.content)
+
+@router.get("/newskeywords")
+def get_news_keywords():
+    return news_keywords.get_news_keywords()
+
+@router.get("/realtimesearchwords")
+def get_realtime_searchwords():
+    return realtime_searchwords.get_realtime_searchwords()

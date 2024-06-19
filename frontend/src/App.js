@@ -13,6 +13,8 @@ import NaverNewsSearch from './pages/NaverNewsSearch';
 import UserInfo from './pages/UserInfo';
 import TrendInfoPage from './pages/TrendInfoPage';
 import GoogleTrends from './pages/GoogleTrends';
+import NewsKeywords from './pages/NewsKeywords';
+import RealtimeSearchWords from './pages/RealtimeSearchWords';
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -42,6 +44,8 @@ function App() {
         <Route path="/userinfo" element={<UserInfo />}></Route>
         <Route path="/trendinfo/:name" element={<TrendInfoPage />}></Route>
         <Route path="/service/googletrends" element={<GoogleTrends />}></Route>
+        <Route path="/service/newskeywords" element={<NewsKeywords/>}></Route>
+        <Route path="/service/realtimesearchwords" element={<RealtimeSearchWords/>}></Route>
       </Routes>
       {showButton && (
         <div className='popup-button' onClick={openPopup}> ? </div>
