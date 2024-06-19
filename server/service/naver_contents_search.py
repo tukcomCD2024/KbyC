@@ -27,7 +27,16 @@ def makeUrl(search, content, start_pg, end_pg):
     return urls
 
 def search_naver_contents(keyword):
-    blog_urls = makeUrl(keyword, 'blog', 1, 3)
+    rel_url = 'https://search.naver.com/search.naver?ssc=tab.blog.all&sm=tab_jum&query=' + keyword
+    rel = requests.get(rel_url)
+    rel_html = BeautifulSoup(rel.text, 'html.parser')
+    rel_tag = rel_html.select('#nx_right_related_keywords > div > div.related_srch > ul > li > a > div')
+    rel_list = []
+    for tag in rel_tag:
+        rel_list.append(tag.text)
+    print(rel_list)
+    
+    blog_urls = makeUrl(keyword, 'blog', 1, 1)
     print(blog_urls)
 
     blog_titles = []
@@ -40,7 +49,7 @@ def search_naver_contents(keyword):
         for title in blog_titles_tag:
             blog_titles.append(title.text)
 
-    cafe_urls = makeUrl(keyword, 'cafe', 1, 3)
+    cafe_urls = makeUrl(keyword, 'cafe', 1, 1)
     print(cafe_urls)
 
     cafe_titles = []
@@ -126,13 +135,23 @@ def search_naver_contents(keyword):
 
     print(word_counts)
 
-    rel_url = 'https://search.naver.com/search.naver?ssc=tab.blog.all&sm=tab_jum&query=' + keyword
-    rel = requests.get(rel_url)
-    rel_html = BeautifulSoup(rel.text, 'html.parser')
-    rel_tag = rel_html.select('#nx_right_related_keywords > div > div.related_srch > ul > li > a > div')
-    rel_list = []
-    for tag in rel_tag:
-        rel_list.append(tag.text)
-    print(rel_list)
+    top_words = dict(word_counts.most_common(20))
+    print(top_words)
 
-    return {"word_counts": word_counts, "related_keywords": rel_list}
+    from wordcloud import WordCloud
+    import matplotlib.pyplot as plt
+
+    wc = WordCloud(max_words=50,
+                   random_state=810,
+                   background_color='white',
+                   font_path=r"C:\Windows\Fonts\malgun.ttf"
+                   )
+    
+    wc.generate_from_frequencies(top_words)
+    plt.figure(figsize=(8,8))
+    plt.imshow(wc)
+    plt.axis('off')
+    #plt.savefig('./frontend/public/{}_{}.png'.format(keyword, )) #그림을 저장
+    plt.show()
+
+    return {"keyword": keyword, "top_10_words": [word for word, count in top_10_words], "words_count": word_counts.most_common(10), "related_keywords": rel_list}

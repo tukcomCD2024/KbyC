@@ -34,7 +34,10 @@ const TrendInfoPage = () => {
   const [loading, setLoading] = useState(true);
   const [loading2, setLoading2] = useState(true);
   const [data, setData] = useState(null);
-  const [wordList, setWordList] = useState([])
+  const [wordList, setWordList] = useState([]);
+  const [wordList2, setWordList2] = useState([]);
+  const [relatedKeywords, setRelatedKeywords] = useState([]);
+  const [loading3, setLoading3] = useState(true);
 
   const navigate = useNavigate();
 
@@ -53,6 +56,7 @@ const TrendInfoPage = () => {
 
         setNewsList(response.data.news);
         setWordList(response.data.top_10_words);
+        console.log(response.data);
         setLoading(false);
       } catch(error) {
         console.error('에러 발생', error);
@@ -97,6 +101,28 @@ const TrendInfoPage = () => {
     getSearchData();
   }, []);
 
+  useEffect(() => {
+    async function getNaverContents() {
+      try {
+        const response = await axios.post('/service/contents', {
+          content: name
+        }, {
+          headers: {
+            'Content-type': 'application/json'
+          }
+        });
+
+        setRelatedKeywords(response.data.related_keywords);
+        setWordList2(response.data.top_10_words);
+        console.log(response.data);
+        setLoading3(false);
+      } catch(error) {
+        console.error('에러 발생', error);
+      }
+    }
+    getNaverContents();
+  }, []);
+
   const options = {
     responsive: true,
     plugins: {
@@ -108,6 +134,13 @@ const TrendInfoPage = () => {
             text: "30일간 검색량",
         },
     },
+  };
+
+  const scrollToSection = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   const WritePost = (name) => {
@@ -122,52 +155,69 @@ const TrendInfoPage = () => {
 
   return (
     <div className='trendinfo-page'>
+      <div className='navbar'>
+        <span className='navbar-title'>{name}</span>
+        <span onClick={() => scrollToSection('trend-definition')}>정의</span>
+        <span onClick={() => scrollToSection('trend-search-volume')}>검색량</span>
+        <span onClick={() => scrollToSection('trend-news')}>관련 기사</span>
+        <span onClick={() => scrollToSection('trend-reactions')}>관련 콘텐츠</span>
+      </div>
+
       <div className='trendinfo-content-wrapper'>
-        <div className='trendinfo-sidebar-container'>
-          <div className='trendinfo-sidebar'>
-            <p className='trendinfo-sidebar-title'>{name}</p>
-            <p className='trendinfo-sidebar-list'>정의</p>
-            <p className='trendinfo-sidebar-list'>검색량</p>
-            <p className='trendinfo-sidebar-list'>관련 기사</p>
-            <p className='trendinfo-sidebar-list'>반응</p>
-            <button className='trendinfo-sidebar-list' onClick={() => WritePost(name)}>글쓰기</button>
-          </div>
-        </div>
+        <div className='trendinfo-content-container'>
+            <div className='trendinfo-content'>
+              <div id='trend-definition'>
+                <p className='trendinfo-content-title'>정의</p>
+                <p className='trendinfo-content-list'>{name}</p>
+                <button className='trendinfo-content-list' onClick={() => WritePost(name)}>글쓰기</button>
+              </div>
+              <div id='trend-search-volume'>
+              <p className='trendinfo-content-title'>검색량</p>
+              {loading2 ?
+              <p className='trendinfo-content-list'>로딩 중...</p> :
+              <>
+                <p className='trendinfo-content-list'>30일간 검색량</p>
+                <p className='trendinfo-content-list'>PC: {searchData.pc_cnt}</p>
+                <p className='trendinfo-content-list'>모바일: {searchData.mobile_cnt}</p>
+                <p className='trendinfo-content-list'>합계: {searchData.pc_cnt + searchData.mobile_cnt}</p>
+                <Line options={options} data={data} height={400} width={1500}></Line>
+              </>
+              }
+              </div>
+              <div id='trend-news'>
+                <p className='trendinfo-content-title'>관련 기사</p>
+                {loading && <p className='trendinfo-content-list'>로딩 중...</p>}
+                {newsList.map((news, index) => (
+                  <p key={index} className='trendinfo-content-list'>
+                    <a href={news.link} target="_blank" rel="noopener noreferrer">{news.title}</a>
+                  </p>
+                ))}
+                {wordList.map((word, index) => (
+                  <p key={index}>
+                    {word}
+                  </p>
+                ))}
+              </div>
+              <div id='trend-reactions'>
+                <p className='trendinfo-content-title'>관련 콘텐츠</p>
+                <p className='trendinfo-content-list'>네이버 블로그, 카페 키워드</p>
+                {loading3 && <p className='trendinfo-content-list'>로딩 중...</p>}
+                {wordList2.map((word, index) => (
+                  <p key={index}>
+                    {word}
+                  </p>
+                ))}
+                <p className='trendinfo-content-list'>연관 검색어</p>
+                {relatedKeywords.map((word, index) => (
+                  <p key={index}>
+                    {word}
+                  </p>
+                ))}
+              </div>
+            </div>
 
-      <div className='trendinfo-content-container'>
-          <div className='trendinfo-content'>
-            <p className='trendinfo-content-title'>정의</p>
-            <p className='trendinfo-content-list'>{name}</p>
-            <p className='trendinfo-content-title'>검색량</p>
-            {loading2 ?
-            <p className='trendinfo-content-list'>로딩 중...</p> :
-            <>
-              <p className='trendinfo-content-list'>30일간 검색량</p>
-              <p className='trendinfo-content-list'>PC: {searchData.pc_cnt}</p>
-              <p className='trendinfo-content-list'>모바일: {searchData.mobile_cnt}</p>
-              <p className='trendinfo-content-list'>합계: {searchData.pc_cnt + searchData.mobile_cnt}</p>
-              <Line options={options} data={data} height={400} width={1500}></Line>
-            </>
-            }
-            <p className='trendinfo-content-title'>관련 기사</p>
-            {loading && <p className='trendinfo-content-list'>로딩 중...</p>}
-            {newsList.map((news, index) => (
-              <p key={index} className='trendinfo-content-list'>
-                <a href={news.link} target="_blank" rel="noopener noreferrer">{news.title}</a>
-              </p>
-            ))}
-            {wordList.map((word, index) => (
-              <p key={index}>
-                {word}
-              </p>
-            ))}
-            <p className='trendinfo-content-title'>반응</p>
-            <p className='trendinfo-content-list'>반응1</p>
-          </div>
+          <div className='trendinfo-bottom-wrapper'/>
         </div>
-
-        <div className='trendinfo-bottom-wrapper'/>
-        
       </div>
     </div>
   );

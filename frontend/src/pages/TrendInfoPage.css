@@ -2,7 +2,41 @@
     background-color: #eeffff;
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    height: 90vh;
+}
+
+.navbar {
+    width: 100%;
+    height: 60px;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    border-bottom: 1px solid #bbccff;
+}
+
+.navbar-title {
+    font-size: 3rem !important;
+    font-weight: bold;
+    margin-right: auto;
+    pointer-events: none;
+    color: #000;
+    text-decoration: none !important;
+    border-right: 1px solid #bbccff;
+    padding-right: 150px;
+}
+
+.navbar span {
+    cursor: pointer;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #000;
+    transition: color 0.3s;
+    margin: 0 10px;
+    text-decoration: underline;
 }
 
 .trendinfo-content-wrapper {
@@ -10,36 +44,6 @@
     display: flex;
     width: 100%;
     height: 90%;
-}
-
-.trendinfo-sidebar-container{
-    background-color: #eeffff;
-    width: 15%;
-    height: 100%;
-    display: flex;
-    justify-content: right;
-    align-items: center;
-}
-
-.trendinfo-sidebar {
-    background-color: #ffffff;
-    width: 95%;
-    height: 95%;
-    border-radius: 10px;
-    border: 1px solid #bbccff;
-}
-
-.trendinfo-sidebar-title {
-    margin: 5%;
-    margin-top: 15%;
-    font-weight: bold;
-    font-size: 300%
-}
-
-.trendinfo-sidebar-list {
-    margin: 5%;
-    margin-left: 10%;
-    font-size: 100%
 }
 
 .trendinfo-content-container {
@@ -54,11 +58,13 @@
 .trendinfo-content {
     background-color: #ffffff;
     width: 97.5%;
-    height: 95%;
+    min-height: 95%;
+    max-height: 95%;
     display: flex;
     flex-direction: column;
     border-radius: 10px;
     border: 1px solid #bbccff;
+    overflow-y: auto;
 }
 
 .trendinfo-content-title {
