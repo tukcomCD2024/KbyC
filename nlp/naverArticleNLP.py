@@ -40,15 +40,6 @@ for search_date in search_dates:
                     print(sentence)
                     pass
 
-# 텍스트 전처리 함수
-def preprocess_text(text):
-    try:
-        text = re.sub(r'[^\w\s]', '', text)  # 구두점 제거
-        text = text.lower()  # 소문자 변환
-        return text
-    except:
-        pass
-
 # 명사 추출 함수
 def extract_nouns(text):
     okt = Okt()
@@ -57,38 +48,44 @@ def extract_nouns(text):
     filtered_tokens = [token for token in nouns if not any(char.isdigit() for char in token)]
     return ' '.join(filtered_tokens)
 
-# 전처리된 텍스트 리스트
-processed_titles = [preprocess_text(title) for title in titles]
+# TF-IDF를 이용한 주제 추출 (숫자 포함된 단어 제외)
+def get_top_tfidf_words_per_article(articles):
+    articles_nouns = [extract_nouns(article) for article in articles]
+    vectorizer = TfidfVectorizer()
+    tfidf_matrix = vectorizer.fit_transform(articles_nouns)
+    feature_names = vectorizer.get_feature_names_out()
+    
+    top_tfidf_words = []
+    for i, article in enumerate(articles):
+        row = tfidf_matrix[i].toarray().flatten()
+        sorted_indices = row.argsort()[-3:][::-1]
+        top_words = [feature_names[index] for index in sorted_indices]
+        top_tfidf_words.append((article, top_words))
+    
+    return top_tfidf_words
 
-# 명사 추출된 텍스트 리스트
-nouns_titles = [' '.join(extract_nouns(title)) for title in processed_titles]
+# LDA를 이용한 주제 모델링
+def perform_lda(articles, num_topics=5):
+    articles_nouns = [extract_nouns(article) for article in articles]
+    texts = [article.split() for article in articles_nouns]
+    dictionary = corpora.Dictionary(texts)
+    corpus = [dictionary.doc2bow(text) for text in texts]
+    lda = LdaModel(corpus, num_topics=num_topics, id2word=dictionary, passes=15)
+    
+    topics = lda.print_topics(num_words=3)
+    return topics
 
-# TF-IDF 벡터화
-vectorizer = TfidfVectorizer()
-tfidf_matrix = vectorizer.fit_transform(nouns_titles)
+def main():
+    search_dates = ['20240501']
+    section_codes = ['100', '101', '102', '103', '104', '105']
+    
+    articles = get_articles(search_dates, section_codes)
+    # TfidfVectorizer를 사용하여 TF-IDF 변환을 수행합니다.
+    from sklearn.feature_extraction.text import TfidfVectorizer
+    import numpy as np
+    for article in articles:
+        print(article)
+        print()
 
-# TF-IDF 점수 확인
-feature_names = vectorizer.get_feature_names_out()
-tfidf_scores = tfidf_matrix.toarray()
-
-from sklearn.preprocessing import normalize
-
-cosine_sim = cosine_similarity(tfidf_matrix, tfidf_matrix)
-
-# 각 문서의 상위 N개 유사한 제목 출력
-for i, title in enumerate(titles):
-    # 제목에서 년도 제외
-    title_without_year = re.sub(r'\b\d{4}\b', '', title)
-    print(f"Title: {title_without_year}")
-    # 현재 문서와 다른 문서 간의 유사도
-    sim_scores = list(enumerate(cosine_sim[i]))
-    # 유사도를 기준으로 내림차순 정렬
-    sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
-    # 상위 3개 유사한 제목 인덱스 출력 (자기 자신은 제외)
-    sim_indices = [idx for idx, _ in sim_scores[1:4]]
-    # 유사한 제목 출력
-    print("  Similar Titles:")
-    for idx in sim_indices:
-        similar_title_without_year = re.sub(r'\b\d{4}\b', '', titles[idx])
-        print(f"    {similar_title_without_year}")
-    print()
+if __name__ == "__main__":
+    main()
