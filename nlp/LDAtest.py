@@ -16,6 +16,33 @@ detail_section_code_105 = ['731', '226', '227', '230', '732', '283', '229', '228
 
 contents_list = []
 okt = Okt()
+
+# 기사 데이터 전처리 함수
+def preprocess_articles(df):
+    documents = []
+    for content in df['article_content']:
+        try:
+            # 텍스트 전처리
+            content = re.sub(r'\[.*?\]|\(.*?\)', '', content)
+            content = re.sub(r'\n+', ' ', content)
+            content = re.sub(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}(?:\.[A-Z|a-z]{2,})?(?:\.[A-Z|a-z]{2,})?\b', '', content, flags=re.IGNORECASE)
+            special_characters = r',.'
+            content = re.sub(r'[^\w' + special_characters + ']', ' ', content)
+            content = re.sub(r'\s+', ' ', content)
+
+            # 명사만 추출하여 리스트에 추가
+            nouns = okt.nouns(content)
+            nouns = [noun for noun in nouns if noun not in stop_words and len(noun) > 1]
+
+            # 전처리된 문서에 추가
+            if nouns:
+                documents.append(' '.join(nouns))
+
+        except Exception as e:
+            continue
+    
+    return documents
+
 for search_date in search_dates:
     for section_code in section_codes:
         detail_section_code_variable_name = f"detail_section_code_{section_code}"
