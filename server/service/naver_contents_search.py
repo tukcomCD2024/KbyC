@@ -1,5 +1,9 @@
 from bs4 import BeautifulSoup
 import requests
+from pydantic import BaseModel
+
+class SearchWord(BaseModel):
+    content: str
 
 # 페이지 url 형식에 맞게 바꾸어 주는 함수 만들기
   #입력된 수를 1, 11, 21, 31 ...만들어 주는 함수
@@ -130,3 +134,5 @@ def search_naver_contents(keyword):
     for tag in rel_tag:
         rel_list.append(tag.text)
     print(rel_list)
+
+    return {"word_counts": word_counts, "related_keywords": rel_list}
