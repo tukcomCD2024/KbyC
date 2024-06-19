@@ -68,6 +68,30 @@ def save_processed_documents_to_csv(search_dates, section_codes, detail_section_
     df_documents.to_csv('./outputs/documents.csv', index=False)
     print("전처리된 기사 데이터가 documents.csv 파일로 저장되었습니다.")
 
+#documents.csv 파일을 로드하여 LDA 모델 학습하고 토픽을 추출하여 topics.csv 파일에 저장
+def train_lda_model_and_save_topics(num_topics=10):
+    # documents.csv 파일 로드
+    df_documents = pd.read_csv('./outputs/documents.csv')
+
+    # 문서 단어 사전 생성
+    dictionary = corpora.Dictionary([doc.split() for doc in df_documents['document']])
+    corpus = [dictionary.doc2bow(doc.split()) for doc in df_documents['document']]
+
+    # LDA 모델 학습
+    lda_model = LdaModel(corpus, num_topics=num_topics, id2word=dictionary, passes=15)
+
+    # 각 토픽을 단어로 표현하여 데이터프레임 생성
+    topics = []
+    for idx, topic in lda_model.show_topics(num_topics=num_topics, num_words=5, formatted=False):
+        words = ', '.join([word for word, _ in topic])
+        topics.append({'Topic': idx+1, 'Words': words})
+
+    df_topics = pd.DataFrame(topics)
+
+    # topics.csv 파일로 저장
+    df_topics.to_csv('./outputs/topics.csv', index=False)
+    print(f"{num_topics}개의 토픽을 포함한 topics.csv 파일이 저장되었습니다.")
+
 for search_date in search_dates:
     for section_code in section_codes:
         detail_section_code_variable_name = f"detail_section_code_{section_code}"
