@@ -67,5 +67,31 @@ for search_date in search_dates:
                                                                 passes=20,     # 학습 반복 횟수
                                                                 alpha='auto')
 
+                    # 문서별 토픽 분포를 계산하고 합산
+                    topic_distributions = [lda_model.get_document_topics(bow) for bow in corpus]
+
+                    # 토픽 분포 합산을 위한 초기화
+                    num_topics = lda_model.num_topics
+                    total_topic_distribution = [0] * num_topics
+
+                    # 문서별 토픽 분포를 합산
+                    for doc_topics in topic_distributions:
+                        for topic_num, prob in doc_topics:
+                            total_topic_distribution[topic_num] += prob
+
+                    # 전체 문서의 평균 토픽 분포 계산
+                    average_topic_distribution = [prob / len(document) for prob in total_topic_distribution]
+
+                    # 전체 문서의 주요 토픽 결정
+                    dominant_topic = max(enumerate(average_topic_distribution), key=lambda x: x[1])[0]
+                    dominant_topic_words = lda_model.show_topic(dominant_topic)
+                    dominant_topic_words = [word for word, prob in dominant_topic_words]
+
+                    # 결과 출력
+                    print(f"전체 문서의 주요 토픽: {dominant_topic_words}")
+
+                    # LDA 모델의 각 토픽 출력
+                    pprint(lda_model.print_topics())
+                    
                 except Exception as e:
                     continue
