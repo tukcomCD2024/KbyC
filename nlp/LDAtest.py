@@ -43,6 +43,31 @@ def preprocess_articles(df):
     
     return documents
 
+# 기사 데이터 전처리하여 documents를 CSV 파일로 저장
+def save_processed_documents_to_csv(search_dates, section_codes, detail_section_codes):
+    documents = []
+    
+    for search_date in search_dates:
+        for section_code in section_codes:
+            for detail_section_code in detail_section_codes[section_code]:
+                csv_filename = f'./outputs/naver_article/{search_date}/{section_code}_{detail_section_code}.csv'
+                try:
+                    df = pd.read_csv(csv_filename)
+                    df.dropna(subset=['article_content'], inplace=True)
+                    df.reset_index(drop=True, inplace=True)
+
+                    # 기사 내용 전처리 및 명사 추출
+                    documents += preprocess_articles(df)
+
+                except Exception as e:
+                    print(f'Error reading {csv_filename}: {e}')
+                    continue
+    
+    # documents를 데이터프레임으로 변환하여 CSV 파일로 저장
+    df_documents = pd.DataFrame({'document': documents})
+    df_documents.to_csv('./outputs/documents.csv', index=False)
+    print("전처리된 기사 데이터가 documents.csv 파일로 저장되었습니다.")
+
 for search_date in search_dates:
     for section_code in section_codes:
         detail_section_code_variable_name = f"detail_section_code_{section_code}"
