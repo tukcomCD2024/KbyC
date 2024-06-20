@@ -26,6 +26,7 @@ const Header = () => {
             <button className='App-header-link' onClick={() => handleNavigation('/service/googletrends')}>구글 트렌드</button>
             <button className='App-header-link' onClick={() => handleNavigation('/service/newskeywords')}>뉴스 분석</button>
             <button className='App-header-link' onClick={() => handleNavigation('/service/realtimesearchwords')}>실시간 검색어</button>
+            <button className='App-header-link' onClick={() => handleNavigation('/service/topictrends')}>토픽 트렌드</button>
             <form onSubmit={handleSubmit}>
                 <input
                     type='text'

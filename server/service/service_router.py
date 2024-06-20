@@ -8,6 +8,7 @@ from . import naver_keyword_estimate
 from . import naver_contents_search
 from . import news_keywords
 from . import realtime_searchwords
+from . import topic_trends
 
 router = APIRouter(
      prefix='/service'
@@ -48,3 +49,7 @@ def get_news_keywords():
 @router.get("/realtimesearchwords")
 def get_realtime_searchwords():
     return realtime_searchwords.get_realtime_searchwords()
+
+@router.get("/topictrends")
+def get_topic_trends():
+    return topic_trends.get_topic_trends()
