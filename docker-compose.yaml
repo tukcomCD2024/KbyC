@@ -2,61 +2,61 @@ version: "3.8"
 
 services:
 
-  frontend:
-    build:
-      context: frontend/.
-      dockerfile: Dockerfile
-    container_name: my-web-frontend
-    ports:
-      - 3000:3000
-    networks:
-      trenddit_network:
-        ipv4_address:
-          172.18.0.12
-    volumes:
-      - ./frontend:/workspace
-    command: npm start
+  # frontend:
+  #   build:
+  #     context: frontend/.
+  #     dockerfile: Dockerfile
+  #   container_name: my-web-frontend
+  #   ports:
+  #     - 3000:3000
+  #   networks:
+  #     trenddit_network:
+  #       ipv4_address:
+  #         172.18.0.12
+  #   volumes:
+  #     - ./frontend:/workspace
+  #   command: npm start
 
-  server:
-    build:
-      context: server/.
-      dockerfile: Dockerfile
-    container_name: my-web-server
-    ports:
-      - 8000:8000
-    networks:
-      trenddit_network:
-        ipv4_address:
-          172.18.0.2
-    volumes:
-      - ./server:/workspace
-    command: uvicorn main:app --host 0.0.0.0 --reload
-    depends_on:
-      database:
-        condition: service_healthy  # 데이터베이스가 정상적으로 실행될 때까지 대기
+  # server:
+  #   build:
+  #     context: server/.
+  #     dockerfile: Dockerfile
+  #   container_name: my-web-server
+  #   ports:
+  #     - 8000:8000
+  #   networks:
+  #     trenddit_network:
+  #       ipv4_address:
+  #         172.18.0.2
+  #   volumes:
+  #     - ./server:/workspace
+  #   command: uvicorn main:app --host 0.0.0.0 --reload
+  #   depends_on:
+  #     database:
+  #       condition: service_healthy  # 데이터베이스가 정상적으로 실행될 때까지 대기
 
-  database:
-    build:
-      context: database/.
-      dockerfile: Dockerfile
-    environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
-      - MYSQL_USER=${MYSQL_USER}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-      - MYSQL_ALLOW_EMPTY_PASSWORD=${MYSQL_ALLOW_EMPTY_PASSWORD}
-      - MYSQL_RANDOM_ROOT_PASSWORD=${MYSQL_RANDOM_ROOT_PASSWORD}
-    container_name: my-web-database-mysql
-    ports:
-      - 3306:3306
-    networks:
-      trenddit_network:
-        ipv4_address:
-          172.18.0.3
-    volumes:
-        - ./database:/workspace
-    healthcheck:
-      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u${MYSQL_USER} -p${MYSQL_PASSWORD}"]  # 데이터베이스 헬스체크
+  # database:
+  #   build:
+  #     context: database/.
+  #     dockerfile: Dockerfile
+  #   environment:
+  #     - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+  #     - MYSQL_DATABASE=${MYSQL_DATABASE}
+  #     - MYSQL_USER=${MYSQL_USER}
+  #     - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+  #     - MYSQL_ALLOW_EMPTY_PASSWORD=${MYSQL_ALLOW_EMPTY_PASSWORD}
+  #     - MYSQL_RANDOM_ROOT_PASSWORD=${MYSQL_RANDOM_ROOT_PASSWORD}
+  #   container_name: my-web-database-mysql
+  #   ports:
+  #     - 3306:3306
+  #   networks:
+  #     trenddit_network:
+  #       ipv4_address:
+  #         172.18.0.3
+  #   volumes:
+  #       - ./database:/workspace
+  #   healthcheck:
+  #     test: ["CMD-SHELL", "mysqladmin ping -h localhost -u${MYSQL_USER} -p${MYSQL_PASSWORD}"]  # 데이터베이스 헬스체크
 
   naverkeyword:
     build:
@@ -65,10 +65,26 @@ services:
     container_name: my-web-naver-keyword
     volumes:
       - ./crawl:/workspace
-    command: >
-      bash -c "python3 naverKeyword.py
-      && python3 naverDictionary.py
-      && python3 naverArticleRank.py"
+    command: []
+    depends_on:
+      - seleniumgrid
+    networks:
+      kbyc_trenddit_network:
+        ipv4_address:
+          172.19.0.8
+
+  seleniumgrid:
+    image: selenium/standalone-chrome:latest
+    platform: linux/amd64/v2
+    container_name: seleniumgrid
+    shm_size: 2g
+    ports:
+      - "4444:4444"
+      - "7900:7900"
+    networks:
+      kbyc_trenddit_network:
+        ipv4_address: 172.19.0.4
+
 
 # # Hadoop
 #   namenode:
@@ -109,6 +125,12 @@ services:
 #       - ./hadoop/config
 
 ########################################
+# networks:
+#   trenddit_network:
+#     external: true
 networks:
-  trenddit_network:
-    external: true
+  kbyc_trenddit_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.19.0.0/16 
