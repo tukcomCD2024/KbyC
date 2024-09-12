@@ -38,6 +38,7 @@ const TrendInfoPage = () => {
   const [wordList2, setWordList2] = useState([]);
   const [relatedKeywords, setRelatedKeywords] = useState([]);
   const [loading3, setLoading3] = useState(true);
+  const [posts, setPosts] = useState([]);
 
   const navigate = useNavigate();
 
@@ -123,6 +124,19 @@ const TrendInfoPage = () => {
     getNaverContents();
   }, []);
 
+  useEffect(() => {
+    async function getPosts() {
+        try {
+          const response = await axios.get(`/post/read/tag/${name}`);
+          setPosts(response.data);
+          console.log(response.data);
+        } catch (error) {
+          console.error("Error fetching posts:", error);
+        }
+      }
+      getPosts();
+}, []);
+
   const options = {
     responsive: true,
     plugins: {
@@ -153,6 +167,10 @@ const TrendInfoPage = () => {
     }
   };
 
+  const handleNavigation = (path) => {
+    window.location.href = path;
+  };
+
   return (
     <div className='trendinfo-page'>
       <div className='navbar'>
@@ -170,6 +188,21 @@ const TrendInfoPage = () => {
                 <p className='trendinfo-content-title'>정의</p>
                 <p className='trendinfo-content-list'>{name}</p>
                 <button className='trendinfo-content-list' onClick={() => WritePost(name)}>글쓰기</button>
+                {/* 게시물 List */}
+              <div>
+                  {posts.map((post) => (
+                      <div key={post.post_id}>
+                          <div>
+                              <p className='trendinfo-content-list'>
+                                  <span>[{post.tag}] </span>
+                                  <span onClick={() => handleNavigation(`/post/${post.post_id}`)}> {post.title} </span>
+                                  <span> {post.writer_name} </span>
+                                  <span> {post.post_date.replace("T", " ")}</span>
+                              </p>
+                          </div>
+                      </div>
+                  ))}
+              </div>
               </div>
               <div id='trend-search-volume'>
               <p className='trendinfo-content-title'>검색량</p>
