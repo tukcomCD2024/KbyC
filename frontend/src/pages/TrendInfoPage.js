@@ -171,6 +171,13 @@ const TrendInfoPage = () => {
     window.location.href = path;
   };
 
+  const scrollToSection = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <div className='trendinfo-page'>
       <div className='navbar'>
