@@ -4,7 +4,7 @@ from sqlalchemy.orm import declarative_base
 
 from sqlalchemy.orm import sessionmaker
 
-SQLALCHEMY_DATABASE_URL = 'mysql+pymysql://admin:passwd@172.18.0.3:3306/Trenddit'
+SQLALCHEMY_DATABASE_URL = 'mysql+pymysql://admin:passwd@127.0.0.1:3306/Trenddit'
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 
