@@ -149,9 +149,9 @@ function Post() {
             <h2>Loading...</h2> :
 
             <div className='post-container'>
-                <div className='post-title'>{post.title}</div>
+                <div className='post-title'>{post.tag && <>[{post.tag}] </>}{post.title}</div>
                 <p className='post-writer-info'>{post.writer_name}&nbsp;&nbsp;{post.post_date.replace('T', ' ')}</p>
-                <p className='post-content'>{post.content}</p>
+                <p className='post-content' style={{whiteSpace: "pre-line"}}>{post.content}</p>
                 {localStorage.getItem('email') === post.writer_email &&
                     <div class="post-finish-button-container">
                         <button className='finish-button' onClick={() => navigate(`/post/update/${id}`)}>수정</button>

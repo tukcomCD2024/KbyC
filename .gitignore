@@ -35,6 +35,9 @@
 # crawl
 /crawl/outputs
 
+/nlp/outputs
+/nlp/inputs
+
 # API Keys
 /secret.json
 */secret.json

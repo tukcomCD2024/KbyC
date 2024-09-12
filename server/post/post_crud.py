@@ -13,7 +13,10 @@ def create_post(db: Session, post: PostCreate, email: str):
     if not writer:
         raise HTTPException(status_code=404, detail="Writer Not Found")
     
-    new_post = Post(title=post.title, content=post.content, post_date=datetime.datetime.now(), writer_email = writer.user_email, writer_name=writer.user_name)
+    if post.tag == "None":
+        new_post = Post(title=post.title, content=post.content, post_date=datetime.datetime.now(), writer_email = writer.user_email, writer_name=writer.user_name)
+    else:
+        new_post = Post(title=post.title, content=post.content, post_date=datetime.datetime.now(), writer_email = writer.user_email, writer_name=writer.user_name, tag=post.tag)
     
     db.add(new_post)
     db.commit()
@@ -24,7 +27,8 @@ def create_post(db: Session, post: PostCreate, email: str):
         "content": new_post.content,
         "post_date": new_post.post_date,
         "writer_email": new_post.writer_email,
-        "writer_name": new_post.writer_name
+        "writer_name": new_post.writer_name,
+        "tag": new_post.tag
     }
 
 def get_post_by_id(db: Session, id: int):
@@ -39,7 +43,8 @@ def get_post_by_id(db: Session, id: int):
         "content": post.content,
         "post_date": post.post_date,
         "writer_email": post.writer_email,
-        "writer_name": post.writer_name
+        "writer_name": post.writer_name,
+        "tag": post.tag
     }
 
 def get_posts(db: Session):
@@ -53,10 +58,28 @@ def get_posts(db: Session):
             "content": post.content,
             "post_date": post.post_date,
             "writer_email": post.writer_email,
-            "writer_name": post.writer_name
+            "writer_name": post.writer_name,
+            "tag": post.tag
         }
         post_list.append(p)
     
+    return post_list[::-1]
+
+def get_posts_by_tag(db: Session, tag: str):
+    posts = db.query(Post).filter(Post.tag == tag).all()
+    post_list = []
+
+    for post in posts:
+        p = {
+            "post_id": post.post_id,
+            "title": post.title,
+            "content": post.content,
+            "post_date": post.post_date,
+            "writer_email": post.writer_email,
+            "writer_name": post.writer_name,
+            "tag": post.tag
+        }
+        post_list.append(p)
     return post_list[::-1]
 
 def update_post(db: Session, id: int, post: PostUpdate, email: str):
@@ -79,7 +102,8 @@ def update_post(db: Session, id: int, post: PostUpdate, email: str):
         "content": update.content,
         "post_date": update.post_date,
         "writer_email": update.writer_email,
-        "writer_name": update.writer_name
+        "writer_name": update.writer_name,
+        "tag": update.tag
     }
 
 def delete_post(db: Session, id: int, email: str):
