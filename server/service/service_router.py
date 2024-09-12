@@ -53,3 +53,7 @@ def get_realtime_searchwords():
 @router.get("/topictrends")
 def get_topic_trends():
     return topic_trends.get_topic_trends()
+
+@router.get("/wordcloud")
+def get_word_cloud():
+    return google_trends.get_trends_search()

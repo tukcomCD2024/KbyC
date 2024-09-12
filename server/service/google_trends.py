@@ -32,3 +32,27 @@ def get_trends():
     trends = trends_retriever("KR")
     print(trends)
     return {"google_trends": trends}
+
+from . import naver_keyword_estimate
+
+def get_trends_search():
+    trends = trends_retriever("KR")
+    titles = [trend["title"] for trend in trends]
+    print(titles)
+    
+    search_counts = []
+    i = 0
+    for title in titles:
+        i = i + 1
+        search = naver_keyword_estimate.get_search_count(title)
+        search_count = search['count']
+        search_counts.append(search_count)
+        if (i % 5 == 0):
+            time.sleep(0.2)
+    
+    print(search_counts)
+    
+    result = [{'title': title, 'count': count} for title, count in zip(titles, search_counts)]
+    print(result)
+    
+    return {"result": result}
