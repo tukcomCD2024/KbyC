@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import '../App.css'
 import logo from '../imgs/Treddit_logo_1.png'
 
+
 const Header = () => {
     const handleNavigation = (path) => {
         window.location.href = path;
@@ -21,16 +22,18 @@ const Header = () => {
             <button className='App-header-link-logo' onClick={() => handleNavigation('/')}>
                 <img src={logo} alt='home' className='App-header-link-logo-image' />
             </button>
-            <button className='App-header-link' onClick={() => handleNavigation('/board')}>토픽 트렌드</button>
-            <button className='App-header-link' onClick={() => handleNavigation('/service/navernews')}> 실시간 검색어</button>
+            <button className='App-header-link' onClick={() => handleNavigation('/service/topictrends')}>토픽 트렌드</button>
+            <button className='App-header-link' onClick={() => handleNavigation('/service/realtimesearchwords')}> 실시간 검색어</button>
             <button className='App-header-link' onClick={() => handleNavigation('/service/googletrends')}>트렌드 데이터</button>
             <button className='App-header-link' onClick={() => handleNavigation('/board')}>게시판</button>
-            <form onSubmit={handleSubmit}>
+        
+            <form class="search-form" onSubmit={handleSubmit}>
                 <input
                     type='text'
                     placeholder='키워드 검색'
                     value={searchWord}
                     onChange={(e) => setSearchWord(e.target.value)}
+                    class="search-input"
                 />
             </form>
             <hr/>

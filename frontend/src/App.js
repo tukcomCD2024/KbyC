@@ -16,6 +16,7 @@ import GoogleTrends from './pages/GoogleTrends';
 import NewsKeywords from './pages/NewsKeywords';
 import RealtimeSearchWords from './pages/RealtimeSearchWords';
 import TopicTrends from './pages/TopicTrends';
+import Test from './pages/test';
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -48,6 +49,7 @@ function App() {
         <Route path="/service/newskeywords" element={<NewsKeywords/>}></Route>
         <Route path="/service/realtimesearchwords" element={<RealtimeSearchWords/>}></Route>
         <Route path="/service/topictrends" element={<TopicTrends/>}></Route>
+        <Route path="/test" element={<Test />}></Route>
       </Routes>
       {showButton && (
         <div className='popup-button' onClick={openPopup}> ? </div>
