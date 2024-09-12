@@ -28,7 +28,29 @@ function Home() {
 
   return (
       <div className='home-page'>
-        <h1>Welcome to Trenddit</h1>
+        <div className='content-container1'>
+        <div class="search-container1">
+            <form class="search-form1">
+                <input
+                    type="text"
+                    placeholder="검색어를 입력하세요..."
+                    class="search-input1"
+                />
+                <button type="submit" class="search-button1">
+                </button>
+            </form>
+        </div>
+
+          <div className='rank-content-container'>
+            <div className='text-cloud-container'>
+                sadas
+            </div>
+            <div className='ranking-container'>
+                sdsdsds
+            </div>
+          </div>
+        </div>
+        {/* <h1>Welcome to Trenddit</h1>
         {localStorage.getItem('access_token') ?
 
         <div>
@@ -45,7 +67,7 @@ function Home() {
             <button onClick={() => navigate('/login')}>로그인</button><br />
             <button onClick={() => navigate('/signup')}>회원가입</button>
           </div>
-        </div>}
+        </div>} */}
       </div>
   );
 }
