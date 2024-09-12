@@ -1,69 +1,64 @@
 .trendinfo-page {
-    background-color: #eeffff;
+    background-color: #F4FFFF;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     height: 90vh;
 }
 
 .navbar {
-    width: 100%;
-    height: 60px;
-    background-color: #ffffff;
+    width: 15vh;
+    height: 60vh;
+    background-color: #F4FFFF;
     display: flex;
-    justify-content: space-around;
-    align-items: center;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-    border-bottom: 1px solid #bbccff;
+    flex-direction: column;
+    margin-top: 10px;
+    margin-left: 20px;
 }
 
 .navbar-title {
-    font-size: 3rem !important;
+    font-size: 2rem !important;
+    width: 80%;
     font-weight: bold;
-    margin-right: auto;
     pointer-events: none;
-    color: #000;
+    color: #3d8190;
     text-decoration: none !important;
-    border-right: 1px solid #bbccff;
-    padding-right: 150px;
 }
 
 .navbar span {
     cursor: pointer;
-    font-size: 1.5rem;
+    font-size: 1rem;
     font-weight: bold;
-    color: #000;
+    color: #3d8190;
     transition: color 0.3s;
-    margin: 0 10px;
+    margin: 10px;
     text-decoration: underline;
 }
 
 .trendinfo-content-wrapper {
-    background-color: #ffffff;
+    background-color: #F4FFFF;
     display: flex;
-    width: 100%;
+    width: 70%;
     height: 90%;
+    padding: 2vh;
 }
 
 .trendinfo-content-container {
-    background-color: #eeffff;
+    background-color: #F4FFFF;
     width: 85%;
     height: 100%;
     display: flex;
     justify-content: center;
-    align-items: center;
 }
 
 .trendinfo-content {
-    background-color: #ffffff;
+    background-color: #F4FFFF;
     width: 97.5%;
     min-height: 95%;
     max-height: 95%;
     display: flex;
     flex-direction: column;
     border-radius: 10px;
-    border: 1px solid #bbccff;
+    border: 2px solid #3d8190;
     overflow-y: auto;
 }
 
@@ -86,4 +81,17 @@
     display: flex;
     position: fixed;
     bottom: 0;
+}
+
+.reactions-container {
+    background-color: #F4FFFF;
+    width: 35vh;
+    min-height: 40vh;
+    max-height: 60%;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    border: 2px solid #3d8190;
+    overflow-y: auto;
+    margin-left: 20px;
 }

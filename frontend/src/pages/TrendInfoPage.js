@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import './TrendInfoPage.css';
+import { useNavigate } from 'react-router-dom';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -171,19 +171,12 @@ const TrendInfoPage = () => {
     window.location.href = path;
   };
 
-  const scrollToSection = (id) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   return (
     <div className='trendinfo-page'>
       <div className='navbar'>
         <span className='navbar-title'>{name}</span>
-        {/* <span onClick={() => scrollToSection('trend-definition')}>정의</span> */}
-        <span onClick={() => scrollToSection('trend-search-volume')}>월간 그래프</span>
+        <span onClick={() => scrollToSection('trend-definition')}>정의</span>
+        <span onClick={() => scrollToSection('trend-search-volume')}>검색량</span>
         <span onClick={() => scrollToSection('trend-news')}>관련 기사</span>
         <span onClick={() => scrollToSection('trend-reactions')}>반응</span>
       </div>
@@ -191,11 +184,13 @@ const TrendInfoPage = () => {
       <div className='trendinfo-content-wrapper'>
         <div className='trendinfo-content-container'>
             <div className='trendinfo-content'>
-              {/* <div id='trend-definition'>
+              <div id='trend-definition'>
                 <p className='trendinfo-content-title'>정의</p>
                 <p className='trendinfo-content-list'>{name}</p>
+                <button className='trendinfo-content-list' onClick={() => WritePost(name)}>글쓰기</button>
+              </div>
               <div id='trend-search-volume'>
-              <p className='trendinfo-content-title'>월간 그래프</p>
+              <p className='trendinfo-content-title'>검색량</p>
               {loading2 ?
               <p className='trendinfo-content-list'>로딩 중...</p> :
               <>
@@ -220,8 +215,8 @@ const TrendInfoPage = () => {
                     {word}
                   </p>
                 ))}
-              </div>
-              <div id='trend-reactions'>
+                </div>
+                <div id='trend-reactions'>
                 <p className='trendinfo-content-title'>반응</p>
                 <p className='trendinfo-content-list'>네이버 블로그, 카페 키워드</p>
                 {loading3 && <p className='trendinfo-content-list'>로딩 중...</p>}
