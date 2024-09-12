@@ -37,6 +37,7 @@ function Home() {
                     class="search-input1"
                 />
                 <button type="submit" class="search-button1">
+                  &gt;
                 </button>
             </form>
         </div>
