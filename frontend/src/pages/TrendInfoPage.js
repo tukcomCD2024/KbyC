@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import './TrendInfoPage.css';
 import {
   Chart as ChartJS,
@@ -33,7 +34,13 @@ const TrendInfoPage = () => {
   const [loading, setLoading] = useState(true);
   const [loading2, setLoading2] = useState(true);
   const [data, setData] = useState(null);
-  const [wordList, setWordList] = useState([])
+  const [wordList, setWordList] = useState([]);
+  const [wordList2, setWordList2] = useState([]);
+  const [relatedKeywords, setRelatedKeywords] = useState([]);
+  const [loading3, setLoading3] = useState(true);
+  const [posts, setPosts] = useState([]);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function getTrendNews() {
@@ -50,6 +57,7 @@ const TrendInfoPage = () => {
 
         setNewsList(response.data.news);
         setWordList(response.data.top_10_words);
+        console.log(response.data);
         setLoading(false);
       } catch(error) {
         console.error('에러 발생', error);
@@ -94,6 +102,41 @@ const TrendInfoPage = () => {
     getSearchData();
   }, []);
 
+  useEffect(() => {
+    async function getNaverContents() {
+      try {
+        const response = await axios.post('/service/contents', {
+          content: name
+        }, {
+          headers: {
+            'Content-type': 'application/json'
+          }
+        });
+
+        setRelatedKeywords(response.data.related_keywords);
+        setWordList2(response.data.top_10_words);
+        console.log(response.data);
+        setLoading3(false);
+      } catch(error) {
+        console.error('에러 발생', error);
+      }
+    }
+    getNaverContents();
+  }, []);
+
+  useEffect(() => {
+    async function getPosts() {
+        try {
+          const response = await axios.get(`/post/read/tag/${name}`);
+          setPosts(response.data);
+          console.log(response.data);
+        } catch (error) {
+          console.error("Error fetching posts:", error);
+        }
+      }
+      getPosts();
+}, []);
+
   const options = {
     responsive: true,
     plugins: {
@@ -105,7 +148,28 @@ const TrendInfoPage = () => {
             text: "30일간 검색량",
         },
     },
-};
+  };
+
+  const scrollToSection = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const WritePost = (name) => {
+    if (localStorage.getItem('access_token')) {
+        console.log(name)
+        navigate('/post/write', {state: { name }});
+    }
+    else {
+        navigate('/login');
+    }
+  };
+
+  const handleNavigation = (path) => {
+    window.location.href = path;
+  };
 
   const scrollToSection = (id) => {
     const element = document.getElementById(id);
@@ -130,6 +194,7 @@ const TrendInfoPage = () => {
               <div id='trend-definition'>
                 <p className='trendinfo-content-title'>정의</p>
                 <p className='trendinfo-content-list'>{name}</p>
+                <button className='trendinfo-content-list' onClick={() => WritePost(name)}>글쓰기</button>
               </div>
               <div id='trend-search-volume'>
               <p className='trendinfo-content-title'>검색량</p>
@@ -160,12 +225,38 @@ const TrendInfoPage = () => {
               </div>
               <div id='trend-reactions'>
                 <p className='trendinfo-content-title'>반응</p>
-                <p className='trendinfo-content-list'>반응1</p>
+                <p className='trendinfo-content-list'>네이버 블로그, 카페 키워드</p>
+                {loading3 && <p className='trendinfo-content-list'>로딩 중...</p>}
+                {wordList2.map((word, index) => (
+                  <p key={index}>
+                    {word}
+                  </p>
+                ))}
+                <p className='trendinfo-content-list'>연관 검색어</p>
+                {relatedKeywords.map((word, index) => (
+                  <p key={index}>
+                    {word}
+                  </p>
+                ))}
+                <div>
+                  <p className='trendinfo-content-list'>게시글</p>
+                  {posts.map((post) => (
+                      <div key={post.post_id}>
+                          <div>
+                              <p className='trendinfo-content-list'>
+                                  <span>[{post.tag}] </span>
+                                  <span onClick={() => handleNavigation(`/post/${post.post_id}`)}> {post.title} </span>
+                                  <span> {post.writer_name} </span>
+                                  <span> {post.post_date.replace("T", " ")}</span>
+                              </p>
+                          </div>
+                      </div>
+                  ))}
+              </div>
               </div>
             </div>
 
           <div className='trendinfo-bottom-wrapper'/>
-          
         </div>
       </div>
     </div>

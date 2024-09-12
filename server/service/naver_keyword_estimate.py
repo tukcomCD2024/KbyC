@@ -44,7 +44,7 @@ def get_trend_data(keyword, start_date, end_date):
 
     #data['period'] = data['period'].str[:-3]
     #data['title'] = result['title']
-    print(data)
+    # print(data)
 
     #plt.plot(data['period'], data['ratio'], label=result['title'])
     #plt.plot(data['period'], data['ratio'])
@@ -117,6 +117,13 @@ def get_search_data(keyword: str):
 
     search_data_ratio = get_trend_data(keyword, start_date, end_date)
     search_data_month = get_results(keyword)
+
+    if search_data_month['monthlyPcQcCnt'] == '< 10':
+        search_data_month['monthlyPcQcCnt'] = 0
+
+    if search_data_month['monthlyMobileQcCnt'] == '< 10':
+        search_data_month['monthlyMobileQcCnt'] = 0
+
     search_count = search_data_month['monthlyPcQcCnt'] + search_data_month['monthlyMobileQcCnt']
 
     if len(search_data_ratio) == 0:
@@ -189,3 +196,60 @@ from pydantic import BaseModel
 
 class Keyword(BaseModel):
     content: str
+
+def get_search_count(keyword: str):
+    today = datetime.datetime.now()
+    end_date = datetime.datetime.strftime(today - datetime.timedelta(days=1), '%Y-%m-%d')
+    start_date = datetime.datetime.strftime(today - datetime.timedelta(days=30), '%Y-%m-%d')
+
+    search_data_ratio = get_trend_data(keyword, start_date, end_date)
+    search_data_month = get_results(keyword)
+
+    if search_data_month['monthlyPcQcCnt'] == '< 10':
+        search_data_month['monthlyPcQcCnt'] = 0
+
+    if search_data_month['monthlyMobileQcCnt'] == '< 10':
+        search_data_month['monthlyMobileQcCnt'] = 0
+
+    search_count = search_data_month['monthlyPcQcCnt'] + search_data_month['monthlyMobileQcCnt']
+
+    if len(search_data_ratio) == 0:
+        # search_data = {'keyword': keyword, 'pc_cnt': 0, 'mobile_cnt': 0,
+        #            'sum_week': 0, 'sum_rest': 0,
+        #            'period': [0] * 30, 'count': [0] * 30}
+        # return search_data
+        return {'count': 0}
+
+    #if len(search_data_ratio) != 30:
+    if search_data_ratio['period'][len(search_data_ratio['period'])-1] != datetime.datetime.strftime(today - datetime.timedelta(days=1), '%Y-%m-%d'):
+        end_date = datetime.datetime.strftime(today - datetime.timedelta(days=2), '%Y-%m-%d')
+        start_date = datetime.datetime.strftime(today - datetime.timedelta(days=31), '%Y-%m-%d')
+        search_data_ratio = get_trend_data(keyword, start_date, end_date)
+    
+    if len(search_data_ratio) != 30:
+        previous_period = []
+        for i in range(30 - len(search_data_ratio)):
+            date = datetime.datetime.strptime(search_data_ratio['period'][0], '%Y-%m-%d') - datetime.timedelta(days=i+1)
+            previous_period.append(datetime.datetime.strftime(date, '%Y-%m-%d'))
+        previous_period = previous_period[::-1]
+        previous_ratio = [0] * len(previous_period)
+        new_df = pd.DataFrame({'period': previous_period, 'ratio': previous_ratio})
+
+        search_data_ratio = pd.concat([new_df, search_data_ratio], ignore_index=True)
+
+    search_count_list = []
+
+    for i in range(len(search_data_ratio['period'])):
+        count = (search_data_ratio['ratio'][i] / sum(search_data_ratio['ratio'])) * search_count
+        search_count_list.append(round(count))
+
+    # search_data = {'keyword': keyword, 'pc_cnt': search_data_month['monthlyPcQcCnt'], 'mobile_cnt': search_data_month['monthlyMobileQcCnt'],
+    #                'sum_week': sum(search_count_list[-7:]), 'sum_rest': sum(search_count_list[:-7]),
+    #                'period': search_data_ratio['period'].tolist(), 'count': search_count_list}
+
+    # return search_data
+
+    sum_week = sum(search_count_list[-7:])
+    print(search_count_list)
+    print(sum_week)
+    return {'count': sum_week}

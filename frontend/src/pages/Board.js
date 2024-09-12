@@ -8,6 +8,8 @@ axios.defaults.baseURL = 'http://127.0.0.1:8000';
 const Board = () => {
     
     const [posts, setPosts] = useState([]);
+    const [filteredPosts, setFilteredPosts] = useState([]);
+    const [tag, setTag] = useState(null);
 
     const navigate = useNavigate();
 
@@ -42,6 +44,15 @@ const Board = () => {
     const handleNavigation = (path) => {
         window.location.href = path;
       };
+    
+    const handleTag = (tag) => {
+        setTag(tag);
+        const filtered = posts.filter(post => post.tag === tag);
+        setFilteredPosts(filtered);
+        console.log(tag);
+    };
+
+    const displayedPosts = tag ? filteredPosts : posts;
 
     return (
         <div className="board-page">
@@ -52,12 +63,13 @@ const Board = () => {
       <br/>
         {/* 게시물 List */}
         <div className="container">
-            {posts.map((post) => (
+            {displayedPosts.map((post) => (
                 <div className="post-containter" key={post.post_id}>
                     {/* 제목 (댓글수) */}
                     <div className="post-title">
-                        <p onClick={() => handleNavigation(`/post/${post.post_id}`)} className="link-signup-text" >
-                            {post.title} [{post.commentCount}]
+                        <p className="link-signup-text" >
+                            {post.tag && <span onClick={() => handleTag(post.tag)}>[{post.tag}] </span>}
+                            <span onClick={() => handleNavigation(`/post/${post.post_id}`)}>{post.title} [{post.commentCount}]</span>
                         </p>
                     </div>
                     {/* 글쓴이 */}
