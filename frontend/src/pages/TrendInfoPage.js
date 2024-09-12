@@ -178,7 +178,7 @@ const TrendInfoPage = () => {
         <span onClick={() => scrollToSection('trend-definition')}>정의</span>
         <span onClick={() => scrollToSection('trend-search-volume')}>검색량</span>
         <span onClick={() => scrollToSection('trend-news')}>관련 기사</span>
-        <span onClick={() => scrollToSection('trend-reactions')}>관련 콘텐츠</span>
+        <span onClick={() => scrollToSection('trend-reactions')}>반응</span>
       </div>
 
       <div className='trendinfo-content-wrapper'>
@@ -188,21 +188,6 @@ const TrendInfoPage = () => {
                 <p className='trendinfo-content-title'>정의</p>
                 <p className='trendinfo-content-list'>{name}</p>
                 <button className='trendinfo-content-list' onClick={() => WritePost(name)}>글쓰기</button>
-                {/* 게시물 List */}
-              <div>
-                  {posts.map((post) => (
-                      <div key={post.post_id}>
-                          <div>
-                              <p className='trendinfo-content-list'>
-                                  <span>[{post.tag}] </span>
-                                  <span onClick={() => handleNavigation(`/post/${post.post_id}`)}> {post.title} </span>
-                                  <span> {post.writer_name} </span>
-                                  <span> {post.post_date.replace("T", " ")}</span>
-                              </p>
-                          </div>
-                      </div>
-                  ))}
-              </div>
               </div>
               <div id='trend-search-volume'>
               <p className='trendinfo-content-title'>검색량</p>
@@ -232,7 +217,7 @@ const TrendInfoPage = () => {
                 ))}
               </div>
               <div id='trend-reactions'>
-                <p className='trendinfo-content-title'>관련 콘텐츠</p>
+                <p className='trendinfo-content-title'>반응</p>
                 <p className='trendinfo-content-list'>네이버 블로그, 카페 키워드</p>
                 {loading3 && <p className='trendinfo-content-list'>로딩 중...</p>}
                 {wordList2.map((word, index) => (
@@ -246,6 +231,21 @@ const TrendInfoPage = () => {
                     {word}
                   </p>
                 ))}
+                <div>
+                  <p className='trendinfo-content-list'>게시글</p>
+                  {posts.map((post) => (
+                      <div key={post.post_id}>
+                          <div>
+                              <p className='trendinfo-content-list'>
+                                  <span>[{post.tag}] </span>
+                                  <span onClick={() => handleNavigation(`/post/${post.post_id}`)}> {post.title} </span>
+                                  <span> {post.writer_name} </span>
+                                  <span> {post.post_date.replace("T", " ")}</span>
+                              </p>
+                          </div>
+                      </div>
+                  ))}
+              </div>
               </div>
             </div>
 
