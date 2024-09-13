@@ -1,74 +1,74 @@
 .test-page {
-    /* background-color: #eeffff; */
     background-color: #F4FFFF;
     width: 100%;
-    height: 90vh;
+    height: 85vh;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
+}
+
+.content-container {
+    width: 80%;
+    height: 80vh;
+    display: flex;
+    flex-direction: row;
+}
+
+.content-container-left {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
     padding: 2%;
 }
 
-
-.content-container {
-    width: 100%;
-    height: 80%;
-    flex-direction: column;
+.content-container-right {
+    width: 50%;
     display: flex;
-    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 2%;
 }
 
 .rank-container{
     background-color: #E4FAFF;
     border: 2px solid #3d8190;
-    margin-left: 20px;
-    margin-top: 10px;
     border-radius: 20px;
-    width: 40vh;
-    height: 30vh;
+    width: 100%;
+    height: 50%;
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    padding-left: 2vh;
-    padding-top: 2vh;
-}
-
-.content-container-left {
-    margin-right: 40px;
+    box-sizing: border-box;
+    padding: 2%;
 }
 
 .rank-text-cloud-container{
     background-color: #E4FAFF;
     border: 2px solid #3d8190;
-    margin-left: 20px;
-    margin-top: 2vh;
     border-radius: 20px;
-    width: 40vh;
-    height: 30vh;
+    width: 100%;
+    height: 50%;
+    margin-top: 2%;
     overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-left: 2vh;
-    padding-top: 2vh;
 }
 
-.content-container-right {
-    margin-right: 40px;
-}
 .rank-detail-container{
     background-color: #E4FAFF;
     border: 2px solid #3d8190;
-    margin-left: 20px;
-    margin-top: 10px;
     border-radius: 20px;
-    width: 40vh;
-    height: 62vh;
+    width: 100%;
+    height: 100%;
     overflow: hidden;
     flex-direction: column;
     display: flex;
     flex-direction: column;
-    padding-left: 2vh;
-    padding-top: 2vh;
-    padding-bottom: 2vh;
+    box-sizing: border-box;
+    padding: 2%;
 }
