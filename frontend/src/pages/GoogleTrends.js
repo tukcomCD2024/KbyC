@@ -135,7 +135,7 @@ const GoogleTrends = () => {
                 </div>
                 <div className='trend-data-content-container-right'>
                     <div className='trend-data-rank-detail-container'>
-                        <p1>트렌드 A</p1>
+                        {/* <p1>트렌드 A</p1>
                         <div className='trend-data-rank-detail-article'>
                             <p2>1. </p2>
                             <p2>2. </p2>
@@ -155,6 +155,22 @@ const GoogleTrends = () => {
                             <p2>3. </p2>
                             <p2>4. </p2>
                             <p2>5. </p2>
+                        </div> */}
+                        <div className='trend-data-rank-detail-article'>
+                            {trends.map((trend, index) => (
+                                <div key={index}>
+                                    {index + 1}. <Link to={`/trendinfo/${trend.title}`}>{trend.title}</Link><br/>
+                                    검색 횟수 {trend.traffic}<br/>
+                                    관련 뉴스<br/>
+                                    <ul>
+                                        {trend.news_list.map((news, index) => (
+                                            <li key={index}>
+                                                <a href={news.news_url} target="_blank" rel="noopener noreferrer">{news.news_title}</a>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </div>
