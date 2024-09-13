@@ -2,17 +2,26 @@
     background-color: #F4FFFF;
     display: flex;
     flex-direction: row;
-    height: 90vh;
+    height: 85vh;
 }
 
+.trendinfo-page-container {
+    width: 96%;
+    height: 85vh;
+    background-color: #F4FFFF;
+    display: flex;
+    flex-direction: row;
+}
+
+/* 일단 컨테이너 사용 x */
 .navbar {
-    width: 15vh;
-    height: 60vh;
+    width: 15%;
+    height: 85vh;
     background-color: #F4FFFF;
     display: flex;
     flex-direction: column;
-    margin-top: 10px;
-    margin-left: 20px;
+    box-sizing: border-box;
+    padding: 2vh;
 }
 
 .navbar-title {
@@ -34,20 +43,22 @@
     text-decoration: underline;
 }
 
-.trendinfo-content-wrapper {
-    background-color: #F4FFFF;
-    display: flex;
-    width: 70%;
-    height: 90%;
-    padding: 2vh;
-}
-
 .trendinfo-content-container {
     background-color: #F4FFFF;
-    width: 85%;
-    height: 100%;
+    width: 60%;
+    height: 85vh;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    overflow: hidden;
+    box-sizing: border-box;
+    padding: 2%;
+}
+
+.trendinfo-content-container br1 {
+    width: 90%;
+    align-self: center;
+    border: 1px solid #3d8190;
+    margin: 2%;
 }
 
 .trendinfo-content {
@@ -62,16 +73,44 @@
     overflow-y: auto;
 }
 
-.trendinfo-content-title {
-    margin-top: 4%;
+.trendinfo-content-wrapper {
+    width: 90%;
+    box-sizing: border-box;
+    padding: 2%;
+}
+
+.trendinfo-content-wrapper p1 {
     margin-left: 5%;
+    color: #3d8190;
+    font-weight: bold;
+    font-size: 100%
+}
+
+.trendinfo-content-title {
+    margin-left: 4%;
+    color: #3d8190;
     font-weight: bold;
     font-size: 200%
 }
 
 .trendinfo-content-list {
+    color: #3d8190;
     margin-left: 8%;
     font-size: 100%
+}
+
+.trendinfo-content-list-container {
+    width: 90%;
+    display: flex;
+    flex-direction: row;
+}
+
+.trendinfo-chat {
+    width: 80%;
+    height: 10vh;
+    border: 1px solid #3d8190;
+    border-radius: 10px;
+    overflow: hidden;
 }
 
 .trendinfo-bottom-wrapper {
@@ -83,15 +122,46 @@
     bottom: 0;
 }
 
-.reactions-container {
+.tredninfo-reaction-container {
     background-color: #F4FFFF;
-    width: 35vh;
-    min-height: 40vh;
-    max-height: 60%;
+    width: 21%;
+    height: 85vh;
     display: flex;
     flex-direction: column;
-    border-radius: 10px;
+    overflow: hidden;
+    box-sizing: border-box;
+    padding: 2%;
+}
+
+.tredninfo-reaction-wrapper {
+    width: 100%;
+    height: 60vh;
     border: 2px solid #3d8190;
-    overflow-y: auto;
-    margin-left: 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: 5%
+}
+
+.tredninfo-reaction-wrapper p {
+    margin-left: 4%;
+    color: #3d8190;
+    font-weight: bold;
+    font-size: 150%;
+}
+
+.tredninfo-reaction-wrapper p1 {
+    margin-left: 4%;
+    color: #3d8190;
+    font-weight: bold;
+    font-size: 100%;
+    justify-self: center;
+    margin: 4%;
+}
+
+.tredninfo-reaction-wrapper br1 {
+    width: 90%;
+    align-self: center;
+    border: 1px solid #3d8190;
 }
