@@ -82,32 +82,38 @@ const GoogleTrends = () => {
     //     getSearchCounts();
     // }, []);
 
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = (today.getMonth() + 1).toString().padStart(2, '0');
+    const day = today.getDate().toString().padStart(2, '0');
+    const date = `${year}-${month}-${day}`;
+
     return (
         <div className='trend-data-page'>
         {loading && <div>로딩 중...</div>}
             <div className='trend-data-content-container'>
                 <div className='trend-data-content-container-left'>
                     <div className='trend-data-rank-container'>
-                        <p1>2024.09.10</p1>
+                        <p1>{date}</p1>
                         <div className='trend-data-rank-wrapper-container'>
                             <div className='trend-data-rank-wrapper'>
-                                <p2>1. </p2>
-                                <p2>2. </p2>
-                                <p2>3. </p2>
-                                <p2>4. </p2>
-                                <p2>5. </p2>
+                                {trends.slice(0, 5).map((trend, index) => (
+                                <p2 key={index}>
+                                    {index + 1}. <Link to={`/trendinfo/${trend.title}`}>{trend.title}</Link><br/>
+                                </p2>
+                                ))}
                             </div>
                             <div className='trend-data-rank-wrapper'>
-                                <p2>6. </p2>
-                                <p2>7. </p2>
-                                <p2>8. </p2>
-                                <p2>9. </p2>
-                                <p2>10. </p2>
+                                {trends.slice(5, 10).map((trend, index) => (
+                                <p2 key={index}>
+                                    {index + 6}. <Link to={`/trendinfo/${trend.title}`}>{trend.title}</Link><br/>
+                                </p2>
+                                ))}
                             </div>
                         </div>
                     </div>
                     <div className='trend-data-rank-text-cloud-container'>
-                        {loading && <div>로딩 중...</div>}
+                        {/* {loading && <div>로딩 중...</div>}
                         {trends.map((trend, index) => (
                             <div key={index}>
                                 {index + 1}. <Link to={`/trendinfo/${trend.title}`}>{trend.title}</Link><br/>
@@ -121,7 +127,10 @@ const GoogleTrends = () => {
                                     ))}
                                 </ul>
                             </div>
-                        ))}
+                        ))} */}
+                        <div style={{ width: '1000px', height: '500px' }}>
+                            <WordCloud words={titles.map(word => ({ text: word.title, value: word.count}))}></WordCloud>
+                        </div>
                     </div>
                 </div>
                 <div className='trend-data-content-container-right'>
@@ -148,18 +157,9 @@ const GoogleTrends = () => {
                             <p2>5. </p2>
                         </div>
                     </div>
-                ))}
+                </div>
             </div>
             {/* <div>
-                <h1>
-                    워드 클라우드
-                </h1>
-                {loading2 && <div>로딩 중...</div>}
-                <div style={{ width: '1000px', height: '500px' }}>
-                    <WordCloud words={counts.map(word => ({ text: word.title, value: word.count}))}></WordCloud>
-                </div>
-            </div> */}
-            <div>
                 <h1>
                     워드 클라우드
                 </h1>
@@ -167,7 +167,7 @@ const GoogleTrends = () => {
                 <div style={{ width: '1000px', height: '500px' }}>
                     <WordCloud words={titles.map(word => ({ text: word.title, value: word.count}))}></WordCloud>
                 </div>
-            </div>
+            </div> */}
         </div>
     );
 }
