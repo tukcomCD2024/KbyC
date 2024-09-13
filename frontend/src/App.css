@@ -203,3 +203,22 @@
   height: 0.2vh;
   background-color: #3D8190;
 }
+
+/* 기본 하이퍼링크 스타일 */
+a {
+  color: #3D8190;
+  text-decoration: none; /* 기본 밑줄 제거 */
+}
+
+a:visited {
+  color: #BBCDFF; /* 방문한 링크 색상 */
+}
+
+a:hover {
+  color: #BBCDFF;
+  text-decoration: none;
+}
+
+a:active {
+  color: #BBCDFF;
+}

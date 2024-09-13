@@ -125,11 +125,14 @@
 
 .topic-trend-rank-detail-article {
     width: 100%;
-    height: 70%;
+    /* height: 70%; */
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-start;
+    /* 스크롤 추가 */
+    overflow: auto;
 }
 
 .topic-trend-rank-detail-post {

@@ -100,7 +100,7 @@ const TopicTrends = () => {
                 </div>
                 <div className='topic-trend-content-container-right'>
                     <div className='topic-trend-rank-detail-container'>
-                        <p1>트렌드 A</p1>
+                        {/* <p1>트렌드 A</p1>
                         <div className='topic-trend-rank-detail-article'>
                             <p2>1. </p2>
                             <p2>2. </p2>
@@ -120,6 +120,18 @@ const TopicTrends = () => {
                             <p2>3. </p2>
                             <p2>4. </p2>
                             <p2>5. </p2>
+                        </div> */}
+                        <div className='topic-trend-rank-detail-article'>
+                            {result && (
+                                <div>
+                                    <h2>{selectedDate}</h2>
+                                    {result.words.map((keyword, index) => (
+                                        <p key={index}>
+                                            {index + 1}. <Link to={`/trendinfo/${keyword.topic}`}>{keyword.topic}</Link> [{keyword.frequency}]
+                                        </p>
+                                    ))}
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
