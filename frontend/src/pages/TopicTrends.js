@@ -41,7 +41,23 @@ const TopicTrends = () => {
             <div className='topic-trend-content-container'>
                 <div className='topic-trend-content-container-left'>
                     <div className='topic-trend-rank-container'>
-                        랭킹
+                        <p1>2024.09.10</p1>
+                        <div className='topic-trend-rank-wrapper-container'>
+                            <div className='topic-trend-rank-wrapper'>
+                                <p2>1. </p2>
+                                <p2>2. </p2>
+                                <p2>3. </p2>
+                                <p2>4. </p2>
+                                <p2>5. </p2>
+                            </div>
+                            <div className='topic-trend-rank-wrapper'>
+                                <p2>6. </p2>
+                                <p2>7. </p2>
+                                <p2>8. </p2>
+                                <p2>9. </p2>
+                                <p2>10. </p2>
+                            </div>
+                        </div>
                     </div>
                     <div className='topic-trend-rank-text-cloud-container'>
                         {trendData.map((data, index) => (
@@ -66,7 +82,27 @@ const TopicTrends = () => {
                 </div>
                 <div className='topic-trend-content-container-right'>
                     <div className='topic-trend-rank-detail-container'>
-                        관련 기사 및 게시글
+                        <p1>트렌드 A</p1>
+                        <div className='topic-trend-rank-detail-article'>
+                            <p2>1. </p2>
+                            <p2>2. </p2>
+                            <p2>3. </p2>
+                            <p2>4. </p2>
+                            <p2>5. </p2>
+                            <p2>6. </p2>
+                            <p2>7. </p2>
+                            <p2>8. </p2>
+                            <p2>9. </p2>
+                            <p2>10. </p2>
+                        </div>
+                        <br1/>
+                        <div className='topic-trend-rank-detail-post'>
+                            <p2>1. </p2>
+                            <p2>2. </p2>
+                            <p2>3. </p2>
+                            <p2>4. </p2>
+                            <p2>5. </p2>
+                        </div>
                     </div>
                 </div>
             </div>
