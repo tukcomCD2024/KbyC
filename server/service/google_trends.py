@@ -56,3 +56,10 @@ def get_trends_search():
     print(result)
     
     return {"result": result}
+
+
+def get_trends_list():
+    trends = trends_retriever("KR")
+    titles = [trend["title"] for trend in trends]
+    print(titles)
+    return {'result': titles}

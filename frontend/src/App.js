@@ -16,6 +16,7 @@ import GoogleTrends from './pages/GoogleTrends';
 import NewsKeywords from './pages/NewsKeywords';
 import RealtimeSearchWords from './pages/RealtimeSearchWords';
 import TopicTrends from './pages/TopicTrends';
+import Test from './pages/test';
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);

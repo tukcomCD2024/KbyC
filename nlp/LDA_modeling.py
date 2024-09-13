@@ -4,7 +4,7 @@ from gensim import corpora
 from gensim.models.ldamodel import LdaModel
 
 # TF-IDF를 이용한 주요 단어 추출 함수 (단어 필터링 기능 추가)
-def extract_top_words_by_tfidf(documents, num_topics=5, num_words=5, word_filter_file='word.txt'):
+def extract_top_words_by_tfidf(documents, num_topics=5, num_words=5, word_filter_file='stopword.txt'):
     # TF-IDF 벡터화
     tfidf_vectorizer = TfidfVectorizer(max_features=1000)
     tfidf_matrix = tfidf_vectorizer.fit_transform(documents)
@@ -30,7 +30,7 @@ def load_preprocessed_documents(file_path):
     return df_documents
 
 # LDA 모델 학습 및 결과 저장
-def train_lda_model_and_save_topics(documents, num_topics=5, word_filter_file='word.txt'):
+def train_lda_model_and_save_topics(search_date, documents, num_topics=5, word_filter_file='stopword.txt'):
     # 문서 단어 사전 생성
     dictionary = corpora.Dictionary([doc.split() for doc in documents['document']])
     corpus = [dictionary.doc2bow(doc.split()) for doc in documents['document']]
@@ -47,7 +47,7 @@ def train_lda_model_and_save_topics(documents, num_topics=5, word_filter_file='w
     df_topics = pd.DataFrame(topics)
 
     # topics.csv 파일로 저장
-    df_topics.to_csv('./outputs/topics.csv', index=False)
+    df_topics.to_csv(f'./outputs/{search_date}/topics.csv', encoding='utf-8-sig', index=False)
     print(f"{num_topics}개의 토픽을 포함한 topics.csv 파일이 저장되었습니다.")
 
     # TF-IDF를 이용하여 각 토픽별 주요 단어 추출
@@ -57,11 +57,17 @@ def train_lda_model_and_save_topics(documents, num_topics=5, word_filter_file='w
     result = pd.DataFrame({'Topic': range(1, num_topics + 1), 'Words': top_words})
 
     # result.csv 파일로 저장
-    result.to_csv('./outputs/result.csv', index=False)
+    result.to_csv(f'./outputs/{search_date}/result.csv', encoding='utf-8-sig', index=False)
     print(f"토픽 5개의 주요 단어가 result.csv 파일로 저장되었습니다.")
 
     return documents, df_topics
 
 if __name__ == "__main__":
-    df_documents = load_preprocessed_documents('./outputs/documents.csv')
-    train_lda_model_and_save_topics(df_documents, num_topics=100, word_filter_file='word.txt')
+    #df_documents = load_preprocessed_documents('./outputs/documents.csv')
+    #train_lda_model_and_save_topics(df_documents, num_topics=100, word_filter_file='stopword.txt')
+
+    search_dates = ['20240613', '20240614', '20240615', '20240616', '20240617', '20240618', '20240619']
+
+    for search_date in search_dates:
+        df_documents = load_preprocessed_documents(f'./outputs/{search_date}/documents.csv')
+        train_lda_model_and_save_topics(search_date, df_documents, num_topics=100, word_filter_file='stopword.txt')
