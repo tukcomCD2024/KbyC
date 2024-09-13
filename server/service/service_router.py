@@ -57,3 +57,7 @@ def get_topic_trends():
 @router.get("/wordcloud")
 def get_word_cloud():
     return google_trends.get_trends_search()
+
+@router.get("/titles")
+def get_titles():
+    return google_trends.get_trends_list()

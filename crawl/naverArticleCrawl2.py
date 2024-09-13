@@ -21,70 +21,82 @@ detail_section_code_104 = ['231', '232', '233', '234', '322']
 detail_section_code_105 = ['731', '226', '227', '230', '732', '283', '229', '228']
 
 # 날짜 입력 YYYYMMDD
-search_date = input("날짜 입력(YYYYMMDD): ")
+# search_date = input("날짜 입력(YYYYMMDD): ")
 
-for section_code in section_codes:
-    # detail_section_code_101 ~ detail_section_code_105
-    detail_section_code_variable_name = f"detail_section_code_{section_code}"
-    # detail_section_code_variable_name에 맞는 리스트 찾기
-    detail_section_code_list = globals()[detail_section_code_variable_name]
-    for detail_section_code in detail_section_code_list:
-        # https://news.naver.com/breakingnews/section/${section}/${detail_section_code}?date=${YYYYMMDD}
-        url = f"https://news.naver.com/breakingnews/section/{section_code}/{detail_section_code}?date={search_date}"
-        response = requests.get(url)
-        id_index = 0
+# search_dates = ['20240801', '20240802', '20240803', '20240804', '20240805', '20240806', '20240807', '20240808', '20240809', '20240810',
+#                 '20240811', '20240812', '20240813', '20240814', '20240815', '20240816', '20240817', '20240818', '20240819', '20240820',
+#                 '20240821', '20240822', '20240823', '20240824', '20240825', '20240826', '20240827', '20240828', '20240829', '20240830',
+#                 '20240831', '20240901', '20240902', '20240903', '20240904', '20240905', '20240906', '20240907', '20240908', '20240909',
+#                 '20240910', '20240911', '20240912', '20240913']
 
-        if response.status_code == 200:
-            html = response.text
-            soup = BeautifulSoup(html, 'html.parser')
+search_dates = ['20240901', '20240902', '20240903', '20240904', '20240905', '20240906', '20240907', '20240908', '20240909',
+                '20240910', '20240911', '20240912', '20240913']
 
-            # sa_text 클래스를 가진 모든 요소를 가져옵니다.
-            sa_texts = soup.find_all('div', class_='sa_text')
-        
-            # 데이터를 담을 리스트 초기화
-            data = []
-        
-            for sa_text in sa_texts:
-                # 기사 URL 추출
-                article_url = sa_text.find('a')['href']
-                
-                # 기사 정보 가져오기
-                article_response = requests.get(article_url)
-                if article_response.status_code == 200:
-                    article_html = article_response.text
-                    article_soup = BeautifulSoup(article_html, 'html.parser')
 
-                    # id
-                    id = f'{search_date}_{section_code}_{detail_section_code}_{id_index}'
+for search_date in search_dates:
+    print(f"{search_date}:")
+    for section_code in section_codes:
+        # detail_section_code_101 ~ detail_section_code_105
+        detail_section_code_variable_name = f"detail_section_code_{section_code}"
+        # detail_section_code_variable_name에 맞는 리스트 찾기
+        detail_section_code_list = globals()[detail_section_code_variable_name]
+        for detail_section_code in detail_section_code_list:
+            # https://news.naver.com/breakingnews/section/${section}/${detail_section_code}?date=${YYYYMMDD}
+            url = f"https://news.naver.com/breakingnews/section/{section_code}/{detail_section_code}?date={search_date}"
+            response = requests.get(url)
+            id_index = 0
 
-                    # 기사 제목 추출
-                    article_title_tag = article_soup.find('h2', id='title_area')
-                    article_title = article_title_tag.text.strip() if article_title_tag else "제목 없음"
-                    article_title = re.sub(r'\[.*?\]|\(.*?\)', '', article_title)
-                    
-                    # 기사 내용 추출
-                    article_content_tag = article_soup.find('div', id='newsct_article')
-                    article_content = article_content_tag.text.strip() if article_content_tag else "내용 없음"
-                    
-                    # 기사 발행일 추출
-                    article_datetime_publication_tag = article_soup.find('span', class_='media_end_head_info_datestamp_time _ARTICLE_DATE_TIME')
-                    article_datetime_publication = article_datetime_publication_tag.text.strip() if article_datetime_publication_tag else "발행일 없음"
-                    
-                    # 기사 수정일 추출
-                    article_datetime_lastupdate_tag = article_soup.find('span', class_='media_end_head_info_datestamp_time _ARTICLE_MODIFY_DATE_TIME')
-                    article_datetime_lastupdate = article_datetime_lastupdate_tag.text.strip() if article_datetime_lastupdate_tag else "수정일 없음"
-                
-                    # 데이터 리스트에 추가
-                    data.append([id, article_title, article_content, article_datetime_publication, article_datetime_lastupdate, article_url])
+            if response.status_code == 200:
+                html = response.text
+                soup = BeautifulSoup(html, 'html.parser')
 
-            # DataFrame 생성
-            df = pd.DataFrame(data, columns=['id', 'article_title', 'article_content', 'article_datetime_publication', 'article_datetime_lastupdate', 'article_url'])
+                # sa_text 클래스를 가진 모든 요소를 가져옵니다.
+                sa_texts = soup.find_all('div', class_='sa_text')
             
-            # CSV 파일로 저장
-            # 디렉토리가 존재하지 않으면 생성
-            if not os.path.exists(f'./crawl/outputs/naver_article/{search_date}'):
-                os.makedirs(f'./crawl/outputs/naver_article/{search_date}')
-            time.sleep(2)
-            df.to_csv(f'./crawl/outputs/naver_article/{search_date}/{section_code}_{detail_section_code}.csv', index=False, encoding='utf-8-sig')
-        else:
-            print('error')
+                # 데이터를 담을 리스트 초기화
+                data = []
+            
+                for sa_text in sa_texts:
+                    # 기사 URL 추출
+                    article_url = sa_text.find('a')['href']
+                    
+                    # 기사 정보 가져오기
+                    article_response = requests.get(article_url)
+                    if article_response.status_code == 200:
+                        article_html = article_response.text
+                        article_soup = BeautifulSoup(article_html, 'html.parser')
+
+                        # id
+                        id = f'{search_date}_{section_code}_{detail_section_code}_{id_index}'
+
+                        # 기사 제목 추출
+                        article_title_tag = article_soup.find('h2', id='title_area')
+                        article_title = article_title_tag.text.strip() if article_title_tag else "제목 없음"
+                        article_title = re.sub(r'\[.*?\]|\(.*?\)', '', article_title)
+                        
+                        # 기사 내용 추출
+                        article_content_tag = article_soup.find('div', id='newsct_article')
+                        article_content = article_content_tag.text.strip() if article_content_tag else "내용 없음"
+                        
+                        # 기사 발행일 추출
+                        article_datetime_publication_tag = article_soup.find('span', class_='media_end_head_info_datestamp_time _ARTICLE_DATE_TIME')
+                        article_datetime_publication = article_datetime_publication_tag.text.strip() if article_datetime_publication_tag else "발행일 없음"
+                        
+                        # 기사 수정일 추출
+                        article_datetime_lastupdate_tag = article_soup.find('span', class_='media_end_head_info_datestamp_time _ARTICLE_MODIFY_DATE_TIME')
+                        article_datetime_lastupdate = article_datetime_lastupdate_tag.text.strip() if article_datetime_lastupdate_tag else "수정일 없음"
+                    
+                        # 데이터 리스트에 추가
+                        data.append([id, article_title, article_content, article_datetime_publication, article_datetime_lastupdate, article_url])
+
+                # DataFrame 생성
+                df = pd.DataFrame(data, columns=['id', 'article_title', 'article_content', 'article_datetime_publication', 'article_datetime_lastupdate', 'article_url'])
+                
+                # CSV 파일로 저장
+                # 디렉토리가 존재하지 않으면 생성
+                if not os.path.exists(f'./crawl/outputs/naver_article/{search_date}'):
+                    os.makedirs(f'./crawl/outputs/naver_article/{search_date}')
+                time.sleep(2)
+                df.to_csv(f'./crawl/outputs/naver_article/{search_date}/{section_code}_{detail_section_code}.csv', index=False, encoding='utf-8-sig')
+            else:
+                print('error')

@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Text, DateTime, Float, ForeignKey
+from sqlalchemy import Column, Integer, String, Text, DateTime, Float, ForeignKey, Date
 from sqlalchemy.orm import relationship
 from database import Base
 
@@ -42,3 +42,11 @@ class Comment(Base):
 
     writer = relationship('User', back_populates='comments')
     post = relationship('Post', back_populates='comments')
+
+class Google_Keyword(Base):
+    __tablename__ = 'google_keyword'
+
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True, nullable=False)
+    date = Column(Date, nullable=False)
+    name = Column(String(50), nullable=False)
+    count = Column(Integer, nullable=False)

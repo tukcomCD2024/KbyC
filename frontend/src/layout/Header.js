@@ -24,10 +24,12 @@ const Header = () => {
                 <button className='App-header-link-logo' onClick={() => handleNavigation('/')}>
                     <img src={logo} alt='home' className='App-header-link-logo-image' />
                 </button>
-                <button className='App-header-link' onClick={() => handleNavigation('/service/topictrends')}>토픽 트렌드</button>
-                <button className='App-header-link' onClick={() => handleNavigation('/service/realtimesearchwords')}> 실시간 검색어</button>
-                <button className='App-header-link' onClick={() => handleNavigation('/service/googletrends')}>트렌드 데이터</button>
                 <button className='App-header-link' onClick={() => handleNavigation('/board')}>게시판</button>
+                <button className='App-header-link' onClick={() => handleNavigation('/service/navernews')}>네이버 뉴스</button>
+                <button className='App-header-link' onClick={() => handleNavigation('/service/googletrends')}>구글 트렌드</button>
+                <button className='App-header-link' onClick={() => handleNavigation('/service/newskeywords')}>뉴스 분석</button>
+                <button className='App-header-link' onClick={() => handleNavigation('/service/realtimesearchwords')}>실시간 검색어</button>
+                <button className='App-header-link' onClick={() => handleNavigation('/service/topictrends')}>토픽 트렌드</button>
             </div>
             <form class="search-form" onSubmit={handleSubmit}>
                 <div className='search-container'>

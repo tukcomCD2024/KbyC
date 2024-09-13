@@ -6,8 +6,10 @@ import matplotlib.pyplot as plt
 #plt.rc('font', family='Malgun Gothic')
 
 def get_trend_data(keyword, start_date, end_date):
-    client_id = "_IEANC95IKr5Xp8P61M1"
-    client_secret = "5_BM2tr9k1"
+    # client_id = "_IEANC95IKr5Xp8P61M1"
+    # client_secret = "5_BM2tr9k1"
+    client_id = "VBWYiqMUB8MxGATl3CE_"
+    client_secret = "bdtmwUYATB"
     
     time_unit='date' 
     keyword_groups = [
