@@ -1,11 +1,11 @@
 .home-page {
-    background-color: #eeffff;
+    background-color: #F4FFFF;
     width: 100%;
-    height: 90vh;
+    height: 85vh;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
-    padding: 2%;
 }
 
 .home-page h1 {
@@ -47,4 +47,132 @@
     margin: 2%;
     font-weight: bold;
     cursor: pointer;
+}
+
+.content-container1 {
+    background-color: #F4FFFF;
+    width: 80%;
+    height: 70vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+/* 검색창 컨테이너 스타일 */
+.search-container1 {
+    width: 60%;
+    background-color: #F4FFFF;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+/* 검색 폼 스타일 */
+.search-form1 {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #3d8190;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: #F4FFFF;
+}
+
+/* 입력 필드 스타일 */
+.search-input1 {
+    background-color: #F4FFFF;
+    flex: 13;
+    height: 10vh;
+    border: none;
+    font-size: 24px;
+    border-radius: 10px;
+    outline: none;
+    padding-left: 2vh;
+}
+
+/* 버튼 스타일 */
+.search-button1 {
+    background-color: #3d8190;
+    border: none;
+    border-radius: 10px;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* 버튼 호버 시 스타일 */
+.search-button1:hover {
+    background-color: #2b5d70;
+}
+
+
+
+.rank-content-container {
+    background-color: #F4FFFF;
+    width: 80%;
+    height: 60vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+
+.text-cloud-container {
+    background-color: #F4FFFF;
+    border: 2px solid #3d8190;
+    border-radius: 20px;
+    width: 70%;
+    height: 50vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 2%;
+    
+}
+.ranking-container {
+    background-color: #F4FFFF;
+    border: 2px solid #3d8190;
+    border-radius: 20px;
+    width: 20%;
+    height: 50vh;
+    margin-left: 2%;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: 2vh;
+}
+
+.ranking-container p1 {
+    font-size: 150%;
+    color: #3d8190;
+    font-weight: bold;
+    text-align: center;
+}
+
+.ranking-content-container {
+    width: 100%;
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.ranking-container p2 {
+    font-size: 100%;
+    color: #3d8190;
+    font-weight: bold;
+    text-align: center;
+}
+
+.ranking-container br1 {
+    width: 90%;
+    align-self: center;
+    border: 1px solid #3d8190;
+    margin: 5%;
 }
