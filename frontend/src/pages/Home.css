@@ -1,11 +1,11 @@
 .home-page {
     background-color: #F4FFFF;
-    width: 97%;
-    height: 90vh;
+    width: 100%;
+    height: 85vh;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
-    padding: 2%;
 }
 
 .home-page h1 {
@@ -50,43 +50,45 @@
 }
 
 .content-container1 {
+    background-color: #F4FFFF;
     width: 80%;
-    height: 80%;
+    height: 70vh;
     display: flex;
+    justify-content: center;
+    align-items: center;
     flex-direction: column;
-    padding-top: 5vh;
-    padding-left: 30vh;
 }
 /* 검색창 컨테이너 스타일 */
 .search-container1 {
+    width: 60%;
     background-color: #F4FFFF;
-    margin-left: 20px;
+    justify-content: center;
+    align-items: center;
     display: flex;
 }
 
 /* 검색 폼 스타일 */
 .search-form1 {
     display: flex;
-    width: 70vh;
+    width: 100%;
+    justify-content: center;
     align-items: center;
     border: 2px solid #3d8190;
-    border-radius: 25px;
+    border-radius: 10px;
     overflow: hidden;
-    margin-left: 40px;
     background-color: #F4FFFF;
 }
 
 /* 입력 필드 스타일 */
 .search-input1 {
-    width: 350vh;
-    height: 40px;
-    border: none;
-    margin-left: 15px;
-    padding: 15px;
-    font-size: 16px;
-    border-radius: 25px;
-    outline: none;
     background-color: #F4FFFF;
+    flex: 13;
+    height: 10vh;
+    border: none;
+    font-size: 24px;
+    border-radius: 10px;
+    outline: none;
+    padding-left: 2vh;
 }
 
 /* 버튼 스타일 */
@@ -94,8 +96,7 @@
     background-color: #3d8190;
     border: none;
     border-radius: 10px;
-    width: 20px;
-    height: 20px;
+    flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -112,37 +113,34 @@
 
 .rank-content-container{
     background-color: #F4FFFF;
-    margin-left: 20px;
-    margin-top: 10px;
-    width: 80vh;
+    width: 80%;
     height: 60vh;
     display: flex;
+    justify-content: center;
+    align-items: center;
     flex-direction: row;
 }
 
 .text-cloud-container{
     background-color: #F4FFFF;
     border: 2px solid #3d8190;
-    margin-left: 20px;
-    margin-top: 2vh;
     border-radius: 20px;
-    width: 60vh;
-    height: 40vh;
+    width: 70%;
+    height: 50vh;
     overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-left: 2vh;
-    padding-top: 2vh;
+    margin-right: 2%;
+    
 }
 .ranking-container{
     background-color: #F4FFFF;
     border: 2px solid #3d8190;
-    margin-left: 20px;
-    margin-top: 2vh;
     border-radius: 20px;
-    width: 20vh;
-    height: 40vh;
-    padding-left: 2vh;
-    padding-top: 2vh;
+    width: 20%;
+    height: 50vh;
+    margin-left: 2%;
+    box-sizing: border-box;
+    padding: 2vh;
 }
