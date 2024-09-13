@@ -47,7 +47,20 @@ function Home() {
                 sadas
             </div>
             <div className='ranking-container'>
-                sdsdsds
+                <p1>2024.09.10</p1>
+                <br1/>
+                <div className='ranking-content-container'>
+                  <p2>1. </p2>
+                  <p2>2. </p2>
+                  <p2>3. </p2>
+                  <p2>4. </p2>
+                  <p2>5. </p2>
+                  <p2>6. </p2>
+                  <p2>7. </p2>
+                  <p2>8. </p2>
+                  <p2>9. </p2>
+                  <p2>10. </p2>
+                </div>
             </div>
           </div>
         </div>
