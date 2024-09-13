@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import './TrendInfoPage.css';
+import { useNavigate } from 'react-router-dom';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -171,13 +171,6 @@ const TrendInfoPage = () => {
     window.location.href = path;
   };
 
-  const scrollToSection = (id) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   return (
     <div className='trendinfo-page'>
       <div className='navbar'>
@@ -222,8 +215,8 @@ const TrendInfoPage = () => {
                     {word}
                   </p>
                 ))}
-              </div>
-              <div id='trend-reactions'>
+                </div>
+                <div id='trend-reactions'>
                 <p className='trendinfo-content-title'>반응</p>
                 <p className='trendinfo-content-list'>네이버 블로그, 카페 키워드</p>
                 {loading3 && <p className='trendinfo-content-list'>로딩 중...</p>}
