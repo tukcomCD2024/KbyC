@@ -25,14 +25,20 @@ const RealtimeSearchWords = () => {
         getRealtimeSearchWords();
     }, []);
 
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = (today.getMonth() + 1).toString().padStart(2, '0');
+    const day = today.getDate().toString().padStart(2, '0');
+    const date = `${year}-${month}-${day}`;
+
     return (
         <div className='realtime-search-page'>
             {loading && <div>로딩 중...</div>}
             <div className='realtime-search-content-container'>
                 <div className='realtime-search-content-container-left'>
                     <div className='realtime-search-rank-container'>
-                        <p1>2024.09.10</p1>
-                        <div className='realtime-search-rank-wrapper-container'>
+                        <p1>{date}</p1>
+                        {/* <div className='realtime-search-rank-wrapper-container'>
                             <div className='realtime-search-rank-wrapper'>
                                 <p2>1. </p2>
                                 <p2>2. </p2>
@@ -47,17 +53,33 @@ const RealtimeSearchWords = () => {
                                 <p2>9. </p2>
                                 <p2>10. </p2>
                             </div>
+                        </div> */}
+                        <div className='realtime-search-rank-wrapper-container'>
+                            <div className='realtime-search-rank-wrapper'>
+                                {wordsList2.slice(0, 5).map((word, index) => (
+                                    <p2 key={index}>
+                                        {index + 1}. <Link to={`/trendinfo/${word}`}>{word}</Link><br/>
+                                    </p2>
+                                ))}
+                            </div>
+                            <div className='realtime-search-rank-wrapper'>
+                                {wordsList2.slice(5).map((word, index) => (
+                                    <p2 key={index}>
+                                        {index + 6}. <Link to={`/trendinfo/${word}`}>{word}</Link><br/>
+                                    </p2>
+                                ))}
+                            </div>
                         </div>
                     </div>
                     <div className='realtime-search-rank-text-cloud-container'>
                         <div style={{ display: 'flex' }}>
                             <div style={{ marginRight: '20px' }}>
                                 {loading && <div>로딩 중...</div>}
-                                {wordsList.map((word, index) => (
+                                {/* {wordsList.map((word, index) => (
                                     <p key={index}>
                                         {index + 1}. <Link to={`/trendinfo/${word}`}>{word}</Link><br/>
                                     </p>
-                                ))}
+                                ))} */}
                             </div>
                             <div>
                                 {wordsList2.map((word, index) => (
