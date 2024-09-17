@@ -175,11 +175,11 @@ const TrendInfoPage = () => {
     <div className='trendinfo-page'>
       <div className='navbar'>
         <span className='navbar-title'>{name}</span>
-        <button className='trendinfo-content-list' onClick={() => WritePost(name)}>글쓰기</button>
         <span onClick={() => scrollToSection('trend-definition')}>정의</span>
         <span onClick={() => scrollToSection('trend-search-volume')}>검색량</span>
         <span onClick={() => scrollToSection('trend-news')}>관련 기사</span>
         <span onClick={() => scrollToSection('trend-reactions')}>반응</span>
+        <button className='trendinfo-content-list' onClick={() => WritePost(name)}>게시글 작성</button>
       </div>
       <div className='trendinfo-content-container'>
         <div className='trendinfo-content'>
