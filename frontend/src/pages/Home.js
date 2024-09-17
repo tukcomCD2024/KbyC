@@ -36,7 +36,7 @@ function Home() {
                     placeholder="검색어를 입력하세요..."
                     class="search-input1"
                 />
-                <button type="submit" class="search-button1">
+                <button class="search-button1" type="submit">
                   &gt;
                 </button>
             </form>
