@@ -54,28 +54,34 @@ const WritePost = () => {
 
   return (
     <div className="write-post-page">
-      <div className="title-box">
-        <h1>[ 게시글 작성 ]</h1>
-        <input
-          type="text"
-          name="title"
-          placeholder="제목을 입력하세요."
-          value={title}
-          onChange={onChange}
-          className="search-box"
-        />
-      </div>
-      <div className="content-box">
-        <textarea
-          ref={textareaRef}
-          name="content"
-          placeholder="내용을 입력하세요."
-          value={content}
-          onChange={onChange}
-        />
-      </div>
-
-      <div>
+      <div className='write-post-container'>
+        <div className="head-container">
+          <input
+            className="head-container-title"
+            type="text"
+            name="title"
+            placeholder="제목을 입력하세요."
+            value={title}
+            onChange={onChange}
+          />
+          <input
+            className="head-container-tag"
+            type="text"
+            name="tag"
+            placeholder="연관 트렌드"
+            value={title}
+            onChange={onChange}
+          />
+        </div>
+        <div className="content-container">
+          <textarea
+            ref={textareaRef}
+            name="content"
+            placeholder="내용을 입력하세요."
+            value={content}
+            onChange={onChange}
+          />
+        </div>
         <div className="finish-button-container">
           <button onClick={savePost} className="finish-button">
             저장
