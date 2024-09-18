@@ -151,9 +151,25 @@
     text-align: center;
 }
 
+.trend-data-rank-detail-article p2 {
+    font-size: 100%;
+    color: #3d8190;
+    font-weight: bold;
+    text-align: center;
+}
+
+.trend-data-rank-detail-article p1 {
+    font-size: 130%;
+    color: #3d8190;
+    font-weight: bold;
+    text-align: center;
+    align-self: center;
+}
+
 .trend-data-rank-detail-container br1 {
     width: 90%;
     align-self: center;
     border: 1px solid #3d8190;
-    margin: 5%;
+    margin: 3%;
+    margin-bottom: 0%;
 }
