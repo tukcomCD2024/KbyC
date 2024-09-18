@@ -35,6 +35,10 @@ const TopicTrends = () => {
         console.log(result);
     };
 
+    const onWordClick = (word) => {
+        navigate(`/trendinfo/${word.text}`);
+    };
+
     return (
         <div className='topic-trend-page'>
             {loading && <div>로딩 중...</div>}
@@ -93,7 +97,13 @@ const TopicTrends = () => {
                         )} */}
                         {result && (
                             <div style={{ width: '1000px', height: '500px' }}>
-                                <WordCloud words={result.words.map(word => ({ text: word.topic, value: word.frequency}))}></WordCloud>
+                                <WordCloud
+                                    words={result.words.map(word => ({ text: word.topic, value: word.frequency}))}
+                                    callbacks={{
+                                        onWordClick: onWordClick,
+                                    }}
+                                >
+                                </WordCloud>
                             </div>
                         )}
                     </div>

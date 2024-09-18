@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import WordCloud from 'react-wordcloud';
 import './GoogleTrends.css';
@@ -82,6 +82,12 @@ const GoogleTrends = () => {
     //     getSearchCounts();
     // }, []);
 
+    const navigate = useNavigate();
+
+    const onWordClick = (word) => {
+        navigate(`/trendinfo/${word.text}`);
+    };
+
     const today = new Date();
     const year = today.getFullYear();
     const month = (today.getMonth() + 1).toString().padStart(2, '0');
@@ -129,7 +135,13 @@ const GoogleTrends = () => {
                             </div>
                         ))} */}
                         <div style={{ width: '1000px', height: '500px' }}>
-                            <WordCloud words={titles.map(word => ({ text: word.title, value: word.count}))}></WordCloud>
+                            <WordCloud
+                                words={titles.map(word => ({ text: word.title, value: word.count}))}
+                                callbacks={{
+                                    onWordClick: onWordClick,
+                                }}
+                            >
+                            </WordCloud>
                         </div>
                     </div>
                 </div>

@@ -46,6 +46,11 @@ function Home() {
     window.location.reload();
   }
 
+  const onWordClick = (word) => {
+    // 클릭한 단어에 따라 이동할 URL
+    navigate(`/trendinfo/${word.text}`);
+  };
+
   return (
       <div className='home-page'>
         <div className='content-container1'>
@@ -75,6 +80,9 @@ function Home() {
                   ) : trendData.length > 0 && trendData[trendData.length - 1] && trendData[trendData.length - 1].words ? (
                       <WordCloud
                           words={trendData[trendData.length - 1].words.map(word => ({ text: word.topic, value: word.frequency }))}
+                          callbacks={{
+                            onWordClick: onWordClick,
+                          }}
                       />
                   ) : (
                       <p>데이터가 없습니다</p>
