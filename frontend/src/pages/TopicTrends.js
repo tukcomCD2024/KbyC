@@ -29,6 +29,9 @@ const TopicTrends = () => {
             }
         }
         getTopicTrends();
+        const today = new Date();
+        today.setHours(12, 0, 0, 0);
+        setSelectedDate(today);
     }, []);
 
     const handleDateChange = (date) => {
@@ -54,7 +57,19 @@ const TopicTrends = () => {
             <div className='topic-trend-content-container'>
                 <div className='topic-trend-content-container-left'>
                     <div className='topic-trend-rank-container'>
-                        <p1>{selectedDate}</p1>
+                        <p1 onClick={() => setIsDatePickerOpen(!isDatePickerOpen)} style={{ cursor: 'pointer', display: 'inline-block' }}>
+                            {selectedDate ? selectedDate.toISOString().split('T')[0] : '날짜 선택'}
+                        </p1>
+                        {isDatePickerOpen && (
+                            <div>
+                                <DatePicker
+                                    selected={selectedDate}
+                                    onChange={(date) => handleDateChange(date)}
+                                    dateFormat="yyyy-MM-dd"
+                                    inline
+                                />
+                            </div>
+                        )}
                         <div className='topic-trend-rank-wrapper-container'>
                             <div className='topic-trend-rank-wrapper'>
                             {selectedDate && result && (
