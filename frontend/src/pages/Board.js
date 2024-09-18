@@ -47,7 +47,7 @@ const Board = () => {
     
     const handleTag = (tag) => {
         setTag(tag);
-        const filtered = posts.filter(post => post.tag === tag);
+        const filtered = posts.filter(post => post.tag && post.tag.replaceAll(' ', '') === tag.replaceAll(' ', ''));
         setFilteredPosts(filtered);
         console.log(tag);
     };
