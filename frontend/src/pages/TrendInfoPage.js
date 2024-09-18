@@ -252,8 +252,9 @@ const TrendInfoPage = () => {
                 <a href={news.link} target="_blank" rel="noopener noreferrer">{news.title}</a>
               </p>
             ))}
+            <p className='trendinfo-content-title'>기사 키워드</p>
             {wordList.map((word, index) => (
-              <p key={index}>
+              <p key={index} className='trendinfo-content-list'>
                 {word}
               </p>
             ))}
@@ -268,7 +269,7 @@ const TrendInfoPage = () => {
             {loading3 && <p className='trendinfo-content-list'>로딩 중...</p>}
             <div className='trendinfo-contents'>
               {wordList2.map((word, index) => (
-                <p key={index}>
+                <p key={index} className='trendinfo-content-list'>
                   {word}
                 </p>
               ))}
@@ -276,7 +277,7 @@ const TrendInfoPage = () => {
             <p1 className='trendinfo-content-list'>- 연관 검색어</p1>
             <div className='trendinfo-contents'>
             {relatedKeywords.map((word, index) => (
-              <p key={index}>
+              <p key={index} className='trendinfo-content-list'>
                 {word}
               </p>
             ))}
@@ -302,13 +303,25 @@ const TrendInfoPage = () => {
       </div>
       <div className='tredninfo-reaction-container'>
           <div className='tredninfo-reaction-wrapper'>
-            <p>유저 반응</p>
+            {/* <p>유저 반응</p>
             <br1/>
             <p1>반응</p1>
             <p1>반응</p1>
             <p1>반응</p1>
             <p1>반응</p1>
-            <p1>반응</p1>
+            <p1>반응</p1> */}
+              {posts.map((post) => (
+                <div key={post.post_id}>
+                    <div>
+                      <p1>
+                        <span>[{post.tag}] </span>
+                        <span onClick={() => handleNavigation(`/post/${post.post_id}`)}> {post.title} </span>
+                        {/* <span> {post.writer_name} </span>
+                        <span> {post.post_date.replace("T", " ")}</span> */}
+                      </p1>
+                    </div>
+                </div>
+              ))}
           </div>
       </div>
     </div> 

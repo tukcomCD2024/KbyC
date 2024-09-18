@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import axios from 'axios';
+import WordCloud from 'react-wordcloud';
 import './Home.css';
 
 function Home() {
   const [data, setData] = useState(null);
   const [data1, setData1] = useState(null);
+
+  const [trendData, setTrendData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch('http://localhost:8000')  // FastAPI 서버 주소
@@ -17,6 +22,21 @@ function Home() {
       .then(response => response.json())
       .then(data1 => setData1(data1));
   }, []);
+
+  useEffect(() => {
+    async function getTopicTrends() {
+        try {
+            const response = await axios.get('/service/topictrends');
+            setTrendData(response.data.topic_trends);
+            console.log(response.data.topic_trends);
+            setLoading(false);
+        }
+        catch (error) {
+            console.error('에러 발생', error);
+        }
+    }
+    getTopicTrends();
+}, []);
 
   const navigate = useNavigate();
 
@@ -59,22 +79,40 @@ function Home() {
 
           <div className='rank-content-container'>
             <div className='text-cloud-container'>
-                sadas
+              {/* {trendData && (
+                            <div style={{ width: '1000px', height: '500px' }}>
+                                <WordCloud words={trendData[trendData.length - 1].words.map(word => ({ text: word.topic, value: word.frequency}))}></WordCloud>
+                            </div>
+                        )} */}
+              <div style={{ width: '1000px', height: '500px' }}>
+                  {loading ? (
+                      <p>로딩 중...</p>
+                  ) : trendData.length > 0 && trendData[trendData.length - 1] && trendData[trendData.length - 1].words ? (
+                      <WordCloud
+                          words={trendData[trendData.length - 1].words.map(word => ({ text: word.topic, value: word.frequency }))}
+                      />
+                  ) : (
+                      <p>데이터가 없습니다</p>
+                  )}
+              </div>
             </div>
             <div className='ranking-container'>
-                <p1>2024.09.10</p1>
                 <br1/>
                 <div className='ranking-content-container'>
-                  <p2>1. </p2>
-                  <p2>2. </p2>
-                  <p2>3. </p2>
-                  <p2>4. </p2>
-                  <p2>5. </p2>
-                  <p2>6. </p2>
-                  <p2>7. </p2>
-                  <p2>8. </p2>
-                  <p2>9. </p2>
-                  <p2>10. </p2>
+                  {loading ? (
+                      <p>로딩 중...</p>
+                  ) : trendData.length > 0 && trendData[trendData.length - 1] && trendData[trendData.length - 1].words ? (
+                    <div>
+                      <p1>{trendData[trendData.length - 1].date}</p1>
+                      {trendData[trendData.length - 1].words.map((keyword, index) => (
+                        <p key={index}>
+                          {index + 1}. <Link to={`/trendinfo/${keyword.topic}`}>{keyword.topic}</Link>
+                        </p>
+                      ))}
+                    </div>
+                  ) : (
+                      <p>데이터가 없습니다</p>
+                  )}
                 </div>
             </div>
           </div>

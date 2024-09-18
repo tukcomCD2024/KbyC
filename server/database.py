@@ -5,7 +5,7 @@ from sqlalchemy.orm import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 
-SQLALCHEMY_DATABASE_URL = 'mysql+pymysql://admin:passwd@127.0.0.1:3306/Trenddit'
+SQLALCHEMY_DATABASE_URL = 'mysql+pymysql://root:passwd@127.0.0.1:3306/Trenddit'
 # SQLALCHEMY_DATABASE_URL = 'mysql+pymysql://root:passwd@localhost:3306/Trenddit'
 
 
