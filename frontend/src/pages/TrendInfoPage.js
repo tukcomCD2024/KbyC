@@ -231,12 +231,13 @@ const TrendInfoPage = () => {
             <div id='trend-reactions'>
             <p className='trendinfo-content-title'>연관 키워드</p>
             <p1 className='trendinfo-content-list'>- 네이버 블로그, 카페 키워드</p1>
-            {loading3 && <p className='trendinfo-content-list'>로딩 중...</p>}
-            {wordList2.map((word, index) => (
-              <p key={index} className='trendinfo-content-list'>
-                {word}
-              </p>
-            ))}
+            <div className='trendinfo-contents'>
+              {wordList2.map((word, index) => (
+                <p key={index} className='trendinfo-content-list'>
+                  {word}
+                </p>
+              ))}
+            </div>
           
             <p1 className='trendinfo-content-list'>- 연관 검색어</p1>
             {relatedKeywords.map((word, index) => (
