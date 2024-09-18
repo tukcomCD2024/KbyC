@@ -38,8 +38,6 @@
 /nlp/outputs
 /nlp/inputs
 
-/outputs
-
 # API Keys
 /secret.json
 */secret.json
