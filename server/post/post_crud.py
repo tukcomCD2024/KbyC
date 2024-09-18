@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session
+from sqlalchemy import func
 
 from models import Post, User
 from post.post_schema import PostCreate, PostUpdate
@@ -66,7 +67,8 @@ def get_posts(db: Session):
     return post_list[::-1]
 
 def get_posts_by_tag(db: Session, tag: str):
-    posts = db.query(Post).filter(Post.tag == tag).all()
+    # posts = db.query(Post).filter(Post.tag == tag).all()
+    posts = db.query(Post).filter(func.replace(Post.tag, " ", "") == tag.replace(" ", "")).all()
     post_list = []
 
     for post in posts:

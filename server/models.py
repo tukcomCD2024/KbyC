@@ -50,3 +50,11 @@ class Google_Keyword(Base):
     date = Column(Date, nullable=False)
     name = Column(String(50), nullable=False)
     count = Column(Integer, nullable=False)
+
+class Realtime_Keyword(Base):
+    __tablename__ = 'realtime_keyword'
+
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True, nullable=False)
+    date = Column(Date, nullable=False)
+    name = Column(String(50), nullable=False)
+    count = Column(Integer, nullable=False)

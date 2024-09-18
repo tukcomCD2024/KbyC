@@ -37,12 +37,14 @@ from post import post_router
 from comment import comment_router
 from service import service_router
 from google_keyword import google_keyword_router
+from realtime_keyword import realtime_keyword_router
 
 app.include_router(user_router.router, tags=["user"])
 app.include_router(post_router.router, tags=["post"])
 app.include_router(comment_router.router, tags=["comment"])
 app.include_router(service_router.router, tags=["service"])
 app.include_router(google_keyword_router.router, tags=["keyword"])
+app.include_router(realtime_keyword_router.router, tags=["keyword2"])
 
 if __name__ == "__main__":
 	import uvicorn

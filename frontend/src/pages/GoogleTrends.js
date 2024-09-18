@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import WordCloud from 'react-wordcloud';
 import DatePicker from 'react-datepicker';
@@ -18,7 +18,10 @@ const GoogleTrends = () => {
     const [loading3, setLoading3] = useState(true);
     const [isDatePickerOpen, setIsDatePickerOpen] = useState(false); // DatePicker 열림/닫힘 상태
     const [newsList, setNewsList] = useState([]);
+    const [loading2, setLoading2] = useState(true);
     const [selectedWord, setSelectedWord] = useState(null);
+
+    const [posts, setPosts] = useState([]);
 
     useEffect(() => {
         async function getGoogleTrends() {
@@ -68,6 +71,22 @@ const GoogleTrends = () => {
         getTrendNames();
     }, []);
 
+    useEffect(() => {
+        const fetchPosts = async () => {
+            setPosts([]);
+            if (selectedWord) {
+                try {
+                    const response = await axios.get(`/post/read/tag/${selectedWord.title}`);
+                    setPosts(response.data);
+                    console.log(response.data);
+                } catch (error) {
+                    console.error("게시글 가져오기 오류:", error);
+                }
+            }
+        };
+        fetchPosts();
+    }, [selectedWord]);
+
     const handleDateChange = (date) => {
         const localDate = new Date(
             date.getFullYear(),
@@ -85,6 +104,8 @@ const GoogleTrends = () => {
         setSelectedDate(localDate);
     };
 
+    const navigate = useNavigate();
+
     const today = new Date();
     const year = today.getFullYear();
     const month = (today.getMonth() + 1).toString().padStart(2, '0');
@@ -93,20 +114,32 @@ const GoogleTrends = () => {
 
     const handleWordClick = async (word) => {
         setSelectedWord(word);
+        setLoading2(true);
+        console.log(word);
         try {
-            const response = await axios.post('/service/trendnews', {
-                content: word.topic,
+            const response = await axios.post('/service/navernews', {
+                content: word.title,
                 page: 1,
-                page2: 5
+                page2: 1
             }, {
                 headers: {
                     'Content-type': 'application/json'
                 }
             });
             setNewsList(response.data.news);
+            setLoading2(false);
+            console.log(response.data.news);
         } catch (error) {
             console.error('에러 발생', error);
         }
+    };
+
+    const onWordClick = (word) => {
+        navigate(`/trendinfo/${word.text}`);
+    };
+
+    const handleNavigation = (path) => {
+        window.location.href = path;
     };
 
     return (
@@ -130,21 +163,23 @@ const GoogleTrends = () => {
                         )}
                         <div className='trend-data-rank-wrapper-container'>
                             <div className='trend-data-rank-wrapper'>
-                            {selectedDate && result && (
+                            {(
                             <div>
-                                {result && result.words.slice(0, 5).map((trend, index) => (
+                                {trends.slice(0, 5).map((trend, index) => (
                                     <p2 key={index} onClick={() => handleWordClick(trend)} style={{ cursor: 'pointer' }}>
-                                         <Link to={`/trendinfo/${trend.title}`}>{index + 1}.{trend.title}</Link><br/>
+                                         {/* <Link to={`/trendinfo/${trend.title}`}>{index + 1}.{trend.title}</Link><br/> */}
+                                         {index + 1}. {trend.title}<br/>
                                     </p2>
                                 ))}
                             </div>
                             )}
                             </div>
-                            {selectedDate && result && (
+                            {(
                             <div>
-                                {result && result.words.slice(5, 10).map((trend, index) => (
+                                {trends.slice(5, 10).map((trend, index) => (
                                     <p2 key={index} onClick={() => handleWordClick(trend)} style={{ cursor: 'pointer' }}>
-                                        <Link to={`/trendinfo/${trend.title}`}>{index + 6}. {trend.title}</Link><br/>
+                                        {/* <Link to={`/trendinfo/${trend.title}`}>{index + 6}. {trend.title}</Link><br/> */}
+                                        {index + 6}. {trend.title}<br/>
                                     </p2>
                                 ))}
                             </div>
@@ -152,29 +187,51 @@ const GoogleTrends = () => {
                         </div>
                     </div>
                     <div className='trend-data-rank-text-cloud-container'>
-                        {result && (
+                        {(
                             <div style={{ width: '1000px', height: '500px' }}>
-                                <WordCloud words={result.words.map(word => ({ text: word.title, value: word.count }))}></WordCloud>
+                                <WordCloud
+                                    words={titles.map(word => ({ text: word.title, value: word.count }))}
+                                    callbacks={{
+                                        onWordClick: onWordClick,
+                                    }}
+                                />
                             </div>
                         )}
                     </div>
                 </div>
                 <div className='trend-data-content-container-right'>
                     <div className='trend-data-rank-detail-container'>
-                        <p1>{selectedWord ? selectedWord.topic : '선택된 단어 없음'}</p1>
+                        <p1>{selectedWord ? selectedWord.title : '선택된 단어 없음'}</p1>
                         <div className='trend-data-rank-detail-article'>
-                            {newsList.map((news, index) => (
+                            {/* {newsList.map((news, index) => (
                                 <p2 key={index}>
                                     <a href={news.link} target="_blank" rel="noopener noreferrer">{index + 1}. {news.title}</a>
                                 </p2>
-                            ))}
+                            ))} */}
+                            <p1>관련 기사</p1>
+                            {selectedWord && loading2 ?
+                            <div>로딩 중...</div> :
+                            <div>{newsList.map((news, index) => (
+                                <p2 key={index}>
+                                    <a href={news.link} target="_blank" rel="noopener noreferrer">{news.title}</a><br/>
+                                </p2>
+                            ))}</div>}
+                            {selectedWord && <div>{selectedWord.news_list.map((news, index) => (
+                                <p2 key={index}>
+                                    <a href={news.news_url} target="_blank">{news.news_title}</a><br/>
+                                </p2>
+                            ))}</div>}
                             <br1/>
                             <p1>관련 게시글</p1>
-                            <p2>1. </p2>
-                            <p2>2. </p2>
-                            <p2>3. </p2>
-                            <p2>4. </p2>
-                            <p2>5. </p2>
+                            {selectedWord && posts &&
+                            <div>
+                                {posts.map((post) => (
+                                <p2 key={post.post_id}>
+                                    <span onClick={() => handleNavigation(`/post/${post.post_id}`)}> {post.title} </span>
+                                    | {post.writer_name} | {post.post_date.replace("T", " ")}<br/>
+                                </p2>
+                                ))}
+                            </div>}
                         </div>
                         {/* {result && result.words.map((keyword, index) => (
                             <div key={index}>
