@@ -161,6 +161,8 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-start;
+    /* 스크롤 추가 */
+    overflow: auto;
 }
 
 .ranking-container p2 {
