@@ -54,6 +54,37 @@
     margin: 3%;
 }
 
+.react-datepicker {
+    border: 1px solid #3d8190;
+    border-radius: 10px;
+    overflow: hidden;
+    color: #3d8190;
+}
+
+.react-datepicker__header {
+    background-color: #3d8190;
+    border-bottom: 1px solid #3d8190;
+    color: #3d8190;
+}
+
+.react-datepicker__month-container {
+    background-color: #F4FFFF;
+}
+
+.react-datepicker__day {
+    color: #3d8190;
+}
+
+.react-datepicker__day-name, .react-datepicker__current-month {
+    color: #F4FFFF
+}
+
+.react-datepicker__day--selected {
+    background-color: #3d8190;
+    color: #fff;
+}
+
+
 .realtime-search-rank-wrapper-container {
     width: 100%;
     height: 100%;

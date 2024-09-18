@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import WordCloud from 'react-wordcloud';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import './TopicTrends.css';
 
 axios.defaults.baseURL = 'http://127.0.0.1:8000';
@@ -11,6 +13,7 @@ const TopicTrends = () => {
     const [loading, setLoading] = useState(true);
     const [selectedDate, setSelectedDate] = useState(null);
     const [result, setResult] = useState(null);
+    const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 
     const navigate = useNavigate();
 
@@ -26,29 +29,47 @@ const TopicTrends = () => {
             }
         }
         getTopicTrends();
+        const today = new Date();
+        today.setHours(12, 0, 0, 0);
+        setSelectedDate(today);
     }, []);
 
-    const handleClick = (date) => {
-        setSelectedDate(date);
-        const result = trendData.find(entry => entry.date === date);
+    const handleDateChange = (date) => {
+        const localDate = new Date(
+            date.getFullYear(),
+            date.getMonth(),
+            date.getDate(),
+            12,
+            0,
+            0
+        );
+        const formattedDate = localDate.toISOString().split('T')[0];
+        const result = trendData.find(entry => entry.date === formattedDate);
         setResult(result);
+        setIsDatePickerOpen(false);
         console.log(result);
+        setSelectedDate(localDate);
     };
 
     return (
         <div className='topic-trend-page'>
             {loading && <div>로딩 중...</div>}
-            <div>
-                {trendData.map((data, index) => (
-                    <button key={index} onClick={() => handleClick(data.date)}>
-                        {data.date}
-                    </button>
-                ))}
-            </div>
             <div className='topic-trend-content-container'>
                 <div className='topic-trend-content-container-left'>
                     <div className='topic-trend-rank-container'>
-                        <p1>{selectedDate}</p1>
+                        <p1 onClick={() => setIsDatePickerOpen(!isDatePickerOpen)} style={{ cursor: 'pointer', display: 'inline-block' }}>
+                            {selectedDate ? selectedDate.toISOString().split('T')[0] : '날짜 선택'}
+                        </p1>
+                        {isDatePickerOpen && (
+                            <div>
+                                <DatePicker
+                                    selected={selectedDate}
+                                    onChange={(date) => handleDateChange(date)}
+                                    dateFormat="yyyy-MM-dd"
+                                    inline
+                                />
+                            </div>
+                        )}
                         <div className='topic-trend-rank-wrapper-container'>
                             <div className='topic-trend-rank-wrapper'>
                             {selectedDate && result && (
@@ -93,7 +114,7 @@ const TopicTrends = () => {
                         )} */}
                         {result && (
                             <div style={{ width: '1000px', height: '500px' }}>
-                                <WordCloud words={result.words.map(word => ({ text: word.topic, value: word.frequency}))}></WordCloud>
+                                <WordCloud words={result.words.map(word => ({ text: word.topic, value: word.frequency }))}></WordCloud>
                             </div>
                         )}
                     </div>
@@ -136,7 +157,6 @@ const TopicTrends = () => {
                     </div>
                 </div>
             </div>
-
         </div>
     );
 }
