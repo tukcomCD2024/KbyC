@@ -113,6 +113,17 @@
     font-size: 100%
 }
 
+.trendinfo-contents {
+    width: 60%;
+    background-color: #F4FFFF;
+    box-sizing: border-box;
+    padding: 1%;
+    overflow-y: auto;
+    word-wrap: break-word;
+    white-space: normal;
+}
+
+
 .trendinfo-content-list-container {
     width: 90%;
     display: flex;
