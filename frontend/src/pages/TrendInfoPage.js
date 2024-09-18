@@ -14,6 +14,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
+import secret from '../secret.json';
 
 axios.defaults.baseURL = 'http://127.0.0.1:8000';
 
@@ -39,8 +40,35 @@ const TrendInfoPage = () => {
   const [relatedKeywords, setRelatedKeywords] = useState([]);
   const [loading3, setLoading3] = useState(true);
   const [posts, setPosts] = useState([]);
+  const [definition, setDefinition] = useState('');
+  const naverClientId = secret.naverClientId;
+  const naverClientSecret = secret.naverClientSecret;
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    async function fetchDefinition() {
+      try {
+        const response = await axios.get(`https://openapi.naver.com/v1/search/encyc.json?query=${name}`, {
+          headers: {
+            'X-Naver-Client-Id': secret.naverClientId || '인증 오류',
+            'X-Naver-Client-Secret': secret.naverClientSecret || '인증 오류'
+          }
+        });
+
+        if (response.data.items && response.data.items.length > 0) {
+          setDefinition(response.data.items[0].description);
+        } else {
+          setDefinition('정의를 찾을 수 없습니다.');
+        }
+      } catch (error) {
+        console.error('정의를 불러오는 중 오류 발생', error);
+        setDefinition('정의를 불러오는 중 오류 발생 > '+error);
+      }
+    }
+
+    fetchDefinition();
+  }, [name]);
 
   useEffect(() => {
     async function getTrendNews() {
@@ -175,18 +203,25 @@ const TrendInfoPage = () => {
     <div className='trendinfo-page'>
       <div className='navbar'>
         <span className='navbar-title'>{name}</span>
-        <button className='trendinfo-content-list' onClick={() => WritePost(name)}>글쓰기</button>
         <span onClick={() => scrollToSection('trend-definition')}>정의</span>
         <span onClick={() => scrollToSection('trend-search-volume')}>검색량</span>
         <span onClick={() => scrollToSection('trend-news')}>관련 기사</span>
         <span onClick={() => scrollToSection('trend-reactions')}>반응</span>
+        <button className='trendinfo-content-list' onClick={() => WritePost(name)}>게시글 작성</button>
       </div>
       <div className='trendinfo-content-container'>
         <div className='trendinfo-content'>
           <div className='trendinfo-content-wrapper'>
           <div id='trend-definition'>
             <p className='trendinfo-content-title'>정의</p>
-            <p className='trendinfo-content-list'>{name}</p>
+            <div className='trendinfo-content-list'>
+              {definition ? (
+                <p>{definition}</p> // 정의가 있을 경우 출력
+              ) : (
+                <p1>정의를 불러오는 중입니다...</p1> // 로딩 중일 때 출력
+              )}
+            </div>
+            {/* <p className='trendinfo-content-list'>{name}</p> */}
           </div>
         </div>
         <br1/>
@@ -230,7 +265,7 @@ const TrendInfoPage = () => {
           <div className='trendinfo-content-wrapper'>
             <div id='trend-reactions'>
             <p className='trendinfo-content-title'>연관 키워드</p>
-            <p1 className='trendinfo-content-list'>- 네이버 블로그, 카페 키워드</p1>
+            <p1 className='trendinfo-content-list'>- 네이버 블로그 / 카페 키워드</p1>
             {loading3 && <p className='trendinfo-content-list'>로딩 중...</p>}
             <div className='trendinfo-contents'>
               {wordList2.map((word, index) => (
@@ -239,28 +274,29 @@ const TrendInfoPage = () => {
                 </p>
               ))}
             </div>
-          
             <p1 className='trendinfo-content-list'>- 연관 검색어</p1>
+            <div className='trendinfo-contents'>
             {relatedKeywords.map((word, index) => (
               <p key={index} className='trendinfo-content-list'>
                 {word}
               </p>
             ))}
+            </div>
           </div>
-            <div>
-              <p1 className='trendinfo-content-list'>- 게시글</p1>
-              {posts.map((post) => (
-                <div key={post.post_id}>
-                    <div>
-                      <p className='trendinfo-content-list'>
-                        <span>[{post.tag}] </span>
-                        <span onClick={() => handleNavigation(`/post/${post.post_id}`)}> {post.title} </span>
-                        <span> {post.writer_name} </span>
-                        <span> {post.post_date.replace("T", " ")}</span>
-                      </p>
-                    </div>
-                </div>
-              ))}
+            <p1 className='trendinfo-content-list'>- 게시글</p1>
+            <div className='trendinfo-contents'>
+            {posts.map((post) => (
+              <div key={post.post_id}>
+                  <div>
+                    <p className='trendinfo-content-list'>
+                      <span>[{post.tag}] </span>
+                      <span onClick={() => handleNavigation(`/post/${post.post_id}`)}> {post.title} </span>
+                      <span> {post.writer_name} </span>
+                      <span> {post.post_date.replace("T", " ")}</span>
+                    </p>
+                  </div>
+              </div>
+            ))}
             </div>
           </div>
         </div>

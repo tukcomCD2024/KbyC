@@ -145,56 +145,60 @@ function Post() {
     return (
         <div className='post-page'>
             {loading ?
-
-            <h2>Loading...</h2> :
-
-            <div className='post-container'>
-                <div className='post-title'>{post.tag && <>[{post.tag}] </>}{post.title}</div>
-                <p className='post-writer-info'>{post.writer_name}&nbsp;&nbsp;{post.post_date.replace('T', ' ')}</p>
-                <p className='post-content' style={{whiteSpace: "pre-line"}}>{post.content}</p>
-                {localStorage.getItem('email') === post.writer_email &&
-                    <div class="post-finish-button-container">
-                        <button className='finish-button' onClick={() => navigate(`/post/update/${id}`)}>수정</button>
-                        <button className='finish-button' onClick={deletePost}>삭제</button>
+                <h2>Loading...</h2> :
+                <div className='post-container'>
+                    <div className='post-title-container'>
+                        <div className='post-detail-container'>
+                            <div className='post-title'>{post.tag && <>[{post.tag}] </>}{post.title}</div>
+                            <p className='post-writer-info'>{post.writer_name}&nbsp;&nbsp;{post.post_date.replace('T', ' ')}</p>
+                        </div>
+                        {localStorage.getItem('email') === post.writer_email &&
+                            <div class="post-button-container">
+                                <button className='post-button' onClick={() => navigate(`/post/update/${id}`)}>수정</button>
+                                <button className='post-button' onClick={deletePost}>삭제</button>
+                            </div>
+                        }
                     </div>
-                }
-                
-                <div className='comment-input-container'>
-                    <textarea className='comment-input' value={comment} placeholder='댓글 작성' onChange={(e) => setComment(e.target.value)}></textarea>
-                    <button className='comment-input-button' onClick={saveComment}>등록</button>
+                    <br1/>
+                    <div className='post-content' style={{whiteSpace: "pre-line"}}>{post.content}</div>
+                    <br1/>
+                    <div className='comment-container'>
+                        <div className='comment-content-container'>
+                            <p>댓글 {commentList.length} </p>
+                                {commentList.map(comment => (
+                                    <div className='comment-detail'>
+                                        <div className='comment-content'>
+                                            <div key={comment.comment_id}>
+                                                <p1>{comment.writer_name}</p1>
+                                                {editingCommentId === comment.comment_id ?
+                                                <>
+                                                    <textarea className={`comment-input ${comment ? 'has-content' : ''}`} value={editedComment} onChange={(e) => setEditedComment(e.target.value)}></textarea>
+                                                    <button className='comment-edit-button' onClick={() => updateComment(comment.comment_id)}>저장</button>&nbsp;&nbsp;
+                                                    <button className='comment-edit-button' onClick={cancelEdit}>취소</button>
+                                                </> :
+                                                <p2>{comment.content}</p2>
+                                                }
+                                                <div className='comment-edit-container'>
+                                                    <p3>{comment.comment_date.replace('T', ' ')}</p3>
+                                                    {localStorage.getItem('email') === comment.writer_email &&
+                                                        <>
+                                                            <button className='comment-edit-button' onClick={() => startEditingComment(comment.comment_id, comment.content)}>수정</button>&nbsp;&nbsp;
+                                                            <button className='comment-edit-button' onClick={() => deleteComment(comment.comment_id)}>삭제</button>
+                                                        </>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            <div className='comment-detail'/>
+                        </div>
+                        <div className='comment-input-container'>
+                            <textarea className={`comment-input ${comment ? 'has-content' : ''}`} value={comment} placeholder='댓글 작성' onChange={(e) => setComment(e.target.value)}></textarea>
+                            <button className='comment-button' onClick={saveComment}>등록</button>
+                        </div>
+                    </div>
                 </div>
-                <p>
-                    댓글 {commentList.length}
-                </p>
-                {commentList.map(comment => (
-                    <div key={comment.comment_id}>
-                        {comment.writer_name}
-                        {editingCommentId === comment.comment_id ?
-                        <>
-                            <br/>
-                            <textarea value={editedComment} onChange={(e) => setEditedComment(e.target.value)}></textarea>
-                            &nbsp;&nbsp;
-                            <br/>
-                            <button onClick={() => updateComment(comment.comment_id)}>저장</button>&nbsp;&nbsp;
-                            <button onClick={cancelEdit}>취소</button>
-                            <br/>
-                        </> :
-                        <p style={{whiteSpace: "pre-line"}}>
-                            {comment.content}
-                        </p>
-                        }
-                        {comment.comment_date.replace('T', ' ')}
-                        &nbsp;&nbsp;
-                        {localStorage.getItem('email') === comment.writer_email &&
-                        <>
-                            <button onClick={() => startEditingComment(comment.comment_id, comment.content)}>수정</button>&nbsp;&nbsp;
-                            <button onClick={() => deleteComment(comment.comment_id)}>삭제</button>
-                        </>
-                        }
-                        <hr/>
-                    </div>
-                ))}
-            </div>
             }
         </div>
     )

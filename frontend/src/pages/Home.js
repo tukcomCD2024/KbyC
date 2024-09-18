@@ -46,8 +46,20 @@ function Home() {
     window.location.reload();
   }
 
+  const handleNavigation = (path) => {
+    window.location.href = path;
+  };
+
+  const [searchWord, setSearchWord] = useState('');
+
+  const handleSubmit = (e) => {
+      e.preventDefault();
+      if (searchWord.trim()) {
+          handleNavigation(`/trendinfo/${searchWord}`)
+      }
+  }
+
   const onWordClick = (word) => {
-    // 클릭한 단어에 따라 이동할 URL
     navigate(`/trendinfo/${word.text}`);
   };
 
@@ -55,13 +67,15 @@ function Home() {
       <div className='home-page'>
         <div className='content-container1'>
         <div class="search-container1">
-            <form class="search-form1">
+            <form class="search-form1" onSubmit={handleSubmit}>
                 <input
                     type="text"
                     placeholder="검색어를 입력하세요..."
+                    value={searchWord}
+                    onChange={(e) => setSearchWord(e.target.value)}
                     class="search-input1"
                 />
-                <button type="submit" class="search-button1">
+                <button class="search-button1" type="submit">
                   &gt;
                 </button>
             </form>

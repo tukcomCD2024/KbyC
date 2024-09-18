@@ -13,7 +13,6 @@
     flex-direction: row;
 }
 
-/* 일단 컨테이너 사용 x */
 .navbar {
     width: 15%;
     height: 85vh;
@@ -42,6 +41,21 @@
     margin: 10px;
     text-decoration: underline;
 }
+
+.navbar button {
+    background-color: #3d8190;
+    border: 1px solid #3d8190;
+    color: #F4FFFF;
+    border-radius: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-self: flex-end;
+    font-weight: bold;
+    cursor: pointer;
+}
+
 
 .trendinfo-content-container {
     background-color: #F4FFFF;
@@ -98,6 +112,17 @@
     margin-left: 8%;
     font-size: 100%
 }
+
+.trendinfo-contents {
+    width: 60%;
+    background-color: #F4FFFF;
+    box-sizing: border-box;
+    padding: 1%;
+    overflow-y: auto;
+    word-wrap: break-word;
+    white-space: normal;
+}
+
 
 .trendinfo-content-list-container {
     width: 90%;
