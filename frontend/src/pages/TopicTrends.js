@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import WordCloud from 'react-wordcloud';
@@ -14,6 +15,8 @@ const TopicTrends = () => {
     const [selectedDate, setSelectedDate] = useState(null);
     const [result, setResult] = useState(null);
     const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
+    const [newsList, setNewsList] = useState([]);
+    const [selectedWord, setSelectedWord] = useState(null);
 
     const navigate = useNavigate();
 
@@ -22,6 +25,8 @@ const TopicTrends = () => {
             try {
                 const response = await axios.get('/service/topictrends');
                 setTrendData(response.data.topic_trends);
+                setResult(response.data.topic_trends[0]); 
+                setSelectedWord(response.data.topic_trends[0].words[0]);
                 setLoading(false);
             }
             catch (error) {
@@ -51,6 +56,24 @@ const TopicTrends = () => {
         setSelectedDate(localDate);
     };
 
+    const handleWordClick = async (word) => {
+        setSelectedWord(word);
+        try {
+            const response = await axios.post('/service/trendnews', {
+                content: word.topic,
+                page: 1,
+                page2: 5
+            }, {
+                headers: {
+                    'Content-type': 'application/json'
+                }
+            });
+            setNewsList(response.data.news);
+        } catch (error) {
+            console.error('에러 발생', error);
+        }
+    };
+
     return (
         <div className='topic-trend-page'>
             {loading && <div>로딩 중...</div>}
@@ -75,8 +98,8 @@ const TopicTrends = () => {
                             {selectedDate && result && (
                             <div>
                                 {result.words.slice(0, 5).map((keyword, index) => (
-                                    <p2 key={index}>
-                                        {index + 1}. <Link to={`/trendinfo/${keyword.topic}`}>{keyword.topic}</Link><br/>
+                                    <p2 key={index} onClick={() => handleWordClick(keyword)} style={{ cursor: 'pointer' }}>
+                                        <Link to={`/trendinfo/${keyword.topic}`}>{index + 1}. {keyword.topic}</Link><br/>
                                     </p2>
                                 ))}
                             </div>
@@ -85,8 +108,8 @@ const TopicTrends = () => {
                             {selectedDate && result && (
                             <div>
                                 {result.words.slice(5, 10).map((keyword, index) => (
-                                    <p2 key={index}>
-                                        {index + 6}. <Link to={`/trendinfo/${keyword.topic}`}>{keyword.topic}</Link><br/>
+                                    <p2 key={index} onClick={() => handleWordClick(keyword)} style={{ cursor: 'pointer' }}>
+                                        <Link to={`/trendinfo/${keyword.topic}`}>{index + 6}. {keyword.topic}</Link><br/>
                                     </p2>
                                 ))}
                             </div>
@@ -121,28 +144,22 @@ const TopicTrends = () => {
                 </div>
                 <div className='topic-trend-content-container-right'>
                     <div className='topic-trend-rank-detail-container'>
-                        {/* <p1>트렌드 A</p1>
+                        <p1>{selectedWord ? selectedWord.topic : '선택된 단어 없음'}</p1>
                         <div className='topic-trend-rank-detail-article'>
+                            {newsList.map((news, index) => (
+                                <p2 key={index}>
+                                    <a href={news.link} target="_blank" rel="noopener noreferrer">{index + 1}. {news.title}</a>
+                                </p2>
+                            ))}
+                            <br1/>
+                            <p1>관련 게시글</p1>
                             <p2>1. </p2>
                             <p2>2. </p2>
                             <p2>3. </p2>
                             <p2>4. </p2>
                             <p2>5. </p2>
-                            <p2>6. </p2>
-                            <p2>7. </p2>
-                            <p2>8. </p2>
-                            <p2>9. </p2>
-                            <p2>10. </p2>
                         </div>
-                        <br1/>
-                        <div className='topic-trend-rank-detail-post'>
-                            <p2>1. </p2>
-                            <p2>2. </p2>
-                            <p2>3. </p2>
-                            <p2>4. </p2>
-                            <p2>5. </p2>
-                        </div> */}
-                        <div className='topic-trend-rank-detail-article'>
+                        {/* <div className='topic-trend-rank-detail-article'>
                             {result && (
                                 <div>
                                     <h2>{selectedDate}</h2>
@@ -153,7 +170,7 @@ const TopicTrends = () => {
                                     ))}
                                 </div>
                             )}
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>
@@ -162,3 +179,4 @@ const TopicTrends = () => {
 }
 
 export default TopicTrends;    
+
