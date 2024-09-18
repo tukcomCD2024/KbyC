@@ -59,40 +59,47 @@ const UpdatePost = () => {
     };
 
     return (
-        <div className="write-post-page">
-            <div className="title-box">
-                <h1>[ 게시글 수정 ]</h1>
-                <input
-                    type="text"
-                    name="title"
-                    placeholder="제목을 입력하세요."
-                    value={title}
-                    onChange={onChange}
-                    className="search-box"
-                />
+        <div className="update-post-page">
+          <div className='update-post-container'>
+            <div className="head-container">
+              <input
+                className="head-container-title"
+                type="text"
+                name="title"
+                placeholder="제목을 입력하세요."
+                value={title}
+                onChange={onChange}
+              />
+              <input
+                className="head-container-tag"
+                type="text"
+                name="tag"
+                placeholder="연관 트렌드"
+                value={title}
+                onChange={onChange}
+              />
             </div>
-            <div className="content-box">
-                <textarea
-                    ref={textareaRef}
-                    name="content"
-                    placeholder="내용을 입력하세요."
-                    value={content}
-                    onChange={onChange}
-                />
+            <div className="content-container">
+              <textarea
+                ref={textareaRef}
+                name="content"
+                placeholder="내용을 입력하세요."
+                value={content}
+                onChange={onChange}
+              />
             </div>
 
-            <div>
-                <div className="finish-button-container">
-                    <button onClick={savePost} className="finish-button">
-                        수정
-                    </button>
-                    <button onClick={() => navigate("/board")} className="finish-button">
-                        취소
-                    </button>
-                </div>
+            <div className="finish-button-container">
+                <button className="finish-button" onClick={savePost}>
+                    수정
+                </button>
+                <button className="finish-button" onClick={() => navigate("/board")}>
+                    취소
+                </button>
             </div>
+          </div>
         </div>
-    )
+      );
 }
 
 export default UpdatePost;

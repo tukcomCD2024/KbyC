@@ -34,7 +34,7 @@
     margin-top: 60%;
 }
 
-.home-page button {
+/* .home-page button {
     background-color: #bbccff;
     border: 1px solid #bbccff;
     border-radius: 20px;
@@ -47,7 +47,7 @@
     margin: 2%;
     font-weight: bold;
     cursor: pointer;
-}
+} */
 
 .content-container1 {
     background-color: #F4FFFF;
@@ -85,7 +85,8 @@
     flex: 13;
     height: 10vh;
     border: none;
-    font-size: 24px;
+    font-size: 150%;
+    color: #3d8190;
     border-radius: 10px;
     outline: none;
     padding-left: 2vh;
@@ -95,21 +96,22 @@
 .search-button1 {
     background-color: #3d8190;
     border: none;
-    border-radius: 10px;
+    border-radius: 20px;
+    font-size: 200%;
     flex: 1;
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+    margin: 2%;
+    font-weight: bold;
+    color: #F4FFFF;
     cursor: pointer;
-    transition: background-color 0.3s ease;
 }
 
 /* 버튼 호버 시 스타일 */
 .search-button1:hover {
     background-color: #2b5d70;
 }
-
-
 
 .rank-content-container {
     background-color: #F4FFFF;

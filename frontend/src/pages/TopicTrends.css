@@ -47,11 +47,43 @@
 }
 
 .topic-trend-rank-container p1 {
-    font-size: 200%;
+    font-size: 150%;
     color: #3d8190;
     font-weight: bold;
+    justify-self: center;
     text-align: center;
-    margin: 3%;
+    user-select: none;
+    margin: 2%;
+}
+
+.react-datepicker {
+    border: 1px solid #3d8190;
+    border-radius: 10px;
+    overflow: hidden;
+    color: #3d8190;
+}
+
+.react-datepicker__header {
+    background-color: #3d8190;
+    border-bottom: 1px solid #3d8190;
+    color: #3d8190;
+}
+
+.react-datepicker__month-container {
+    background-color: #F4FFFF;
+}
+
+.react-datepicker__day {
+    color: #3d8190;
+}
+
+.react-datepicker__day-name, .react-datepicker__current-month {
+    color: #F4FFFF
+}
+
+.react-datepicker__day--selected {
+    background-color: #3d8190;
+    color: #fff;
 }
 
 .topic-trend-rank-wrapper-container {
@@ -103,7 +135,7 @@
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-    padding: 2%;
+    padding: 3% 5%;
 }
 
 .topic-trend-rank-detail-container p1 {
@@ -151,9 +183,25 @@
     text-align: center;
 }
 
+.topic-trend-rank-detail-article p2 {
+    font-size: 100%;
+    color: #3d8190;
+    font-weight: bold;
+    text-align: center;
+}
+
+.topic-trend-rank-detail-article p1 {
+    font-size: 130%;
+    color: #3d8190;
+    font-weight: bold;
+    text-align: center;
+    align-self: center;
+}
+
 .topic-trend-rank-detail-container br1 {
     width: 90%;
     align-self: center;
     border: 1px solid #3d8190;
-    margin: 5%;
+    margin: 3%;
+    margin-bottom: 0%;
 }
