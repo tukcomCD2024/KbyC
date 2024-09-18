@@ -13,6 +13,9 @@ const RealtimeSearchWords = () => {
     const [loading, setLoading] = useState(true);
     const [selectedDate, setSelectedDate] = useState(null); // 선택한 날짜 상태 추가
     const [isDatePickerOpen, setIsDatePickerOpen] = useState(false); // DatePicker 열림/닫힘 상태
+    const [newsList, setNewsList] = useState([]);
+    const [selectedWord, setSelectedWord] = useState(null);
+
 
     useEffect(() => {
         async function getRealtimeSearchWords(date = null) {
@@ -46,6 +49,24 @@ const RealtimeSearchWords = () => {
     const month = (today.getMonth() + 1).toString().padStart(2, '0');
     const day = today.getDate().toString().padStart(2, '0');
     const date = `${year}-${month}-${day}`;
+
+    const handleWordClick = async (word) => {
+        setSelectedWord(word);
+        try {
+            const response = await axios.post('/service/trendnews', {
+                content: word.topic,
+                page: 1,
+                page2: 5
+            }, {
+                headers: {
+                    'Content-type': 'application/json'
+                }
+            });
+            setNewsList(response.data.news);
+        } catch (error) {
+            console.error('에러 발생', error);
+        }
+    };
 
     return (
         <div className='realtime-search-page'>
@@ -108,7 +129,22 @@ const RealtimeSearchWords = () => {
 
                 <div className='realtime-search-content-container-right'>
                     <div className='realtime-search-rank-detail-container'>
-                        <p1>트렌드 A</p1>
+                        <p1>{selectedWord ? selectedWord.topic : '선택된 단어 없음'}</p1>
+                        <div className='realtime-search-rank-detail-article'>
+                            {newsList.map((news, index) => (
+                                <p2 key={index}>
+                                    <a href={news.link} target="_blank" rel="noopener noreferrer">{index + 1}. {news.title}</a>
+                                </p2>
+                            ))}
+                            <br1/>
+                            <p1>관련 게시글</p1>
+                            <p2>1. </p2>
+                            <p2>2. </p2>
+                            <p2>3. </p2>
+                            <p2>4. </p2>
+                            <p2>5. </p2>
+                        </div>
+                        {/* <p1>트렌드 A</p1>
                         <div className='realtime-search-rank-detail-article'>
                             <p2>1. </p2>
                             <p2>2. </p2>
@@ -128,7 +164,7 @@ const RealtimeSearchWords = () => {
                             <p2>3. </p2>
                             <p2>4. </p2>
                             <p2>5. </p2>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>
