@@ -181,7 +181,8 @@
   height: 8vh;
   background-color: #F4FFFF;
   border: none;
-  font-size: 20px;
+  font-size: 100%;
+  color: #3d8190;
 }
 
 /* 입력 필드에 포커스 시 스타일 변경 */
