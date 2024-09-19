@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
+import WordCloud from 'react-wordcloud';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import './RealtimeSearchWords.css';
@@ -97,6 +98,12 @@ const RealtimeSearchWords = () => {
         window.location.href = path;
     };
 
+    const onWordClick = (word) => {
+        navigate(`/trendinfo/${word.text}`);
+    };
+
+    const navigate = useNavigate();
+
     return (
         <div className='realtime-search-page'>
             {loading && <div>로딩 중...</div>}
@@ -126,7 +133,7 @@ const RealtimeSearchWords = () => {
 
                     {/* 텍스트 클라우드 및 나머지 */}
                     <div className='realtime-search-rank-text-cloud-container'>
-                        <div style={{ display: 'flex' }}>
+                        {/*<div style={{ display: 'flex' }}>
                             <div style={{ marginRight: '20px' }}>
                                 {wordsList.map((word, index) => (
                                     <p key={index}>
@@ -141,6 +148,14 @@ const RealtimeSearchWords = () => {
                                     </p>
                                 ))}
                             </div>
+                        </div>*/}
+                        <div style={{ width: '1000px', height: '500px' }}>
+                            <WordCloud
+                                words={titles.map(word => ({ text: word.title, value: word.count }))}
+                                callbacks={{
+                                    onWordClick: onWordClick,
+                                }}
+                            />
                         </div>
                     </div>
                 </div>

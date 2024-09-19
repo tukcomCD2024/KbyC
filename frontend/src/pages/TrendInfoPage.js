@@ -203,7 +203,7 @@ const TrendInfoPage = () => {
     <div className='trendinfo-page'>
       <div className='navbar'>
         <span className='navbar-title'>{name}</span>
-        <span onClick={() => scrollToSection('trend-definition')}>정의</span>
+        {/* <span onClick={() => scrollToSection('trend-definition')}>정의</span> */}
         <span onClick={() => scrollToSection('trend-search-volume')}>검색량</span>
         <span onClick={() => scrollToSection('trend-news')}>관련 기사</span>
         <span onClick={() => scrollToSection('trend-reactions')}>반응</span>
@@ -213,14 +213,14 @@ const TrendInfoPage = () => {
         <div className='trendinfo-content'>
           <div className='trendinfo-content-wrapper'>
           <div id='trend-definition'>
-            <p className='trendinfo-content-title'>정의</p>
-            <div className='trendinfo-content-list'>
+            <p className='trendinfo-content-title'>{name}</p>
+            {/* <div className='trendinfo-content-list'>
               {definition ? (
                 <p>{definition}</p> // 정의가 있을 경우 출력
               ) : (
                 <p1>정의를 불러오는 중입니다...</p1> // 로딩 중일 때 출력
               )}
-            </div>
+            </div> */}
             {/* <p className='trendinfo-content-list'>{name}</p> */}
           </div>
         </div>

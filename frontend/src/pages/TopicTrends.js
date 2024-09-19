@@ -28,6 +28,7 @@ const TopicTrends = () => {
                 const response = await axios.get('/service/topictrends');
                 setTrendData(response.data.topic_trends);
                 console.log(response.data.topic_trends);
+                setResult(response.data.topic_trends[response.data.topic_trends.length - 1]);
                 // setResult(response.data.topic_trends[0]); 
                 // setSelectedWord(response.data.topic_trends[0].words[0]);
                 setLoading(false);
