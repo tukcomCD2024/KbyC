@@ -9,8 +9,7 @@
 | [@groom2hub](https://github.com/groom2hub) | [@bsmArchive](https://github.com/bsmArchive) | [@blu2ming](https://github.com/blu2ming) |
 
 # 제품 시나리오
-<img width="1260" alt="image" src="https://github.com/user-attachments/assets/06eb381e-1908-4536-bdc4-a63f80ff129e" />
-
+<img width="1287" alt="image" src="https://github.com/user-attachments/assets/d65dc170-0c58-48e8-8fab-0450f3366f06" />
 
 # System Architecture
 <img width="952" alt="image" src="https://github.com/user-attachments/assets/810b8ac1-c4b6-40fa-9925-939f173f9790" />
